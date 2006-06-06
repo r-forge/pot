@@ -30,7 +30,7 @@ gpdobre <- function(data, threshold, ...){
   a12 <- 1 / (start[1] * (1+start[2]) * (1 + 2*start[2]))
   a22 <- 2 / ( (1+start[2]) * (1+2*start[2]) )
 
-  J <- matrix(c(a11, a12, a12, a22), nrow = 2)
+  J <- fish.gpd(start[1], start[2])
   J.eig <- eigen(J)
 
   if (any(J.eig$values < 0))
@@ -42,13 +42,7 @@ gpdobre <- function(data, threshold, ...){
   while( iter < maxit){
     iter <- iter + 1
 
-    y <- 1 + start[2] * excess / start[1]
-    S.shape <- -1/start[2] * log(y) + 1/start[2]*(1/start[2] - 1) *
-      (1 - 1/y) - a.vector[1]
-    S.scale <- -1/(start[1] * start[2]) + 1/start[1] (1/start[2] - 1) / y -
-      a.vector[2]
-
-    score <- rbind(S.scale, S.shape)
+    score <- score.gpd(excess, start[1], start[2])
     idx <- which(score == NaN | !is.finite(score)) %% nhigh ##A trick to get only the row number
     Wp <- rep(NA, nhigh)
     Wp[idx] <- 0
@@ -69,9 +63,75 @@ gpdobre <- function(data, threshold, ...){
 
     else {
       A <- t(M2.inv.eigen$vectors %*% diag(sqrt(M2.inv.eigen$values)))
-      a.vec <- 
+      a.vec <- update.aVec(scale, shape, A, a.vec, tol, k)
+
+      eps1 <- dist(A - AOld)
+      eps2 <- sqrt(sum((aVec - aVecOld)^2))
+
+      if (eps1 < tolA & eps2 < tolaVec)
+        
       
     
       }
   }
 }
+
+##Compute the score for the GPD
+score.gpd <- function(excess, scale, shape){
+  s.scale <- (excess - scale) / (scale * shape * excess + scale^2)
+  s.shape <- log( shape * excess / scale + 1) / shape^2 -
+    (1/shape + 1) * excess / (scale * (shape * excess / scale + 1))
+
+  return(rbind(scale = s.scale, shape = s.shape))
+}
+
+##Compute the Expected Information of Fisher for the GPD
+fish.gpd <- function(scale, shape){
+  a11 <- 1 / (scale^2 * (1 + 2*shape))
+  a12 <- 1 / (scale * (1+shape) * (1 + 2*shape))
+  a22 <- 2 / ( (1+shape) * (1+2*shape) )
+
+  fish <- matrix(c(a11, a12, a12, a22), nrow = 2)
+  colnames(fish) <- rownames(fish) <- c("scale", "shape")
+  return(fish)
+}
+
+update.aVec <- function(scale, shape, A, a.vec, tol, k){
+  ##For the denominator
+  integrand <- function(x)
+    weights(scale, shape, x, A, a.vec, k) * pgpd(x, 0, scale, shape)
+
+  if (shape < 0)
+    denom <- integrate(integrand, lower = 0, upper = -scale/shape)$value
+
+  else
+    denom <- integrate(integrand, lower = 0, upper = Inf)$value
+
+  ##For the scale parameter
+  integrand <- function(x)
+    score.gpd(x, scale, shape)["scale",] * weights(scale, shape, x, A, a.vec, k) *
+      pgpd(x, 0, scale, shape)
+
+  if (shape < 0)
+    numScale <- integrate(integrand, lower = 0, upper = -scale/shape)$value
+
+  else
+    numScale <- integrate(integrand, lower = 0, upper = Inf)$value
+
+  ##For the shape parameter
+  integrand <- function(x)
+    score.gpd(x, scale, shape)["shape",] * weights(scale, shape, x, A, a.vec, k) *
+      pgpd(x, 0, scale, shape)
+
+  if (shape < 0)
+    numShape <- integrate(integrand, lower = 0, upper = -scale/shape)$value
+
+  else
+    numShape <- integrate(integrand, lower = 0, upper = Inf)$value
+
+  
+  aVec <- c(scale = numScale, shape = numShape) / denom
+
+  return(aVec)
+}
+  
