@@ -30,7 +30,7 @@
     estimators respectively.}
   \item{\dots}{Other optional arguments to be passed to
     \code{\link{gpdmoments}}, \code{\link{gpdpwmu}},
-    \code{\link{gpdpwmb}} and \code{\link{gpdmle}} functions.}
+    \code{\link{gpdpwmb}} and \code{\link{gpdmle}}, \dots functions.}
 }
 \value{
   This function returns a list with  composants:
@@ -55,8 +55,7 @@
     only. That is \code{Observed} or \code{Expected} Information matrix
     of Fisher.}
   \item{var.thresh}{Logical. Specify if the threshold is a varying one -
-    \code{'mle'} only. For \code{'moments'}, \code{'pwmu'} and
-    \code{'pwmb'} estimates, threshold is always constant
+    \code{'mle'} only. For other methods, threshold is always constant
     i.e. \code{var.thresh = FALSE}.}
 }
 \note{The Maximum Likelihood estimator is obtained through a sligthly
@@ -73,15 +72,28 @@
 
   Juarez, S. and Schucany, W. (2004) Robust and Efficient Estimation for
   the Generalized Pareto Distribution. Extremes \bold{7}:237--251.
-  
+
+  Peng, L. and Welsh, A. (2001) Robust Estimation of the Generalized
+  Pareto Distribution. Extremes \bold{4}:53--65.
+
+  Embrechts, P and Klüppelberg, C. and Mikosch, T (1997) \emph{Modelling
+    Extremal Events for Insurance and Finance.} Springers.
+
+  Pickands, J. (1975) Statistical Inference Using Extreme Order
+  Statistics. Annals of Statistics. \bold{3}:119--131.  
 }
+
 \examples{
 x <- rgpd(200, 1, 2, 0.25)
 mle <- fitgpd(x, 1, "mle")$param
 pwmu <- fitgpd(x, 1, "pwmu")$param
 pwmb <- fitgpd(x, 1, "pwmb")$param
-pickands <- fitgpd(x, 1, "pickands")$param
-med <- fitgpd(x, 1, "med")$param
+pickands <- fitgpd(x, 1, "pickands")$param    ##Check if Pickands estimates
+                                              ##are valid or not !!!
+med <- fitgpd(x, 1, "med", start = mle)$param ##Sometimes the fitting algo is not
+                                              ##accurate. So specify
+                                              ##good starting values is
+                                              ##a good idea.  
 mdpd <- fitgpd(x, 1, "mdpd")$param
 
 print(rbind(mle, pwmu, pwmb, pickands, med, mdpd))
