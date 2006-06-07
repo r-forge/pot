@@ -7,6 +7,7 @@
 \alias{gpdmle}
 \alias{gpdpickands}
 \alias{gpdmdpd}
+\alias{gpdmed}
 
 \title{Fitting a POT model through a GP distribution}
 \description{Maximum Likelihood, Unbiased Probability Weigthed Moments,
@@ -75,10 +76,15 @@
   
 }
 \examples{
-data(ardieres)
-plot(ardieres)
-flows <- ardieres[, "flows"]
-mle <- fitgpd(flows, 7, 'mle')
+x <- rgpd(200, 1, 2, 0.25)
+mle <- fitgpd(x, 1, "mle")$param
+pwmu <- fitgpd(x, 1, "pwmu")$param
+pwmb <- fitgpd(x, 1, "pwmb")$param
+pickands <- fitgpd(x, 1, "pickands")$param
+med <- fitgpd(x, 1, "med")$param
+mdpd <- fitgpd(x, 1, "mdpd")$param
+
+print(rbind(mle, pwmu, pwmb, pickands, med, mdpd))
 }
 \author{Mathieu Ribatet}
 \keyword{htest}
