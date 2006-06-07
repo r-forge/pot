@@ -517,7 +517,7 @@ gpdmle <- function(x, threshold, start, ...,
 }
 #
 #Medians estimation for the GPD ( Peng, L. and Welsh, A. (2002) )
-gpdmed <- function(data, threshold, ..., tol = 10^-6, maxit = 175,
+gpdmed <- function(x, threshold, ..., tol = 10^-6, maxit = 175,
                    show.trace = FALSE){
 
   if ( length(unique(threshold)) != 1){
