@@ -1,4 +1,5 @@
 Version 0.0-6:
+  - Add Medians estimator to fitgpd.
   - Add Pickands' estimators to fitgpd.
   - Add (M)inimum (D)ensity (P)ower (D)ivergence estimator
     to fitgpd.
