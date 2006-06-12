@@ -216,7 +216,7 @@ samlmu <- function (x, nmom = 4, sort.data = TRUE)
   
   lmom <- .C("samlmu", as.double(xok), as.integer(nmom.actual),
              as.integer(n), lmom = double(nmom.actual),
-             PACKAGE = "POTBeta")$lmom
+             PACKAGE = "POT")$lmom
   names(lmom) <- rnames
   return(lmom)
 }
@@ -374,7 +374,7 @@ gpdmle <- function(x, threshold, start, ...,
   
   nlpot <- function(scale, shape) { 
     -.C("gpdlik", exceed, nhigh, threshold, scale,
-        shape, dns = double(1), PACKAGE = "POTBeta")$dns
+        shape, dns = double(1), PACKAGE = "POT")$dns
   }
   
   nn <- length(x)

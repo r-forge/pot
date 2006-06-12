@@ -53,7 +53,7 @@ gpd.pfshape <- function(fitted, range, xlab, ylab,
   ## for the shape parameter.
   gpd.plikshape <- function(scale){
     -.C("gpdlik", exceed, nhigh, threshold, scale, shape, dns = double(1),
-        PACKAGE = "POTBeta")$dns
+        PACKAGE = "POT")$dns
   }
  
   llik <- NULL
@@ -120,7 +120,7 @@ gpd.pfscale <- function(fitted, range, xlab, ylab,
   ## for the scale parameter.
   gpd.plikscale <- function(shape){
     -.C("gpdlik", exceed, nhigh, threshold, scale, shape, dns = double(1),
-        PACKAGE = "POTBeta")$dns
+        PACKAGE = "POT")$dns
   }
  
   llik <- NULL
@@ -210,7 +210,7 @@ gpd.pfrl <- function(fitted, prob, range, thresh, xlab, ylab,
     else
       scale <- (retlev - thresh) * shape / ( (1 - prob)^(-shape) - 1 )
     -.C("gpdlik", exceed, nhigh, threshold, scale, shape,
-        dns = double(1), PACKAGE = "POTBeta")$dns
+        dns = double(1), PACKAGE = "POT")$dns
   }
    
   llik <- NULL
