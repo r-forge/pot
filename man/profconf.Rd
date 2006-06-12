@@ -14,15 +14,16 @@ gpd.pfshape(fitted, range, xlab, ylab, conf = 0.95, nrang = 100,
 vert.lines = TRUE, \dots)
 gpd.pfscape(fitted, range, xlab, ylab, conf = 0.95, nrang = 100,
 vert.lines = TRUE, \dots)
-gpd.pfrl(fitted, retper, mu, range, xlab, ylab, conf = 0.95, nrang =
+gpd.pfrl(fitted, prob, range, thresh, xlab, ylab, conf = 0.95, nrang =
 100, vert.lines = TRUE, \dots)
 }
 \arguments{
   \item{fitted}{\code{R} object given by function \code{\link{fitgpd}}.}
-  \item{retper}{Numeric. The return period of interest.}
-  \item{mu}{Numeric. The mean number of event per year.}
+  \item{prob}{The probability of non exceedance.}
   \item{range}{Vector of dimension two. It gives the lower and upper
     bound on which the profile likelihood is performed.}
+  \item{thresh}{Optional. The threshold. Only needed with non constant
+    threshold.}
   \item{xlab, ylab}{Optional Strings. Allows to label the x-axis and
     y-axis. If missing, default value are considered.}
   \item{conf}{Numeric. The confidence level.}
