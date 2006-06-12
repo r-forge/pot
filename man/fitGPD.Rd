@@ -24,10 +24,10 @@
   \code{data}.}
   \item{method}{A string giving the names of the estimator. It can be
     \code{'mle'}, \code{'moments'}, \code{'pwmu'}, \code{'pwmb'},
-    \code{'mdpd'} and \code{'pickands'} for the maximum likelihood,
-    moments, unbiased probability weighted moments, biased probability
-    weigthed moments,  minimum density power divergence and pickands'
-    estimators respectively.}
+    \code{'mdpd'}, \code{'med'} and \code{'pickands'} for the maximum
+    likelihood, moments, unbiased probability weighted moments, biased
+    probability weigthed moments, minimum density power divergence,
+    medians and pickands' estimators respectively.}
   \item{\dots}{Other optional arguments to be passed to
     \code{\link{gpdmoments}}, \code{\link{gpdpwmu}},
     \code{\link{gpdpwmb}} and \code{\link{gpdmle}}, \dots functions.}
