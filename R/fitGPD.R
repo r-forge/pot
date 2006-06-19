@@ -475,7 +475,7 @@ gpdmle <- function(x, threshold, start, ...,
     std.err.type <- "Observed"
   }
   
-  else{
+  if (!obs.fish){
     
     shape <- opt$par[2]
     scale <- opt$par[1]
