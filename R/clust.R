@@ -18,7 +18,7 @@ clust <- function(data, u, tim.cond = 1, clust.max = FALSE,
   
   diff.tim <- diff(tim[idx.excess])
   
-  clust <- .C("clustts", as.integer(n.excess), as.double(idx.excess),
+  clust <- .C("clust", as.integer(n.excess), as.double(idx.excess),
               as.double(diff.tim), as.double(tim.cond),
               clust = double(2*n.excess), PACKAGE = "POT")$clust
   
@@ -89,7 +89,7 @@ exiplot <- function(data, u.range, tim.cond = 1, n.u = 50,
   exi <- rep(NA, n.u)
   
   for (i in 1:n.u)
-    exi[i] <- attributes(clustts(data, u.range[i], tim.cond = tim.cond))$exi
+    exi[i] <- attributes(clust(data, u.range[i], tim.cond = tim.cond))$exi
 
   plot(u.range, exi, xlab = xlab, ylab = ylab, ...)
 
