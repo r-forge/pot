@@ -36,8 +36,8 @@ clust <- function(data, u, tim.cond = 1, clust.max = FALSE,
       idx <- c(idx, clust[i,1] + temp)
     }
     
-    events <- rbind(time = tim[idx], obs = obs[idx])
-    colnames(events) <- 1:n.clust
+    events <- cbind(time = tim[idx], obs = obs[idx])
+    rownames(events) <- 1:n.clust
   }
 
   else{

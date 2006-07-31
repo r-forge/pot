@@ -10,8 +10,8 @@ clust(ardieres, 4, 10 / 365, plot = TRUE)
 cat("Select only maxima within clusters.\n")
 readline("Press ENTER to continue")
 ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
-flows <- ardieres[,"obs"]
-date <- ardieres[,"time"]
+flows <- ardieres[, "obs"]
+date <- ardieres[, "time"]
 par(mfrow=c(1,2),ask = TRUE)
 diplot(ardieres)
 mrlplot(flows)
