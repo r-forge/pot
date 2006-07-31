@@ -38,6 +38,7 @@ diplot(data, tlim, main, xlab, ylab, conf=0.95, \dots)
 }
 \examples{
 data(ardieres)
+ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
 diplot(ardieres)
 }
 \author{Mathieu Ribatet}

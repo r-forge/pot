@@ -65,7 +65,8 @@ tcplot(data, tlim, cmax = FALSE, r = 1,
 }
 \examples{
 data(ardieres)
-flows <- ardieres[, "flows"]
+ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
+flows <- ardieres[, "obs"]
 tcplot(flows, tlim = c(0, 15) )
 }
 \keyword{hplot}

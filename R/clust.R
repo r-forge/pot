@@ -1,5 +1,5 @@
 clust <- function(data, u, tim.cond = 1, clust.max = FALSE,
-                  plot = FALSE, only.excess = FALSE, ...){
+                  plot = FALSE, only.excess = TRUE, ...){
   
   if ( !any(colnames(data) == "obs") )
     stop("``data'' should have a column named ``obs''...")

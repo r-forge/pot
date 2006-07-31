@@ -42,7 +42,8 @@ lmomplot(data, tlim, identify = TRUE, \dots)
 }
 \examples{
 data(ardieres)
-flows <- ardieres[, "flows"]
+ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
+flows <- ardieres[, "obs"]
 lmomplot(flows, identify = FALSE)
 }
 \author{Mathieu Ribatet}

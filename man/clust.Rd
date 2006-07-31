@@ -6,7 +6,7 @@
 }
 \usage{
 clust(data, u, tim.cond = 1, clust.max = FALSE, plot = FALSE,
-only.excess = FALSE, \dots)
+only.excess = TRUE, \dots)
 }
 \arguments{
   \item{data}{A matrix/data.frame with two columns. Columns names \bold{must
@@ -20,8 +20,8 @@ only.excess = FALSE, \dots)
     containing the cluster maxima and related dates is returned.}
   \item{plot}{Logical. If \code{TRUE}, identified
     clusters are displayed. Else (the default), no plot is produced.}
-  \item{only.excess}{Logical. If \code{FALSE} (the default), every
-    exceedences are plotted. Else, only clusters maxima are displayed.}
+  \item{only.excess}{Logical. If \code{TRUE} (the default), only
+    exceedences are plotted. Else, all observations are displayed.}
   \item{\dots}{Optional parameters to be passed in \code{\link{plot}}
     function.}
 }

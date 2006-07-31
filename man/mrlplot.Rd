@@ -57,7 +57,8 @@ lty = c(3, 1, 3), col = c('grey', 'black', 'grey'), conf = 0.95, lwd = c(1,
 }
 \examples{
 data(ardieres)
-flows <- ardieres[, "flows"]
+ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
+flows <- ardieres[, "obs"]
 mrlplot(flows)
 }
 \keyword{hplot}
