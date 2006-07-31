@@ -42,7 +42,9 @@ only.excess = FALSE, \dots)
   exceedences do not verify the \code{tim.cond} condition;
   \item When \code{tim.cond} holds, a new cluster is initiated.
   \item The process is iterated as needed.
+  \end{enumerate}
 
+  
   This function differs from the function \code{\link{clusters}} of
   \code{evd} Package as independence condition i.e. \code{tim.cond}
   could be a ``temporal'' condition. That is, two events are considered
@@ -50,7 +52,7 @@ only.excess = FALSE, \dots)
   duration.
 
   However, it is also possible to used the ``index'' independence as in
-  \code{\link{clusters}} by setting \code{data[,"time"] =
+  \code{\link{clust}} by setting \code{data[,"time"] =
   1:length(data[,"obs"])}.
 }
 \seealso{
