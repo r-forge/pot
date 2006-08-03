@@ -1,7 +1,4 @@
-#include <R.h>
-
-void clust(int *n, double *idxExcess, double *diffTim, double *timCond,
-	     double *clust);
+# include "header.h"
 
 void clust(int *n, double *idxExcess, double *diffTim, double *timCond,
 	   double *clust){
