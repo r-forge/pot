@@ -10,7 +10,7 @@
 \examples{
 data(ardieres)
 plot(ardieres, xlab = "Time (Years)", ylab = expression(paste("Flood
-discharges ", m^2/s, sep="")))
+discharges ", m^2/s, sep="")), type = "l")
 }
 \author{Mathieu Ribatet}
 \keyword{datasets}
