@@ -7,6 +7,13 @@ ts2tsd <- function(ts, d, vol = FALSE, method = "linear"){
     warning("NA's are not allowed in object ``ts''.\n
 Replacing them by -1e6 !!!")
 
+  if ( !any(colnames(data) == "obs") )
+    stop("``data'' should have a column named ``obs''...")
+
+  if ( !any(colnames(data) == "time") )
+    stop("``data'' should have a column named ``time''...")
+  
+
   tim <- ts[,"time"]
   obs <- ts[,"obs"]
 
