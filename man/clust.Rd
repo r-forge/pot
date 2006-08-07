@@ -14,7 +14,7 @@ only.excess = TRUE, \dots)
     each observation.}
   \item{u}{Numeric. A value giving the threshold.}
   \item{tim.cond}{A time condition to ensure independence between
-    events. Should be in the same unit that \code{data[,"time"]}.}
+    events. Should be in the same unit than \code{data[,"time"]}.}
   \item{clust.max}{Logical. If \code{FALSE} (the default), a list
     containing the clusters of exceedences is returned. Else, a matrix
     containing the cluster maxima and related dates is returned.}
@@ -27,22 +27,20 @@ only.excess = TRUE, \dots)
 }
 \value{
   If \code{clust.max} is \code{FALSE}, a list containing the clusters of
-  exceedences is returned. Else, a matrix containing the cluster maxima
-  and related dates is returned.
+  exceedences is returned. Else, a matrix containing the cluster maxima,
+  related dates and indices are returned.
 
-  In any case, thre returned object has an attribute \code{exi} giving
+  In any case, the returned object has an attribute \code{exi} giving
   an estimation of the Extremal Index, that is the inverse of the
   average cluster size.
 }
 \details{
   The clusters of exceedences are defined as follows:
-  \begin{enumerate}
   \item The first exceedence initiates the first cluster;
-  \item The current cluster is still ``active'' while two consecutive
-  exceedences do not verify the \code{tim.cond} condition;
-  \item When \code{tim.cond} holds, a new cluster is initiated.
+  \item The first observation under the threshold \code{u} ``ends'' the
+  current cluster unless \code{tim.cond} does not hold;
+  \item The next exceedence initiates a new cluster;
   \item The process is iterated as needed.
-  \end{enumerate}
 
   
   This function differs from the function \code{\link{clusters}} of
@@ -65,7 +63,8 @@ clust(ardieres, 4, 10 / 365, clust.max = TRUE)
 clust(ardieres, 4, 10 / 365, clust.max = TRUE, plot = TRUE)
 ##The same but with optional arguments passed to function ``plot''
 clust(ardieres, 4, 10 / 365, clust.max = TRUE, plot = TRUE,
-xlab = "Time (Years)", ylab = "Flood discharges")
+xlab = "Time (Years)", ylab = "Flood discharges",
+xlim = c(1972, 1980))
 }
 \author{Mathieu Ribatet}
 \keyword{manip}
