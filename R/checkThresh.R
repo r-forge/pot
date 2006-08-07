@@ -5,8 +5,14 @@
 diplot <- function(data, u.range, main, xlab, ylab,
                    conf=0.95,...){
 
-  date <- data[,1]
-  samp <- data[,2]
+  if ( !any(colnames(data) == "obs") )
+    stop("``data'' should have a column named ``obs''...")
+
+  if ( !any(colnames(data) == "time") )
+    stop("``data'' should have a column named ``time''...")
+    
+  date <- data[,"time"]
+  samp <- data[,"obs"]
                                        
   if (length(samp)<5){
     stop('Not enougth data for a Dispersion Index Plot')
