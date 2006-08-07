@@ -36,7 +36,7 @@ clust <- function(data, u, tim.cond = 1, clust.max = FALSE,
       idx <- c(idx, clust[i,1] + temp)
     }
     
-    events <- cbind(time = tim[idx], obs = obs[idx])
+    events <- cbind(time = tim[idx], obs = obs[idx], idx = idx)
     rownames(events) <- 1:n.clust
   }
 
@@ -55,19 +55,26 @@ clust <- function(data, u, tim.cond = 1, clust.max = FALSE,
   if (plot) {
     plot(tim, obs, type = "n", ...)
 
-    rect(tim[clust[,"start"]], rep(min(obs), n.clust), tim[clust[,"end"]],
-         rep(max(obs), n.clust), col = "lightgrey")
+    eps <- min(tim[clust[-1, "start"]] -
+               tim[clust[-n.clust, "end"]]) / 2
+
+    rect(tim[clust[,"start"]] - eps, rep(min(obs, na.rm = TRUE),
+                                         n.clust),
+         tim[clust[,"end"]] + eps, rep(max(obs, na.rm = TRUE),
+                                       n.clust),
+         col = "lightgrey")
 
     if (only.excess){
       tim <- tim[idx.excess]
       obs <- obs[idx.excess]
     }
-    
     points(tim, obs)
   }
   
   return(events)
 }
+
+
 
 exiplot <- function(data, u.range, tim.cond = 1, n.u = 50,
                     xlab, ylab, ...){
