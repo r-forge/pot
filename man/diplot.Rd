@@ -4,12 +4,12 @@
 \title{Dispersion Index Plot}
 \description{The Dispersion Index Plot}
 \usage{
-diplot(data, tlim, main, xlab, ylab, conf=0.95, \dots)
+diplot(data, u.range, main, xlab, ylab, conf=0.95, \dots)
 }
 \arguments{
   \item{data}{A matrix with two column. The first one represents the
     date of events and the second the data associated with those dates.}
-  \item{tlim}{A numeric vector of length two giving the limit of
+  \item{u.range}{A numeric vector of length two giving the limit of
     threshold analyzed. If missing, default values are taken.}
   \item{main}{The title of the plot.}
   \item{xlab,ylab}{Labels for the x and y axis.}
