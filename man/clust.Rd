@@ -53,7 +53,7 @@ only.excess = TRUE, \dots)
   1:length(data[,"obs"])}.
 }
 \seealso{
-  \code{\link{clusters}} of package \code{evd}.
+  \code{clusters} of package \code{evd}.
 }
 \examples{
 data(ardieres)
