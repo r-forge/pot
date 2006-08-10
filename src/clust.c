@@ -13,7 +13,7 @@ void clust(int *n, double *obs, double *tim, double *cond,
   while (i < *n){
 
     if (obs[i] > *thresh){
-      clust[i] = i;
+      clust[i] = i+1;
       idx = i + 1;
       idxMax = idx;
 
@@ -24,7 +24,7 @@ void clust(int *n, double *obs, double *tim, double *cond,
 	idx++;
       }
       
-      clust[i+1] = idx + 1;
+      clust[i+1] = idx;
       i = idx + 1;
     }
 
