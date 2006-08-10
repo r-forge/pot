@@ -13,8 +13,8 @@ void gpdlik(double *data, int *n, double *loc, double *scale,
 void samlmu(double *x, int *nmom, int *n, double *lmom);
 
 //From clust.c
-void clust(int *n, double *idxExcess, double *diffTim, double *timCond,
-	     double *clust);
+void clust(int *n, double *obs, double *tim, double *cond,
+	   double *thresh, double *clust);
 
 //From ts2tsd.c
 void ts2tsd(double *time, double *obs, double *start,
