@@ -1,21 +1,34 @@
 # include "header.h"
 
-void clust(int *n, double *idxExcess, double *diffTim, double *timCond,
-	   double *clust){
-  int i,j;
-  
-  j = 1;
-  clust[0] = idxExcess[0];
-  
-  for (i=0;i<(*n-1);i++){
-    if(diffTim[i] > *timCond){
-      clust[j] = idxExcess[i];
-      clust[j+1] = idxExcess[i+1];
-      j = j + 2;
+void clust(int *n, double *obs, double *tim, double *cond,
+	   double *thresh, double *clust);
+
+void clust(int *n, double *obs, double *tim, double *cond,
+	   double *thresh, double *clust){
+
+  int i, idx, idxMax;
+
+  i = 0;
+
+  while (i < *n){
+
+    if (obs[i] > *thresh){
+      clust[i] = i;
+      idx = i + 1;
+      idxMax = idx;
+
+      while( (obs[idx] > *thresh) ||
+	     ( (tim[idx]-tim[idxMax]) <= *cond)){
+	if (obs[idx] >= obs[idxMax])
+	  idxMax = idx;
+	idx++;
+      }
+      
+      clust[i+1] = idx + 1;
+      i = idx + 1;
     }
+
+    else
+      i++;    
   }
-  
-  clust[j] = idxExcess[*n-1];
 }
-
-
