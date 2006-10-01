@@ -19,10 +19,15 @@ clust <- function (data, u, tim.cond = 1, clust.max = FALSE, plot = FALSE,
     stop("No data above the threshold !!!")
   clust <- .C("clust", as.integer(n), as.double(obs),
               as.double(tim), as.double(tim.cond), 
-              as.double(u), clust = double(2 * n))$clust
+              as.double(u), clust = double(2 * n),
+              PACKAGE = "POT")$clust
   clust <- clust[clust != 0]
   clust <- matrix(clust[!is.na(clust)], ncol = 2, byrow = TRUE)
   colnames(clust) <- c("start", "end")
+
+  ##Replace NA values in ``obs''
+  obs[obs == -1e+06] <- NA
+  
   n.clust <- length(clust[, 1])
   n.excess <- sum( apply(clust, 1, diff) + 1)
   if (clust.max) {
@@ -53,9 +58,10 @@ clust <- function (data, u, tim.cond = 1, clust.max = FALSE, plot = FALSE,
                                                    "end"]])/2
     rect(tim[clust[, "start"]] - eps, rep(min(obs, na.rm = TRUE), 
                                           n.clust),
-         tim[clust[, "end"]] + eps, rep(max(obs, 
-                                                                                       na.rm = TRUE), n.clust), col = "lightgrey")
+         tim[clust[, "end"]] + eps, rep(max(obs, na.rm = TRUE),
+                                        n.clust), col = "lightgrey")
     if (only.excess) {
+      idx.excess <- which(obs > u)
       tim <- tim[idx.excess]
       obs <- obs[idx.excess]
     }
