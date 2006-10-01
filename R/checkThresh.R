@@ -68,7 +68,7 @@ diplot <- function(data, u.range, main, xlab, ylab,
 
 mrlplot <- function(data, u.range, main, xlab, ylab,
                     nt = max(100, length(data)),
-                    lty = c(3, 1, 3), col = c('grey','black','grey'),
+                    lty = rep(1, 3), col = c('grey','black','grey'),
                     conf = 0.95, lwd = c(1, 1.5, 1),...){
   
   data <- sort(data[!is.na(data)])
