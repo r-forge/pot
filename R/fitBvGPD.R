@@ -88,7 +88,8 @@ fitbvgpd <- function (data1, data2, threshold, model, start,
   if (model == "nlog")
     nlbvpot <- function(scale1, shape1, scale2, shape2, alpha)
       -.C("gpdbvnlog", data1, data2, n, pat1, pat2, threshold,
-          scale1, shape1, scale2, shape2, alpha, dns = double(1))$dns    
+          scale1, shape1, scale2, shape2, alpha, dns = double(1),
+          PACKAGE = "POT")$dns    
   if (model == "alog"){
     nlbvpot <- function(scale1, shape1, scale2, shape2, alpha,
                         asCoef1, asCoef2)
