@@ -32,8 +32,6 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
   \item{warn.inf}{Logical. Should users be warned if likelihood is not
     finite at starting values?}
   \item{method}{The optimization method, see \code{\link{optim}}.}
-  \item{chi}{The chi statistic of Coles (1999). A value near 1 (resp. 0)
-    indicates perfect depence (resp. independence).}
 }
 \details{
   The bivariate exceedances are fitted using censored likelihood
@@ -79,6 +77,8 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
   \item{exceedances1, exceedances2}{The marginal exceedances.}
   \item{call}{The call of the current function.}
   \item{model}{The model for the bivariate extreme value distribution.}
+  \item{chi}{The chi statistic of Coles (1999). A value near 1 (resp. 0)
+    indicates perfect depence (resp. independence).}
 }
 \references{
   Coles, S., Heffernan, J. and Tawn, J. (1999) Dependence Measure for
@@ -97,7 +97,7 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
 \examples{
 x <- rgpd(1000, 0, 1, 0.25)
 y <- rgpd(1000, 3, 1, -0.25)
-ind <- fbvgpd(x, y, c(0, 3), "log")
-dep <- fbvgpd(x, x + 3, c(0, 3), "mix")
+ind <- fitbvgpd(x, y, c(0, 3), "log")
+dep <- fitbvgpd(x, x + 3, c(0, 3), "mix")
 }
 \keyword{models}
