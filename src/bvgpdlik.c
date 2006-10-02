@@ -1,3 +1,5 @@
+#include "header.h"
+
 void gpdbvlog(double *data1, double *data2, int *n, double *lambda1,
 	      double *lambda2, double *thresh, double *scale1,
 	      double *shape1, double *scale2, double *shape2,
