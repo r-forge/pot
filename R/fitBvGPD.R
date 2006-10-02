@@ -188,9 +188,7 @@ fitbvgpd <- function (data1, data2, threshold, model, start,
         else {
           corr.mat <- NULL
         }
-      
-        std.err.type <- "Observed"
-    
+        
         colnames(var.cov) <- nm
         rownames(var.cov) <- nm
         names(std.err) <- nm
@@ -198,15 +196,14 @@ fitbvgpd <- function (data1, data2, threshold, model, start,
     }
 
     if(!obs.fish)
-      std.err.type <- std.err <- corr.mat <- var.cov <- NULL
+      std.err <- corr.mat <- var.cov <- NULL
   }
   
   param <- c(opt$par, unlist(fixed.param))
   
   var.thresh <- !all(threshold == threshold[1])
 
-  fitted <- list(fitted.values = opt$par, std.err = std.err, std.err.type = std.err.type,
-                 var.cov = var.cov, fixed = unlist(fixed.param), param = param,
+  fitted <- list(fitted.values = opt$par, std.err = std.err, var.cov = var.cov, fixed = unlist(fixed.param), param = param,
                  deviance = 2*opt$value, corr = corr.mat, convergence = opt$convergence,
                  counts = opt$counts, message = opt$message, threshold = threshold,
                  nhigh = nhigh, nat = nat, pat = pat, data1 = data1, data2 = data2,
