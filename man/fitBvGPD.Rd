@@ -24,14 +24,14 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
   \item{start}{Optional. A list for starting values in the fitting
     procedure.}
   \item{\dots}{Additional parameters to be passed to the
-    \link{\code{optim}} function or to the bivariate model. In
+    \code{\link{optim}} function or to the bivariate model. In
     particular, parameter of the model can be hand fixed.}
   \item{obs.fish}{Logical. Should standard errors and asymptotic
     variance covariance matrix be computed?}
   \item{corr}{Logical. Should the correlation matrix be computed?}
   \item{warn.inf}{Logical. Should users be warned if likelihood is not
     finite at starting values?}
-  \item{method}{The optimization method, see \link{\code{optim}}.}
+  \item{method}{The optimization method, see \code{\link{optim}}.}
   \item{chi}{The chi statistic of Coles (1999). A value near 1 (resp. 0)
     indicates perfect depence (resp. independence).}
 }
