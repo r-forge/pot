@@ -59,7 +59,7 @@ print.bvpot <- function (x, digits = max(3, getOption("digits") -
   cat("\n")
 }
 
-logLik.pot <- function(object){
+logLik.pot <- function(object, ...){
   llk <- object$logLik
   attr(llk, "df") <- length(fitted(object))
   class(llk) <- "logLik"
