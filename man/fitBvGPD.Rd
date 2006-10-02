@@ -56,9 +56,8 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
   The function returns an invisible object of class
   \code{c("bvpot","pot")}  and print several information  on screen.
   As usual, one can extract several features using \code{\link{fitted}}
-  (or \code{\link{fitted.values}}), \code{\link{std.errors}},
-  \code{\link{deviance}}, \code{\link{logLik}} and \code{\link{AIC}}
-  functions.
+  (or \code{\link{fitted.values}}), \code{\link{deviance}},
+    \code{\link{logLik}} and \code{\link{AIC}}  functions.
   
   \item{fitted.values}{The maximum likelihood estimates of the bivariate
   extreme value distribution.}
