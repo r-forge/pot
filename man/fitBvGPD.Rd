@@ -57,9 +57,9 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
 \value{
   The function returns an invisible object of class
   \code{c("bvpot","pot")}  and print several information  on screen.
-  As usual, one can extract several features using \link{\code{fitted}}
-  (or \link{\code{fitted.values}}), \link{\code{std.errors}},
-  \link{\code{deviance}}, \link{\code{logLik}} and \link{\code{AIC}}
+  As usual, one can extract several features using \code{\link{fitted}}
+  (or \code{\link{fitted.values}}), \code{\link{std.errors}},
+  \code{\link{deviance}}, \code{\link{logLik}} and \code{\link{AIC}}
   functions.
   
   \item{fitted.values}{The maximum likelihood estimates of the bivariate
@@ -71,7 +71,7 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
   \item{deviance}{The deviance.}
   \item{corr}{The correlation matrix.}
   \item{convergence, counts, message}{Informations taken from the
-    \link{\code{optim}} function.}
+    \code{\link{optim}} function.}
   \item{threshold}{The marginal thresholds.}
   \item{pat}{The marginal proportion above the threshold.}
   \item{nat}{The marginal number above the threshold.}
@@ -93,7 +93,7 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
   Multivariate Extreme Values. Biometrika, \bold{83}: 169--187.
 }
 \author{Mathieu Ribatet}
-\seealso{\link{\code{optim}}}
+\seealso{\code{\link{optim}}}
 \examples{
 x <- rgpd(1000, 0, 1, 0.25)
 y <- rgpd(1000, 3, 1, -0.25)
