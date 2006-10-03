@@ -18,7 +18,7 @@ fitgpd <- function(data, threshold, method, ...){
                    'mdpd' = gpdmdpd(data, threshold, ...),
                    'med' = gpdmed(data, threshold, ...)
                    )
-  printpot(fitted)
+  class(fitted) <- c("uvpot","pot")
   invisible(fitted)
 }
 
@@ -621,46 +621,3 @@ gpdmed <- function(x, threshold, start, ..., tol = 10^-3, maxit = 500,
   
 }
 
-"printpot" <-  function(x, digits = max(3, getOption("digits") - 3), ...) 
-{
-  cat("Estimator:", x$type, "\n")
-  
-  if (x$type == 'mle')
-    cat("Deviance:", x$deviance, "\n")
-  
-  cat("\nVarying Threshold:", x$var.thresh, "\n")
-  
-  if(!x$var.thresh)
-    x$threshold <- x$threshold[1]
-  
-  cat("\nThreshold:", round(x$threshold, digits), "\n")
-  cat("Number Above:", x$nat, "\n")
-  cat("Proportion Above:", round(x$pat, digits), "\n")
-  
-  cat("\nEstimates\n") 
-  print.default(format(x$estimate, digits = digits), print.gap = 2, 
-                quote = FALSE)
-  if(!is.null(x$std.err)) {
-    cat("\nStandard Error Type:", x$std.err.type, "\n")
-    cat("\nStandard Errors\n")
-    print.default(format(x$std.err, digits = digits), print.gap = 2, 
-                  quote = FALSE)
-  }
-  if(!is.null(x$var.cov)) {
-    cat("\nAsymptotic Variance Covariance\n")
-    print.default(format(x$var.cov, digits = digits), print.gap = 2, 
-                  quote = FALSE)
-  }
-  if(!is.null(x$corr)) {
-    cat("\nCorrelation\n")
-    print.default(format(x$corr, digits = digits), print.gap = 2, 
-                  quote = FALSE)
-  }
-  cat("\nOptimization Information\n")
-  cat("  Convergence:", x$convergence, "\n")
-  cat("  Function Evaluations:", x$counts["function"], "\n")
-  if(!is.na(x$counts["gradient"]))
-    cat("  Gradient Evaluations:", x$counts["gradient"], "\n")
-  if(!is.null(x$message)) cat("\nMessage:", x$message, "\n")
-  cat("\n")
-}

@@ -1,13 +1,5 @@
 \name{Fit the GP Distribution}
 \alias{fitgpd}
-\alias{printpot}
-\alias{gpdmoments}
-\alias{gpdpwmu}
-\alias{gpdpwmb}
-\alias{gpdmle}
-\alias{gpdpickands}
-\alias{gpdmdpd}
-\alias{gpdmed}
 
 \title{Fitting a POT model through a GP distribution}
 \description{Maximum Likelihood, Unbiased Probability Weigthed Moments,
@@ -28,9 +20,8 @@
     likelihood, moments, unbiased probability weighted moments, biased
     probability weigthed moments, minimum density power divergence,
     medians and pickands' estimators respectively.}
-  \item{\dots}{Other optional arguments to be passed to
-    \code{\link{gpdmoments}}, \code{\link{gpdpwmu}},
-    \code{\link{gpdpwmb}} and \code{\link{gpdmle}}, \dots functions.}
+  \item{\dots}{Other optional arguments to be passed to the
+    \code{\link{optim}} function and allow hand fixed parameters.}
 }
 \value{
   This function returns a list with  composants:

@@ -1,5 +1,5 @@
-pickFunplot <- function(fitted, bound = TRUE, plot = TRUE,
-                        ...){
+pickdep <- function(fitted, bound = TRUE, plot = TRUE,
+                    ...){
 
   model <- fitted$model
   alpha <- fitted$param["alpha"]

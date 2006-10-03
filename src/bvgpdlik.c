@@ -1,20 +1,52 @@
-#include "header.h"
+#include <R.h>
+#include <Rinternals.h>
+#include <Rmath.h>
 
-void gpdbvlog(double *data1, double *data2, int *n, double *lambda1,
+void gpdbvlog(double *data1, double *data2, int *n, int *nn, double *lambda1,
+	      double *lambda2, double *thresh, double *scale1,
+	      double *shape1, double *scale2, double *shape2,
+	      double *alpha, double *dns);
+void gpdbvalog(double *data1, double *data2, int *n, int *nn, double *lambda1,
+	       double *lambda2, double *thresh, double *scale1,
+	       double *shape1, double *scale2, double *shape2,
+	       double *alpha, double *asCoef1, double *asCoef2,
+	       double *dns);
+void gpdbvnlog(double *data1, double *data2, int *n, int *nn, double *lambda1,
+	       double *lambda2, double *thresh, double *scale1,
+	       double *shape1, double *scale2, double *shape2,
+	       double *alpha, double *dns);
+void gpdbvanlog(double *data1, double *data2, int *n, int *nn, double *lambda1,
+		double *lambda2, double *thresh, double *scale1,
+		double *shape1, double *scale2, double *shape2,
+		double *alpha, double *asCoef1, double *asCoef2,
+		double *dns);
+void gpdbvmix(double *data1, double *data2, int *n, int *nn, double *lambda1,
+	      double *lambda2, double *thresh, double *scale1,
+	      double *shape1, double *scale2, double *shape2,
+	      double *alpha, double *dns);
+void gpdbvamix(double *data1, double *data2, int *n, int *nn, double *lambda1,
+	       double *lambda2, double *thresh, double *scale1,
+	       double *shape1, double *scale2, double *shape2,
+	       double *alpha, double *asCoef, double *dns);
+
+
+
+void gpdbvlog(double *data1, double *data2, int *n, int *nn, double *lambda1,
 	      double *lambda2, double *thresh, double *scale1,
 	      double *shape1, double *scale2, double *shape2,
 	      double *alpha, double *dns){
 
   int i;
 
-  double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2, v12;
+  double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2, v12,
+    censCont;
 
   eps = R_pow(DOUBLE_EPS, 0.3);
-  t1 = (double *)R_alloc(*n, sizeof(double));
-  t2 = (double *)R_alloc(*n, sizeof(double));
-  z1 = (double *)R_alloc(*n, sizeof(double));
-  z2 = (double *)R_alloc(*n, sizeof(double));
-  dvec = (double *)R_alloc(*n, sizeof(double));
+  t1 = (double *)R_alloc(*nn, sizeof(double));
+  t2 = (double *)R_alloc(*nn, sizeof(double));
+  z1 = (double *)R_alloc(*nn, sizeof(double));
+  z2 = (double *)R_alloc(*nn, sizeof(double));
+  dvec = (double *)R_alloc(*nn, sizeof(double));
   
   
   if(*alpha > 1 || *alpha < 0.05 || *scale1 < 0.01 ||
@@ -29,7 +61,7 @@ void gpdbvlog(double *data1, double *data2, int *n, double *lambda1,
   //                                     //
   //+++++++++++++++++++++++++++++++++++++//
 
-  for (i=0;i<*n;i++){
+  for (i=0;i<*nn;i++){
 
     //Margin 1
     t1[i] = (data1[i]  - thresh[0]) / *scale1;
@@ -100,7 +132,7 @@ void gpdbvlog(double *data1, double *data2, int *n, double *lambda1,
   //                                     //
   //+++++++++++++++++++++++++++++++++++++//
 
-  for (i=0;i<*n;i++){ 
+  for (i=0;i<*nn;i++){ 
 
     //Compute the bivariate logistic distribution at point
     //(z[1], z[2]) (but omitting the alpha power!!!)
@@ -111,6 +143,7 @@ void gpdbvlog(double *data1, double *data2, int *n, double *lambda1,
       if(data2[i] == 0){
 	//Case 1: x1 <= threshold1 & x2 <= threshold2
 	dvec[i] = *alpha * log(v);
+	printf("pour i = %i\n", i);
       }
 
       else{
@@ -185,26 +218,38 @@ void gpdbvlog(double *data1, double *data2, int *n, double *lambda1,
     }
   }
       
-  for (i=0;i<(*n -1);i++)
+  for (i=0;i<*nn;i++){
     *dns = *dns + dvec[i];
+  }
+
+  //Now add the censored contribution to loglikelihood
+  if (*nn != *n){
+    *lambda1 = - 1 / log(1 - *lambda1);
+    *lambda2 = - 1 / log(1 - *lambda2);
+    censCont = R_pow(*lambda1, -1 / *alpha) +
+      R_pow(*lambda2, - 1/ *alpha);
+    censCont = -R_pow(censCont, *alpha);
+    *dns = *dns + (*n - *nn) * censCont;
+  }
 }
     
-void gpdbvalog(double *data1, double *data2, int *n, double *lambda1,
-	       double *lambda2, double *thresh, double *scale1,
-	       double *shape1, double *scale2, double *shape2,
-	       double *alpha, double *asCoef1, double *asCoef2,
-	       double *dns){
+void gpdbvalog(double *data1, double *data2, int *n, int *nn,
+	       double *lambda1, double *lambda2, double *thresh,
+	       double *scale1, double *shape1, double *scale2,
+	       double *shape2, double *alpha, double *asCoef1,
+	       double *asCoef2, double *dns){
 
   int i;
 
-  double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2, v12;
+  double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2, v12,
+    censCont;
 
   eps = R_pow(DOUBLE_EPS, 0.3);
-  t1 = (double *)R_alloc(*n, sizeof(double));
-  t2 = (double *)R_alloc(*n, sizeof(double));
-  z1 = (double *)R_alloc(*n, sizeof(double));
-  z2 = (double *)R_alloc(*n, sizeof(double));
-  dvec = (double *)R_alloc(*n, sizeof(double));
+  t1 = (double *)R_alloc(*nn, sizeof(double));
+  t2 = (double *)R_alloc(*nn, sizeof(double));
+  z1 = (double *)R_alloc(*nn, sizeof(double));
+  z2 = (double *)R_alloc(*nn, sizeof(double));
+  dvec = (double *)R_alloc(*nn, sizeof(double));
   
   
   if(*alpha > 1 || *alpha < 0.05 || *scale1 < 0.01 ||
@@ -220,7 +265,7 @@ void gpdbvalog(double *data1, double *data2, int *n, double *lambda1,
   //                                     //
   //+++++++++++++++++++++++++++++++++++++//
 
-  for (i=0;i<*n;i++){
+  for (i=0;i<*nn;i++){
 
     //Margin 1
     t1[i] = (data1[i]  - thresh[0]) / *scale1;
@@ -290,7 +335,7 @@ void gpdbvalog(double *data1, double *data2, int *n, double *lambda1,
   //                                     //
   //+++++++++++++++++++++++++++++++++++++//
 
-  for (i=0;i<*n;i++){ 
+  for (i=0;i<*nn;i++){ 
 
     //Compute the bivariate logistic distribution at point
     //(z[1], z[2])
@@ -387,26 +432,38 @@ void gpdbvalog(double *data1, double *data2, int *n, double *lambda1,
     }
   }
       
-  for (i=0;i<(*n -1);i++)
+  for (i=0;i<*nn;i++)
     *dns = *dns + dvec[i];
+
+  //Now add the censored contribution to loglikelihood
+  if (*nn != *n){
+    *lambda1 = - 1 / log(1 - *lambda1);
+    *lambda2 = - 1 / log(1 - *lambda2);
+    censCont = R_pow(*lambda1 / *asCoef1, - 1 / *alpha) +
+      R_pow(*lambda2 / *asCoef2, - 1 / *alpha);
+    censCont = (*asCoef1 - 1) / *lambda1 + (*asCoef2 - 1) / *lambda2 -
+      R_pow(censCont, *alpha);
+    *dns = *dns + (*n - *nn) * censCont;
+  }
 
 }
     
-void gpdbvnlog(double *data1, double *data2, int *n, double *lambda1,
-	       double *lambda2, double *thresh, double *scale1,
-	       double *shape1, double *scale2, double *shape2,
-	       double *alpha, double *dns){
+void gpdbvnlog(double *data1, double *data2, int *n, int *nn,
+	       double *lambda1, double *lambda2, double *thresh,
+	       double *scale1, double *shape1, double *scale2,
+	       double *shape2, double *alpha, double *dns){
 
   int i;
 
-  double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2, v12;
+  double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2,
+    v12, censCont;
 
   eps = R_pow(DOUBLE_EPS, 0.3);
-  t1 = (double *)R_alloc(*n, sizeof(double));
-  t2 = (double *)R_alloc(*n, sizeof(double));
-  z1 = (double *)R_alloc(*n, sizeof(double));
-  z2 = (double *)R_alloc(*n, sizeof(double));
-  dvec = (double *)R_alloc(*n, sizeof(double));
+  t1 = (double *)R_alloc(*nn, sizeof(double));
+  t2 = (double *)R_alloc(*nn, sizeof(double));
+  z1 = (double *)R_alloc(*nn, sizeof(double));
+  z2 = (double *)R_alloc(*nn, sizeof(double));
+  dvec = (double *)R_alloc(*nn, sizeof(double));
   
   
   if(*alpha < 0.01 || *alpha > 15 || *scale1 < 0.01 || *scale2 < 0.01){
@@ -420,7 +477,7 @@ void gpdbvnlog(double *data1, double *data2, int *n, double *lambda1,
   //                                     //
   //+++++++++++++++++++++++++++++++++++++//
 
-  for (i=0;i<*n;i++){
+  for (i=0;i<*nn;i++){
 
     //Margin 1
     t1[i] = (data1[i]  - thresh[0]) / *scale1;
@@ -491,7 +548,7 @@ void gpdbvnlog(double *data1, double *data2, int *n, double *lambda1,
   //                                     //
   //+++++++++++++++++++++++++++++++++++++//
 
-  for (i=0;i<*n;i++){ 
+  for (i=0;i<*nn;i++){ 
 
     //Compute the bivariate logistic distribution at point
     //(z[1], z[2])
@@ -582,26 +639,37 @@ void gpdbvnlog(double *data1, double *data2, int *n, double *lambda1,
     }
   }
       
-  for (i=0;i<(*n -1);i++)
+  for (i=0;i<*nn;i++)
     *dns = *dns + dvec[i];
+
+  //Now add the censored contribution to loglikelihood
+  if (*nn != *n){
+    *lambda1 = - 1 / log(1 - *lambda1);
+    *lambda2 = - 1 / log(1 - *lambda2);
+    censCont = R_pow(*lambda1, *alpha) + R_pow(*lambda2, *alpha);
+    censCont = - 1 / *lambda1 - 1 / *lambda2 +
+      R_pow(censCont, -1 / *alpha);
+    *dns = *dns + (*n - *nn) * censCont;
+  }
 }
 
-void gpdbvanlog(double *data1, double *data2, int *n, double *lambda1,
-		double *lambda2, double *thresh, double *scale1,
-		double *shape1, double *scale2, double *shape2, 
-		double *alpha, double *asCoef1, double *asCoef2,
-		double *dns){
+void gpdbvanlog(double *data1, double *data2, int *n, int *nn,
+		double *lambda1, double *lambda2, double *thresh,
+		double *scale1, double *shape1, double *scale2,
+		double *shape2, double *alpha, double *asCoef1,
+		double *asCoef2, double *dns){
 
   int i;
 
-  double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2, v12;
+  double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2,
+    v12, censCont;
 
   eps = R_pow(DOUBLE_EPS, 0.3);
-  t1 = (double *)R_alloc(*n, sizeof(double));
-  t2 = (double *)R_alloc(*n, sizeof(double));
-  z1 = (double *)R_alloc(*n, sizeof(double));
-  z2 = (double *)R_alloc(*n, sizeof(double));
-  dvec = (double *)R_alloc(*n, sizeof(double));
+  t1 = (double *)R_alloc(*nn, sizeof(double));
+  t2 = (double *)R_alloc(*nn, sizeof(double));
+  z1 = (double *)R_alloc(*nn, sizeof(double));
+  z2 = (double *)R_alloc(*nn, sizeof(double));
+  dvec = (double *)R_alloc(*nn, sizeof(double));
   
   
   if(*alpha < 0.2 || *alpha > 15 || *scale1 < 0.01 || *scale2 < 0.01 ||
@@ -616,7 +684,7 @@ void gpdbvanlog(double *data1, double *data2, int *n, double *lambda1,
   //                                     //
   //+++++++++++++++++++++++++++++++++++++//
 
-  for (i=0;i<*n;i++){
+  for (i=0;i<*nn;i++){
 
     //Margin 1
     t1[i] = (data1[i]  - thresh[0]) / *scale1;
@@ -687,7 +755,7 @@ void gpdbvanlog(double *data1, double *data2, int *n, double *lambda1,
   //                                     //
   //+++++++++++++++++++++++++++++++++++++//
 
-  for (i=0;i<*n;i++){ 
+  for (i=0;i<*nn;i++){ 
 
     //Compute the bivariate logistic distribution at point
     //(z[1], z[2])
@@ -787,25 +855,37 @@ void gpdbvanlog(double *data1, double *data2, int *n, double *lambda1,
     }
   }
       
-  for (i=0;i<(*n -1);i++)
+  for (i=0;i<*nn;i++)
     *dns = *dns + dvec[i];
+
+  //Now add the censored contribution to loglikelihood
+  if (*nn != *n){
+    *lambda1 = - 1 / log(1 - *lambda1);
+    *lambda2 = - 1 / log(1 - *lambda2);
+    censCont = R_pow(*lambda1 / *asCoef1, *alpha) +
+      R_pow(*lambda2 / *asCoef2, *alpha);
+    censCont = - 1 / *lambda1 - 1 / *lambda2 +
+      R_pow(censCont, -1 / *alpha);
+    *dns = *dns + (*n - *nn) * censCont;
+  }
 }
 
-void gpdbvmix(double *data1, double *data2, int *n, double *lambda1,
-	      double *lambda2, double *thresh, double *scale1,
-	      double *shape1, double *scale2, double *shape2,
-	      double *alpha, double *dns){
+void gpdbvmix(double *data1, double *data2, int *n, int *nn,
+	      double *lambda1, double *lambda2, double *thresh,
+	      double *scale1, double *shape1, double *scale2,
+	      double *shape2, double *alpha, double *dns){
 
   int i;
 
-  double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2, v12;
+  double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2,
+    v12, censCont;
 
   eps = R_pow(DOUBLE_EPS, 0.3);
-  t1 = (double *)R_alloc(*n, sizeof(double));
-  t2 = (double *)R_alloc(*n, sizeof(double));
-  z1 = (double *)R_alloc(*n, sizeof(double));
-  z2 = (double *)R_alloc(*n, sizeof(double));
-  dvec = (double *)R_alloc(*n, sizeof(double));
+  t1 = (double *)R_alloc(*nn, sizeof(double));
+  t2 = (double *)R_alloc(*nn, sizeof(double));
+  z1 = (double *)R_alloc(*nn, sizeof(double));
+  z2 = (double *)R_alloc(*nn, sizeof(double));
+  dvec = (double *)R_alloc(*nn, sizeof(double));
   
   
   if(*alpha > 1 || *alpha < 0 || *scale1 < 0.01 ||
@@ -820,7 +900,7 @@ void gpdbvmix(double *data1, double *data2, int *n, double *lambda1,
   //                                     //
   //+++++++++++++++++++++++++++++++++++++//
 
-  for (i=0;i<*n;i++){
+  for (i=0;i<*nn;i++){
 
     //Margin 1
     t1[i] = (data1[i]  - thresh[0]) / *scale1;
@@ -891,7 +971,7 @@ void gpdbvmix(double *data1, double *data2, int *n, double *lambda1,
   //                                     //
   //+++++++++++++++++++++++++++++++++++++//
 
-  for (i=0;i<*n;i++){ 
+  for (i=0;i<*nn;i++){ 
 
     //Compute the bivariate logistic distribution at point
     //(z[1], z[2])
@@ -975,26 +1055,36 @@ void gpdbvmix(double *data1, double *data2, int *n, double *lambda1,
     }
   }
       
-  for (i=0;i<(*n -1);i++)
+  for (i=0;i<*nn;i++)
     *dns = *dns + dvec[i];
+
+  //Now add the censored contribution to loglikelihood
+  if (*nn != *n){
+    *lambda1 = - 1 / log(1 - *lambda1);
+    *lambda2 = - 1 / log(1 - *lambda2);
+    censCont = - 1 / *lambda1 - 1 / *lambda2 +
+      *alpha / (*lambda1 + *lambda2);      
+    *dns = *dns + (*n - *nn) * censCont;
+  }
 }
 
-void gpdbvamix(double *data1, double *data2, int *n, double *lambda1,
-	       double *lambda2, double *thresh, double *scale1,
-	       double *shape1, double *scale2, double *shape2,
-	       double *alpha, double *asCoef, double *dns){
+void gpdbvamix(double *data1, double *data2, int *n, int *nn,
+	       double *lambda1, double *lambda2, double *thresh,
+	       double *scale1, double *shape1, double *scale2,
+	       double *shape2, double *alpha, double *asCoef,
+	       double *dns){
   
   int i;
 
-  double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2,
-    nK2, v12, c1;
+  double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2,
+    v12, c1, censCont;
 
   eps = R_pow(DOUBLE_EPS, 0.3);
-  t1 = (double *)R_alloc(*n, sizeof(double));
-  t2 = (double *)R_alloc(*n, sizeof(double));
-  z1 = (double *)R_alloc(*n, sizeof(double));
-  z2 = (double *)R_alloc(*n, sizeof(double));
-  dvec = (double *)R_alloc(*n, sizeof(double));
+  t1 = (double *)R_alloc(*nn, sizeof(double));
+  t2 = (double *)R_alloc(*nn, sizeof(double));
+  z1 = (double *)R_alloc(*nn, sizeof(double));
+  z2 = (double *)R_alloc(*nn, sizeof(double));
+  dvec = (double *)R_alloc(*nn, sizeof(double));
   
   
   if(*alpha < 0  || *scale1 < 0.01 || *scale2 < 0.01 ||
@@ -1010,7 +1100,7 @@ void gpdbvamix(double *data1, double *data2, int *n, double *lambda1,
   //                                     //
   //+++++++++++++++++++++++++++++++++++++//
 
-  for (i=0;i<*n;i++){
+  for (i=0;i<*nn;i++){
 
     //Margin 1
     t1[i] = (data1[i]  - thresh[0]) / *scale1;
@@ -1081,7 +1171,7 @@ void gpdbvamix(double *data1, double *data2, int *n, double *lambda1,
   //                                     //
   //+++++++++++++++++++++++++++++++++++++//
 
-  for (i=0;i<*n;i++){ 
+  for (i=0;i<*nn;i++){ 
 
     //Compute the bivariate logistic distribution at point
     //(z[1], z[2])
@@ -1172,6 +1262,17 @@ void gpdbvamix(double *data1, double *data2, int *n, double *lambda1,
     }
   }
       
-  for (i=0;i<(*n -1);i++)
+  for (i=0;i<*nn;i++)
     *dns = *dns + dvec[i];
+
+  //Now add the censored contribution to loglikelihood
+  if (*nn != *n){
+    *lambda1 = - 1 / log(1 - *lambda1);
+    *lambda2 = - 1 / log(1 - *lambda2);
+    censCont = ((*alpha + *asCoef) * *lambda1 +
+		(*alpha + 2 * *asCoef) * *lambda2) /
+      R_pow_di(*lambda1 + *lambda2, 2);
+    censCont = censCont - 1 / *lambda1 - 1 / *lambda2;
+    *dns = *dns + (*n - *nn) * censCont;
+  }
 }

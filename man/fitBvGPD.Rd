@@ -8,13 +8,13 @@
   procedure. 
 }
 \usage{
-fitbvgpd(data1, data2, threshold, model, start, ..., obs.fish = TRUE,
+fitbvgpd(data, threshold, model, start, ..., obs.fish = TRUE,
 corr = FALSE, warn.inf = TRUE, method = "BFGS")
 }
 \arguments{
-  \item{data1,data2}{The observation vector for margin 1 and 2
-    respectively. \code{NA} values are considered to fall below the
-    threshold.}
+  \item{data}{A matrix with two columns which gives the observation
+    vector for margin 1 and 2 respectively. \code{NA} values are
+    considered to fall below the threshold.}
   \item{threshold}{A numeric vector for the threshold (of length 2).}
   \item{model}{A character string which specifies the model used. Must
     be one of \code{log} (the default), \code{alog}, \code{nlog},
@@ -38,19 +38,20 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
   procedure. This methodology is fully described in Ledford (1996).
 
   Most of models are described in Kluppelberg (2006).
-
-  \section{Warnings}{
-    Because of numerical problems, their exists artificial numerical
-    constraints imposed on each model. These are:
-    \item{Logistic and asymetric logistic models}{\eqn{\alpha}{alpha}
-    must lie in [0.05, 1] instead of [0,1]}
-    \item{Negative logistic model}{\eqn{\alpha}{alpha} must lie in
-    [0.01, 15] instead of \eqn{[0,\infty[}{[0, infinity[}.}
-    \item{Asymetric negative logistic model}{\eqn{\alpha}{alpha} must
-      lie in [0.2, 15] instead of \eqn{[0,\infty[}{[0, infinity[}.}
-    \item{Mixed and asymetric mixed model}{None artificial numerical
-      constraints are imposed.}
-    }
+}
+\section{Warnings}{
+  Because of numerical problems, their exists artificial numerical
+  constraints imposed on each model. These are:
+  \itemize{
+    \item For the logistic and asymetric logistic models: \eqn{\alpha}{alpha}
+    must lie in [0.05, 1] instead of [0,1];
+    \item For the negative logistic model: \eqn{\alpha}{alpha} must lie in
+    [0.01, 15] instead of \eqn{[0,\infty[}{[0, infinity[};
+    \item For the asymetric negative logistic model: \eqn{\alpha}{alpha} must
+    lie in [0.2, 15] instead of \eqn{[0,\infty[}{[0, infinity[};
+    \item For the mixed and asymetric mixed models: None artificial numerical
+    constraints are imposed.
+  }
 }
 \value{
   The function returns an invisible object of class
@@ -96,7 +97,7 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
 \examples{
 x <- rgpd(1000, 0, 1, 0.25)
 y <- rgpd(1000, 3, 1, -0.25)
-ind <- fitbvgpd(x, y, c(0, 3), "log")
-dep <- fitbvgpd(x, x + 3, c(0, 3), "mix")
+ind <- fitbvgpd(cbind(x, y), c(0, 3), "log")
+dep <- fitbvgpd(cbind(x, x + 3), c(0, 3), "mix")
 }
 \keyword{models}

@@ -34,13 +34,13 @@ ts2tsd(ts, d, vol = FALSE, method = "linear")
   while average values are:
   \deqn{ave(t) = \frac{1}{d}\int_{t-d/2}^{t+d/2} f(u)du}{vol(t) = 1/d
     \int_{t-d/2}^{t+d/2} f(u)du}
-
-  \section{Warnings}{Please note that as the time serie is interpolated,
-    caution should be taken if the method to interpolate is not efficient.
-
-    Note that object \code{d} should have the same unit than
-    \code{ts[,"time"]}.
-    }
+}
+\section{Warnings}{
+  Please note that as the time serie is interpolated, caution should be
+  taken if the method to interpolate is not efficient. 
+  
+  Note that object \code{d} should have the same unit than
+  \code{ts[,"time"]}.
 }
 \seealso{
   \code{\link{approx}}

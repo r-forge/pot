@@ -5,7 +5,7 @@
   Return and optionnaly plot the Pickands' dependence function.
 }
 \usage{
-pickdep(fitted, bound = TRUE, plot = TRUE, ...)
+pickdep(fitted, bound = TRUE, plot = TRUE, \dots)
 }
 \arguments{
   \item{fitted}{A object of class \code{bvpot}. Usually, \code{fitted}
@@ -13,6 +13,8 @@ pickdep(fitted, bound = TRUE, plot = TRUE, ...)
   \item{bound}{Logical. Should the perfect dependent and independent
     case bounds be plotted?}
   \item{plot}{Logical. Should the dependence function be plotted?}
+  \item{\dots}{Optional parameters to be passed to the
+    \code{\link{lines}} function.}
 }
 \value{
   The function returns an invisible function: the Pickands' dependence
@@ -24,7 +26,8 @@ pickdep(fitted, bound = TRUE, plot = TRUE, ...)
 \details{
   It is common to parametrize a bivariate extreme value distribution
   according to the Pickands' representation (Pickands, 1981). That is,
-  if \deqn{G}{G} is any bivariate extreme value distribution:
+  if \eqn{G}{G} is any bivariate extreme value distribution, then it has
+  the following parametrization:
   \deqn{G\left(y_1,y_2\right) = \exp\left[- \left(\frac{1}{z_1} +
     \frac{1}{z_2} \right) A\left( \frac{z_2}{z_1+z_2} \right)
     \right]}{G(y_1, y_2) = exp[ -(1/z_1 + 1/z_2) A(z_2 / (z_1 + z_2))]}
@@ -50,7 +53,7 @@ pickdep(fitted, bound = TRUE, plot = TRUE, ...)
 }
 \examples{
 x <- rgpd(1000, 0, 1, 0.25)
-dep <- fitbvgpd(x, x + 3, c(0,3), "mix")
+dep <- fitbvgpd(cbind(x, x + 3), c(0,3), "mix")
 pickdep(dep)
 }
 \author{Mathieu Ribatet}
