@@ -8,8 +8,8 @@
   procedure. 
 }
 \usage{
-fitbvgpd(data, threshold, model, start, ..., obs.fish = TRUE,
-cscale = TRUE, cshape = TRUE, corr = FALSE, warn.inf = TRUE,
+fitbvgpd(data, threshold, model = "log", start, ..., cscale = FALSE,
+cshape = FALSE, obs.fish = TRUE, corr = FALSE, warn.inf = TRUE,
 method = "BFGS")
 }
 \arguments{
