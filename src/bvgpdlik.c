@@ -1,35 +1,4 @@
-#include <R.h>
-#include <Rinternals.h>
-#include <Rmath.h>
-
-void gpdbvlog(double *data1, double *data2, int *n, int *nn, double *lambda1,
-	      double *lambda2, double *thresh, double *scale1,
-	      double *shape1, double *scale2, double *shape2,
-	      double *alpha, double *dns);
-void gpdbvalog(double *data1, double *data2, int *n, int *nn, double *lambda1,
-	       double *lambda2, double *thresh, double *scale1,
-	       double *shape1, double *scale2, double *shape2,
-	       double *alpha, double *asCoef1, double *asCoef2,
-	       double *dns);
-void gpdbvnlog(double *data1, double *data2, int *n, int *nn, double *lambda1,
-	       double *lambda2, double *thresh, double *scale1,
-	       double *shape1, double *scale2, double *shape2,
-	       double *alpha, double *dns);
-void gpdbvanlog(double *data1, double *data2, int *n, int *nn, double *lambda1,
-		double *lambda2, double *thresh, double *scale1,
-		double *shape1, double *scale2, double *shape2,
-		double *alpha, double *asCoef1, double *asCoef2,
-		double *dns);
-void gpdbvmix(double *data1, double *data2, int *n, int *nn, double *lambda1,
-	      double *lambda2, double *thresh, double *scale1,
-	      double *shape1, double *scale2, double *shape2,
-	      double *alpha, double *dns);
-void gpdbvamix(double *data1, double *data2, int *n, int *nn, double *lambda1,
-	       double *lambda2, double *thresh, double *scale1,
-	       double *shape1, double *scale2, double *shape2,
-	       double *alpha, double *asCoef, double *dns);
-
-
+#include "header.h"
 
 void gpdbvlog(double *data1, double *data2, int *n, int *nn, double *lambda1,
 	      double *lambda2, double *thresh, double *scale1,
@@ -138,90 +107,81 @@ void gpdbvlog(double *data1, double *data2, int *n, int *nn, double *lambda1,
     //(z[1], z[2]) (but omitting the alpha power!!!)
     v = R_pow(z1[i], - 1 / *alpha) + R_pow(z2[i], - 1 / *alpha);
       
-    if (data1[i] == 0){
+    if ((data1[i] == 0) && (data2[i] > 0)){
 
-      if(data2[i] == 0){
-	//Case 1: x1 <= threshold1 & x2 <= threshold2
-	dvec[i] = *alpha * log(v);
-	printf("pour i = %i\n", i);
-      }
+      //Case 2: x1 <= threshold1 & x2 > threshold2
+      
+      //Compute the log negative partial derivative with
+      //respect to the second component
+      nv2 = -(1/ *alpha + 1) * log(z2[i]) +
+	(*alpha - 1) * log(v);
+      
+      //the log negative K2 constant of Ledford [1996]
+      nK2 = log(*lambda2) - log(*scale2) + 
+	(1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
+	1 / z2[i];
+      
+      dvec[i] = nv2 + nK2 - R_pow(v, *alpha);
+      
+    }
+    
+    if ((data1[i] > 0) && (data2[i] == 0)){ 
 
-      else{
-	//Case 2: x1 <= threshold1 & x2 > threshold2
+      //Case 3: x1 > threshold1 & x2 <= threshold2
       
-	//Compute the log negative partial derivative with
-	//respect to the second component
-	nv2 = -(1/ *alpha + 1) * log(z2[i]) +
-	  (*alpha - 1) * log(v);
-	
-	//the log negative K2 constant of Ledford [1996]
-	nK2 = log(*lambda2) - log(*scale2) + 
-	  (1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
-	  1 / z2[i];
+      //Compute the log negative partial derivative with
+      //respect to the first component
+      nv1 = -(1/ *alpha + 1) * log(z1[i]) +
+	(*alpha - 1) * log(v);
       
-	dvec[i] = nv2 + nK2 - R_pow(v, *alpha);
-     	
-      }
+      //the log negative K1 constant of Ledford [1996]
+      nK1 = log(*lambda1) - log(*scale1) + 
+	(1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
+	1 / z1[i];
+      
+      dvec[i] = nv1 + nK1 - R_pow(v, *alpha);
+      
     }
 
-    else{
-      
-      if (data2[i] == 0){
-	//Case 3: x1 > threshold1 & x2 <= threshold2
-	
-	//Compute the log negative partial derivative with
-	//respect to the first component
-	nv1 = -(1/ *alpha + 1) * log(z1[i]) +
-	  (*alpha - 1) * log(v);
-	
-	//the log negative K1 constant of Ledford [1996]
-	nK1 = log(*lambda1) - log(*scale1) + 
-	  (1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
-	  1 / z1[i];
-	
-	dvec[i] = nv1 + nK1 - R_pow(v, *alpha);
-	
-      }
+    if ((data1[i] * data2[i]) > 0){
 
-      else{
-	//Case 4: x1 > threshold1 & x2 > threshold2
-	
-	//Compute the negative partial derivative with
-	//respect to the first component
-	nv1 = R_pow(z1[i], -1/ *alpha - 1) * 
-	  R_pow(v, *alpha - 1);
-	
-	//the log negative K1 constant of Ledford [1996]
-	nK1 = log(*lambda1) - log(*scale1) + 
-	  (1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
-	  1 / z1[i];
-	
-	//Compute the negative partial derivative with
-	//respect to the second component
-	nv2 = R_pow(z2[i], -1/ *alpha - 1) * 
-	  R_pow(v, *alpha - 1);
-	
-	//the log negative K2 constant of Ledford [1996]
-	nK2 = log(*lambda2) - log(*scale2) + 
-	  (1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
-	  1 / z2[i];
-	
-	//Compute the partial mixed derivative	
-	v12 = (1 - 1 / *alpha) * R_pow(z1[i]*z2[i],
-				       -1/ *alpha - 1) *
-	  R_pow(v, *alpha - 2);
-	
-	dvec[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
-	  - R_pow(v, *alpha);
-	  
-      }
+      //Case 4: x1 > threshold1 & x2 > threshold2
+      
+      //Compute the negative partial derivative with
+      //respect to the first component
+      nv1 = R_pow(z1[i], -1/ *alpha - 1) * 
+	R_pow(v, *alpha - 1);
+      
+      //the log negative K1 constant of Ledford [1996]
+      nK1 = log(*lambda1) - log(*scale1) + 
+	(1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
+	1 / z1[i];
+      
+      //Compute the negative partial derivative with
+      //respect to the second component
+      nv2 = R_pow(z2[i], -1/ *alpha - 1) * 
+	R_pow(v, *alpha - 1);
+      
+      //the log negative K2 constant of Ledford [1996]
+      nK2 = log(*lambda2) - log(*scale2) + 
+	(1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
+	1 / z2[i];
+      
+      //Compute the partial mixed derivative	
+      v12 = (1 - 1 / *alpha) * R_pow(z1[i]*z2[i],
+				     -1/ *alpha - 1) *
+	R_pow(v, *alpha  - 2);
+      
+      dvec[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
+	- R_pow(v, *alpha);
+      
     }
   }
       
   for (i=0;i<*nn;i++){
     *dns = *dns + dvec[i];
   }
-
+  
   //Now add the censored contribution to loglikelihood
   if (*nn != *n){
     *lambda1 = - 1 / log(1 - *lambda1);
@@ -343,95 +303,86 @@ void gpdbvalog(double *data1, double *data2, int *n, int *nn,
       R_pow(R_pow(*asCoef1 / z1[i], 1 / *alpha) + 
 	    R_pow(*asCoef2 / z2[i], 1 / *alpha), *alpha);
       
-    if (data1[i] == 0){
+    if ((data1[i] == 0) && (data2[i] > 0)){
 
-      if(data2[i] == 0){
-	//Case 1: x1 <= threshold1 & x2 <= threshold2
-	dvec[i] = log(v);
-      }
-
-      else{
-	//Case 2: x1 <= threshold1 & x2 > threshold2
+      //Case 2: x1 <= threshold1 & x2 > threshold2
       
-	//Compute the negative partial derivative with
-	//respect to the second component
-	nv2 = (1 - *asCoef2) / R_pow_di(z2[i], 2) +
-	  R_pow(*asCoef2, 1/ *alpha) *
-	  R_pow(z2[i], -1/ *alpha - 1) *
-	  R_pow(R_pow(*asCoef1 / z1[i], 1/ *alpha) + 
-		R_pow(*asCoef2 / z2[i], 1/ *alpha), *alpha - 1);
-	//the log negative K2 constant of Ledford [1996]
-	nK2 = log(*lambda2) - log(*scale2) + 
-	  (1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
-	  1 / z2[i];
+      //Compute the negative partial derivative with
+      //respect to the second component
+      nv2 = (1 - *asCoef2) / R_pow_di(z2[i], 2) +
+	R_pow(*asCoef2, 1/ *alpha) *
+	R_pow(z2[i], -1/ *alpha - 1) *
+	R_pow(R_pow(*asCoef1 / z1[i], 1/ *alpha) + 
+	      R_pow(*asCoef2 / z2[i], 1/ *alpha), *alpha - 1);
+      //the log negative K2 constant of Ledford [1996]
+      nK2 = log(*lambda2) - log(*scale2) + 
+	(1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
+	1 / z2[i];
       
-	dvec[i] = log(nv2) + nK2 - v;
+      dvec[i] = log(nv2) + nK2 - v;
      	
-      }
+    }
+    
+    if ((data1[i] > 0) && (data2[i] == 0)){
+
+      //Case 3: x1 > threshold1 & x2 <= threshold2
+      
+      //Compute the negative partial derivative with
+      //respect to the first component
+      nv1 = (1 - *asCoef1) / R_pow_di(z1[i], 2) +
+	R_pow(*asCoef1, 1/ *alpha) * 
+	R_pow(z1[i], -1/ *alpha - 1) *
+	R_pow(R_pow(*asCoef1 / z1[i], 1/ *alpha) + 
+	      R_pow(*asCoef2 / z2[i], 1/ *alpha), *alpha - 1);
+      
+      //the log negative K1 constant of Ledford [1996]
+      nK1 = log(*lambda1) - log(*scale1) + 
+	(1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
+	1 / z1[i];
+      
+      dvec[i] = log(nv1) + nK1 - v;
+      
     }
 
-    else{
+    if ((data1[i] * data2[i]) > 0){
+      //Case 4: x1 > threshold1 & x2 > threshold2
       
-      if (data2[i] == 0){
-	//Case 3: x1 > threshold1 & x2 <= threshold2
-	
-	//Compute the negative partial derivative with
-	//respect to the first component
-	nv1 = (1 - *asCoef1) / R_pow_di(z1[i], 2) +
-	  R_pow(*asCoef1, 1/ *alpha) * 
-	  R_pow(z1[i], -1/ *alpha - 1) *
-	  R_pow(R_pow(*asCoef1 / z1[i], 1/ *alpha) + 
-		R_pow(*asCoef2 / z2[i], 1/ *alpha), *alpha - 1);
-	
-	//the log negative K1 constant of Ledford [1996]
-	nK1 = log(*lambda1) - log(*scale1) + 
-	  (1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
-	  1 / z1[i];
-	
-	dvec[i] = log(nv1) + nK1 - v;
-	
-      }
-
-      else{
-	//Case 4: x1 > threshold1 & x2 > threshold2
-	
-	//Compute the negative partial derivative with
-	//respect to the first component
-	nv1 = (1 - *asCoef1) / R_pow_di(z1[i], 2) +
-	  R_pow(*asCoef1, 1/ *alpha) * 
-	  R_pow(z1[i], -1/ *alpha - 1) *
-	  R_pow(R_pow(*asCoef1 / z1[i], 1/ *alpha) + 
-		R_pow(*asCoef2 / z2[i], 1/ *alpha), *alpha - 1);
-	//the log negative K1 constant of Ledford [1996]
-	nK1 = log(*lambda1) - log(*scale1) + 
-	  (1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
-	  1 / z1[i];
-	
-	//Compute the negative partial derivative with
-	//respect to the second component
-	nv2 = (1 - *asCoef2) / R_pow_di(z2[i], 2) +
-	  R_pow(*asCoef2, 1/ *alpha) *
+      //Compute the negative partial derivative with
+      //respect to the first component
+      nv1 = (1 - *asCoef1) / R_pow_di(z1[i], 2) +
+	R_pow(*asCoef1, 1/ *alpha) * 
+	R_pow(z1[i], -1/ *alpha - 1) *
+	R_pow(R_pow(*asCoef1 / z1[i], 1/ *alpha) + 
+	      R_pow(*asCoef2 / z2[i], 1/ *alpha), *alpha - 1);
+      //the log negative K1 constant of Ledford [1996]
+      nK1 = log(*lambda1) - log(*scale1) + 
+	(1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
+	1 / z1[i];
+      
+      //Compute the negative partial derivative with
+      //respect to the second component
+      nv2 = (1 - *asCoef2) / R_pow_di(z2[i], 2) +
+	R_pow(*asCoef2, 1/ *alpha) *
 	  R_pow(z2[i], -1/ *alpha - 1) *
-	  R_pow(R_pow(*asCoef1 / z1[i], 1/ *alpha) + 
-		R_pow(*asCoef2 / z2[i], 1/ *alpha), *alpha - 1);
+	R_pow(R_pow(*asCoef1 / z1[i], 1/ *alpha) + 
+	      R_pow(*asCoef2 / z2[i], 1/ *alpha), *alpha - 1);
 	
-	//the log negative K2 constant of Ledford [1996]
-	nK2 = log(*lambda2) - log(*scale2) + 
-	  (1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
-	  1 / z2[i];
-	
-	//Compute the partial mixed derivative	
-	v12 = (1 - 1/ *alpha) * R_pow(*asCoef1 * *asCoef2, 1/ *alpha) *
-	  R_pow(z1[i]*z2[i], -1/ *alpha - 1) *
-	  R_pow(R_pow(*asCoef1 / z1[i], 1/ *alpha) + 
-		R_pow(*asCoef2 / z2[i], 1/ *alpha), *alpha - 2);
-	
-	dvec[i] = nK1 + nK2 + log(nv1 * nv2 - v12) - v;
-	  
-      }
+      //the log negative K2 constant of Ledford [1996]
+      nK2 = log(*lambda2) - log(*scale2) + 
+	(1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
+	1 / z2[i];
+      
+      //Compute the partial mixed derivative	
+      v12 = (1 - 1/ *alpha) * R_pow(*asCoef1 * *asCoef2, 1/ *alpha) *
+	R_pow(z1[i]*z2[i], -1/ *alpha - 1) *
+	R_pow(R_pow(*asCoef1 / z1[i], 1/ *alpha) + 
+	      R_pow(*asCoef2 / z2[i], 1/ *alpha), *alpha - 2);
+      
+      dvec[i] = nK1 + nK2 + log(nv1 * nv2 - v12) - v;
+      
     }
   }
-      
+        
   for (i=0;i<*nn;i++)
     *dns = *dns + dvec[i];
 
@@ -556,89 +507,81 @@ void gpdbvnlog(double *data1, double *data2, int *n, int *nn,
       R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
 	    - 1 / *alpha);
       
-    if (data1[i] == 0){
+    if ((data1[i] == 0) && (data2[i] > 0)){
 
-      if(data2[i] == 0){
-	//Case 1: x1 <= threshold1 & x2 <= threshold2
-	dvec[i] = log(v);
-      }
-
-      else{
-	//Case 2: x1 <= threshold1 & x2 > threshold2
+      //Case 2: x1 <= threshold1 & x2 > threshold2
       
-	//Compute the negative partial derivative with
-	//respect to the second component
-	nv2 = R_pow_di(z2[i], -2) - R_pow(z2[i], *alpha -1) *
-	  R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
-		-1 / *alpha - 1);
+      //Compute the negative partial derivative with
+      //respect to the second component
+      nv2 = R_pow_di(z2[i], -2) - R_pow(z2[i], *alpha -1) *
+	R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
+	      -1 / *alpha - 1);
+      
+      //the log negative K2 constant of Ledford [1996]
+      nK2 = log(*lambda2) - log(*scale2) + 
+	(1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
+	1 / z2[i];
+      
+      dvec[i] = log(nv2) + nK2 - v;
+      
+    }
+    
+    if ((data1[i] > 0) && (data2[i] == 0)){
+
+      //Case 3: x1 > threshold1 & x2 <= threshold2
 	
-	//the log negative K2 constant of Ledford [1996]
-	nK2 = log(*lambda2) - log(*scale2) + 
-	  (1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
-	  1 / z2[i];
+      //Compute the negative partial derivative with
+      //respect to the first component
+      nv1 = R_pow_di(z1[i], -2) - R_pow(z1[i], *alpha -1) *
+	R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
+	      -1 / *alpha - 1);
       
-	dvec[i] = log(nv2) + nK2 - v;
-     	
-      }
+      //the log negative K1 constant of Ledford [1996]
+      nK1 = log(*lambda1) - log(*scale1) + 
+	(1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
+	1 / z1[i];
+      
+      dvec[i] = log(nv1) + nK1 - v;
+      
     }
 
-    else{
-      
-      if (data2[i] == 0){
-	//Case 3: x1 > threshold1 & x2 <= threshold2
-	
-	//Compute the negative partial derivative with
-	//respect to the first component
-	nv1 = R_pow_di(z1[i], -2) - R_pow(z1[i], *alpha -1) *
-	  R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
-		-1 / *alpha - 1);
-	
-	//the log negative K1 constant of Ledford [1996]
-	nK1 = log(*lambda1) - log(*scale1) + 
-	  (1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
-	  1 / z1[i];
-	
-	dvec[i] = log(nv1) + nK1 - v;
-	
-      }
+    if ((data1[i] * data2[i]) > 0){
 
-      else{
-	//Case 4: x1 > threshold1 & x2 > threshold2
-	
-	//Compute the negative partial derivative with
-	//respect to the first component
-	nv1 = R_pow_di(z1[i], -2) - R_pow(z1[i], *alpha -1) *
-	  R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
-		-1 / *alpha - 1);
-	
-	//the log negative K1 constant of Ledford [1996]
-	nK1 = log(*lambda1) - log(*scale1) + 
-	  (1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
-	  1 / z1[i];
-	
-	//Compute the negative partial derivative with
-	//respect to the second component
-	nv2 = R_pow_di(z2[i], -2) - R_pow(z2[i], *alpha -1) *
-	  R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
-		-1 / *alpha - 1);
-	
-	//the log negative K2 constant of Ledford [1996]
-	nK2 = log(*lambda2) - log(*scale2) + 
-	  (1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
+      //Case 4: x1 > threshold1 & x2 > threshold2
+      
+      //Compute the negative partial derivative with
+      //respect to the first component
+      nv1 = R_pow_di(z1[i], -2) - R_pow(z1[i], *alpha -1) *
+	R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
+	      -1 / *alpha - 1);
+      
+      //the log negative K1 constant of Ledford [1996]
+      nK1 = log(*lambda1) - log(*scale1) + 
+	(1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
+	1 / z1[i];
+      
+      //Compute the negative partial derivative with
+      //respect to the second component
+      nv2 = R_pow_di(z2[i], -2) - R_pow(z2[i], *alpha -1) *
+	R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
+	      -1 / *alpha - 1);
+      
+      //the log negative K2 constant of Ledford [1996]
+      nK2 = log(*lambda2) - log(*scale2) + 
+	(1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
 	  1 / z2[i];
-	
+      
 	//Compute the partial mixed derivative	
-	v12 = -(*alpha + 1) * R_pow(z1[i] * z2[i], *alpha - 1) *
-	  R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
+      v12 = -(*alpha + 1) * R_pow(z1[i] * z2[i], *alpha - 1) *
+	R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
 		- 1 / *alpha - 2);
-	
-	dvec[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
-	  - v;
-	  
-      }
+      
+      dvec[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
+	- v;
+      
     }
   }
-      
+        
   for (i=0;i<*nn;i++)
     *dns = *dns + dvec[i];
 
@@ -763,95 +706,87 @@ void gpdbvanlog(double *data1, double *data2, int *n, int *nn,
       R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
 	    R_pow(z2[i] / *asCoef2, *alpha), - 1 / *alpha);
       
-    if (data1[i] == 0){
+    if ((data1[i] == 0) && (data2[i] > 0)){
 
-      if(data2[i] == 0){
-	//Case 1: x1 <= threshold1 & x2 <= threshold2
-	dvec[i] = log(v);
-      }
-
-      else{
-	//Case 2: x1 <= threshold1 & x2 > threshold2
+      //Case 2: x1 <= threshold1 & x2 > threshold2
       
-	//Compute the negative partial derivative with
-	//respect to the second component
-	nv2 = R_pow_di(z2[i], -2) - R_pow(*asCoef2, - *alpha) *
-	  R_pow(z2[i], *alpha -1) *
-	  R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
-		R_pow(z2[i] / *asCoef2, *alpha),
-		-1 / *alpha - 1);
-	
-	//the log negative K2 constant of Ledford [1996]
-	nK2 = log(*lambda2) - log(*scale2) + 
-	  (1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
-	  1 / z2[i];
+      //Compute the negative partial derivative with
+      //respect to the second component
+      nv2 = R_pow_di(z2[i], -2) - R_pow(*asCoef2, - *alpha) *
+	R_pow(z2[i], *alpha -1) *
+	R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
+	      R_pow(z2[i] / *asCoef2, *alpha),
+	      -1 / *alpha - 1);
       
-	dvec[i] = log(nv2) + nK2 - v;
+      //the log negative K2 constant of Ledford [1996]
+      nK2 = log(*lambda2) - log(*scale2) + 
+	(1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
+	1 / z2[i];
+      
+      dvec[i] = log(nv2) + nK2 - v;
      	
-      }
     }
+  
+    if ((data1[i]>0) && (data2[i] == 0)){
 
-    else{
+      //Case 3: x1 > threshold1 & x2 <= threshold2
       
-      if (data2[i] == 0){
-	//Case 3: x1 > threshold1 & x2 <= threshold2
-	
-	//Compute the negative partial derivative with
-	//respect to the first component
-	nv1 = R_pow_di(z1[i], -2) - R_pow(*asCoef1, - *alpha) *
-	  R_pow(z1[i], *alpha -1) *
-	  R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
-		R_pow(z2[i] / *asCoef2, *alpha),
-		-1 / *alpha - 1);
-	
-	//the log negative K1 constant of Ledford [1996]
-	nK1 = log(*lambda1) - log(*scale1) + 
-	  (1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
-	  1 / z1[i];
-	
-	dvec[i] = log(nv1) + nK1 - v;
-	
-      }
+      //Compute the negative partial derivative with
+      //respect to the first component
+      nv1 = R_pow_di(z1[i], -2) - R_pow(*asCoef1, - *alpha) *
+	R_pow(z1[i], *alpha -1) *
+	R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
+	      R_pow(z2[i] / *asCoef2, *alpha),
+	      -1 / *alpha - 1);
+      
+      //the log negative K1 constant of Ledford [1996]
+      nK1 = log(*lambda1) - log(*scale1) + 
+	(1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
+	1 / z1[i];
+      
+      dvec[i] = log(nv1) + nK1 - v;
+      
+    }
+    
+    if ((data1[i] * data2[i]) > 0){
 
-      else{
-	//Case 4: x1 > threshold1 & x2 > threshold2
-	
-	//Compute the negative partial derivative with
-	//respect to the first component
-	nv1 = R_pow_di(z1[i], -2) - R_pow(*asCoef1, - *alpha) *
-	  R_pow(z1[i], *alpha -1) *
-	  R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
-		R_pow(z2[i] / *asCoef2, *alpha),
-		-1 / *alpha - 1);
-		
-	//the log negative K1 constant of Ledford [1996]
-	nK1 = log(*lambda1) - log(*scale1) + 
-	  (1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
-	  1 / z1[i];
-	
-	//Compute the negative partial derivative with
-	//respect to the second component
-	nv2 = R_pow_di(z2[i], -2) - R_pow(*asCoef2, - *alpha) *
-	  R_pow(z2[i], *alpha -1) *
-	  R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
-		R_pow(z2[i] / *asCoef2, *alpha),
-		-1 / *alpha - 1);
-		
-	//the log negative K2 constant of Ledford [1996]
-	nK2 = log(*lambda2) - log(*scale2) + 
-	  (1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
-	  1 / z2[i];
-	
-	//Compute the partial mixed derivative	
-	v12 = -(*alpha + 1) * R_pow(*asCoef1 * *asCoef2, - *alpha) *
-	  R_pow(z1[i] * z2[i], *alpha - 1) *
-	  R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
-		R_pow(z2[i] / *asCoef2, *alpha), - 1 / *alpha - 2);
-	
-	dvec[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
-	  - v;
-	  
-      }
+      //Case 4: x1 > threshold1 & x2 > threshold2
+      
+      //Compute the negative partial derivative with
+      //respect to the first component
+      nv1 = R_pow_di(z1[i], -2) - R_pow(*asCoef1, - *alpha) *
+	R_pow(z1[i], *alpha -1) *
+	R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
+	      R_pow(z2[i] / *asCoef2, *alpha),
+	      -1 / *alpha - 1);
+      
+      //the log negative K1 constant of Ledford [1996]
+      nK1 = log(*lambda1) - log(*scale1) + 
+	(1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
+	1 / z1[i];
+      
+      //Compute the negative partial derivative with
+      //respect to the second component
+      nv2 = R_pow_di(z2[i], -2) - R_pow(*asCoef2, - *alpha) *
+	R_pow(z2[i], *alpha -1) *
+	R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
+	      R_pow(z2[i] / *asCoef2, *alpha),
+	      -1 / *alpha - 1);
+      
+      //the log negative K2 constant of Ledford [1996]
+      nK2 = log(*lambda2) - log(*scale2) + 
+	(1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
+	1 / z2[i];
+      
+      //Compute the partial mixed derivative	
+      v12 = -(*alpha + 1) * R_pow(*asCoef1 * *asCoef2, - *alpha) *
+	R_pow(z1[i] * z2[i], *alpha - 1) *
+	R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
+	      R_pow(z2[i] / *asCoef2, *alpha), - 1 / *alpha - 2);
+      
+      dvec[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
+	- v;
+      
     }
   }
       
@@ -978,80 +913,72 @@ void gpdbvmix(double *data1, double *data2, int *n, int *nn,
     v = R_pow_di(z1[i], - 1) + R_pow_di(z2[i], - 1) -
       *alpha / (z1[i] + z2[i]);
       
-    if (data1[i] == 0){
+    if ((data1[i] == 0) && (data2[i] > 0)){
 
-      if(data2[i] == 0){
-	//Case 1: x1 <= threshold1 & x2 <= threshold2
-	dvec[i] = log(v);
-      }
-
-      else{
-	//Case 2: x1 <= threshold1 & x2 > threshold2
+      //Case 2: x1 <= threshold1 & x2 > threshold2
       
-	//Compute the negative partial derivative with
-	//respect to the second component
-	nv2 = R_pow_di(z2[i], -2) - *alpha * 
-	  R_pow_di(z1[i] + z2[i], -2);
-	
-	//the log negative K2 constant of Ledford [1996]
-	nK2 = log(*lambda2) - log(*scale2) + 
-	  (1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
-	  1 / z2[i];
+      //Compute the negative partial derivative with
+      //respect to the second component
+      nv2 = R_pow_di(z2[i], -2) - *alpha * 
+	R_pow_di(z1[i] + z2[i], -2);
       
-	dvec[i] = log(nv2) + nK2 - v;
-     	
-      }
+      //the log negative K2 constant of Ledford [1996]
+      nK2 = log(*lambda2) - log(*scale2) + 
+	(1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
+	1 / z2[i];
+      
+      dvec[i] = log(nv2) + nK2 - v;
+      
     }
-
-    else{
+  
+    if ((data1[i] > 0) && (data2[i] == 0)){
       
-      if (data2[i] == 0){
-	//Case 3: x1 > threshold1 & x2 <= threshold2
+      //Case 3: x1 > threshold1 & x2 <= threshold2
+      
+      //Compute the negative partial derivative with
+      //respect to the first component
+      nv1 = R_pow_di(z1[i], -2) - *alpha * 
+	R_pow_di(z1[i] + z2[i], -2);
+      
+      //the log negative K1 constant of Ledford [1996]
+      nK1 = log(*lambda1) - log(*scale1) + 
+	(1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
+	1 / z1[i];
 	
-	//Compute the negative partial derivative with
-	//respect to the first component
-	nv1 = R_pow_di(z1[i], -2) - *alpha * 
-	  R_pow_di(z1[i] + z2[i], -2);
-	
-	//the log negative K1 constant of Ledford [1996]
-	nK1 = log(*lambda1) - log(*scale1) + 
-	  (1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
-	  1 / z1[i];
-	
-	dvec[i] = log(nv1) + nK1 - v;
-	
-      }
-
-      else{
-	//Case 4: x1 > threshold1 & x2 > threshold2
-	
-	//Compute the negative partial derivative with
-	//respect to the first component
-	nv1 = R_pow_di(z1[i], -2) - *alpha * 
-	  R_pow_di(z1[i] + z2[i], -2);
-	
-	//the log negative K1 constant of Ledford [1996]
-	nK1 = log(*lambda1) - log(*scale1) + 
-	  (1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
-	  1 / z1[i];
-	
-	//Compute the negative partial derivative with
-	//respect to the second component
-	nv2 = R_pow_di(z2[i], -2) - *alpha * 
-	  R_pow_di(z1[i] + z2[i], -2);
-	
-	//the log negative K2 constant of Ledford [1996]
-	nK2 = log(*lambda2) - log(*scale2) + 
-	  (1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
-	  1 / z2[i];
-	
-	//Compute the partial mixed derivative	
-	v12 = -2 * *alpha * R_pow_di(z1[i] + z2[i], -3);
-	
-	dvec[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
-	  - v;
-	  
-      }
+      dvec[i] = log(nv1) + nK1 - v;
+      
+    }
+    
+    if ((data1[i] * data2[i]) > 0){
+      
+      //Case 4: x1 > threshold1 & x2 > threshold2
+      
+      //Compute the negative partial derivative with
+      //respect to the first component
+      nv1 = R_pow_di(z1[i], -2) - *alpha * 
+	R_pow_di(z1[i] + z2[i], -2);
+      
+      //the log negative K1 constant of Ledford [1996]
+      nK1 = log(*lambda1) - log(*scale1) + 
+	(1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
+	1 / z1[i];
+      
+      //Compute the negative partial derivative with
+      //respect to the second component
+      nv2 = R_pow_di(z2[i], -2) - *alpha * 
+	R_pow_di(z1[i] + z2[i], -2);
+      
+      //the log negative K2 constant of Ledford [1996]
+      nK2 = log(*lambda2) - log(*scale2) + 
+	(1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
+	1 / z2[i];
+      
+      //Compute the partial mixed derivative	
+      v12 = -2 * *alpha * R_pow_di(z1[i] + z2[i], -3);
+      
+      dvec[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
+	- v;
+      
     }
   }
       
@@ -1180,91 +1107,83 @@ void gpdbvamix(double *data1, double *data2, int *n, int *nn,
 	  z2[i]) / R_pow_di(z1[i] + z2[i], 2);
     v = 1/z1[i] + 1/z2[i] - c1;
       
-    if (data1[i] == 0){
+    if ((data1[i] == 0) && (data2[i] > 0)){
 
-      if(data2[i] == 0){
-	//Case 1: x1 <= threshold1 & x2 <= threshold2
-	dvec[i] = log(v);
-      }
-
-      else{
-	//Case 2: x1 <= threshold1 & x2 > threshold2
+      //Case 2: x1 <= threshold1 & x2 > threshold2
       
-	//Compute the negative partial derivative with
-	//respect to the second component
-	nv2 = R_pow_di(z2[i], -2) + (*alpha + 2 * *asCoef) / 
-	  R_pow_di(z1[i] + z2[i], 2) - 2 * c1 /
-	  (z1[i] + z2[i]);
-	
-	//the log negative K2 constant of Ledford [1996]
-	nK2 = log(*lambda2) - log(*scale2) + 
-	  (1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
-	  1 / z2[i];
+      //Compute the negative partial derivative with
+      //respect to the second component
+      nv2 = R_pow_di(z2[i], -2) + (*alpha + 2 * *asCoef) / 
+	R_pow_di(z1[i] + z2[i], 2) - 2 * c1 /
+	(z1[i] + z2[i]);
       
-	dvec[i] = log(nv2) + nK2 - v;
-     	
-      }
+      //the log negative K2 constant of Ledford [1996]
+      nK2 = log(*lambda2) - log(*scale2) + 
+	(1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
+	1 / z2[i];
+      
+      dvec[i] = log(nv2) + nK2 - v;
+      
     }
+  
+    if ((data1[i] > 0) && (data2[i] == 0)){
 
-    else{
+      //Case 3: x1 > threshold1 & x2 <= threshold2
       
-      if (data2[i] == 0){
-	//Case 3: x1 > threshold1 & x2 <= threshold2
-	
-	//Compute the negative partial derivative with
-	//respect to the first component
-	nv1 = R_pow_di(z1[i], -2) + (*alpha + *asCoef) / 
-	  R_pow_di(z1[i] + z2[i], 2) - 2 * c1 /
-	  (z1[i] + z2[i]);
-	
-	//the log negative K1 constant of Ledford [1996]
-	nK1 = log(*lambda1) - log(*scale1) + 
-	  (1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
-	  1 / z1[i];
-	
-	dvec[i] = log(nv1) + nK1 - v;
-	
-      }
+      //Compute the negative partial derivative with
+      //respect to the first component
+      nv1 = R_pow_di(z1[i], -2) + (*alpha + *asCoef) / 
+	R_pow_di(z1[i] + z2[i], 2) - 2 * c1 /
+	(z1[i] + z2[i]);
+      
+      //the log negative K1 constant of Ledford [1996]
+      nK1 = log(*lambda1) - log(*scale1) + 
+	(1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
+	1 / z1[i];
+      
+      dvec[i] = log(nv1) + nK1 - v;
+      
+    }
+    
+    if ((data1[i] * data2[i]) > 0){
 
-      else{
-	//Case 4: x1 > threshold1 & x2 > threshold2
-	
-	//Compute the negative partial derivative with
-	//respect to the first component
-	nv1 = R_pow_di(z1[i], -2) + (*alpha + *asCoef) / 
-	  R_pow_di(z1[i] + z2[i], 2) - 2 * c1 /
-	  (z1[i] + z2[i]);
-	
-	//the log negative K1 constant of Ledford [1996]
-	nK1 = log(*lambda1) - log(*scale1) + 
-	  (1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
-	  1 / z1[i];
-	
-	//Compute the negative partial derivative with
-	//respect to the second component
-	nv2 = R_pow_di(z2[i], -2) + (*alpha + 2 * *asCoef) / 
-	  R_pow_di(z1[i] + z2[i], 2) - 2 * c1 /
-	  (z1[i] + z2[i]);
-	
-	//the log negative K2 constant of Ledford [1996]
-	nK2 = log(*lambda2) - log(*scale2) + 
-	  (1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
-	  1 / z2[i];
-	
-	//Compute the partial mixed derivative	
-	v12 = (4 * *alpha + 6 * *asCoef) / 
-	  R_pow_di(z1[i] + z2[i], 3) - 6 * c1 /
-	  R_pow_di(z1[i] + z2[i], 2);
-		
-	dvec[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
-	  - v;
-      }
+      //Case 4: x1 > threshold1 & x2 > threshold2
+      
+      //Compute the negative partial derivative with
+      //respect to the first component
+      nv1 = R_pow_di(z1[i], -2) + (*alpha + *asCoef) / 
+	R_pow_di(z1[i] + z2[i], 2) - 2 * c1 /
+	(z1[i] + z2[i]);
+      
+      //the log negative K1 constant of Ledford [1996]
+      nK1 = log(*lambda1) - log(*scale1) + 
+	(1 + *shape1) * log(t1[i]) + 2 * log(z1[i]) +
+	1 / z1[i];
+      
+      //Compute the negative partial derivative with
+      //respect to the second component
+      nv2 = R_pow_di(z2[i], -2) + (*alpha + 2 * *asCoef) / 
+	R_pow_di(z1[i] + z2[i], 2) - 2 * c1 /
+	(z1[i] + z2[i]);
+      
+      //the log negative K2 constant of Ledford [1996]
+      nK2 = log(*lambda2) - log(*scale2) + 
+	(1 + *shape2) * log(t2[i]) + 2 * log(z2[i]) +
+	1 / z2[i];
+      
+      //Compute the partial mixed derivative	
+      v12 = (4 * *alpha + 6 * *asCoef) / 
+	R_pow_di(z1[i] + z2[i], 3) - 6 * c1 /
+	R_pow_di(z1[i] + z2[i], 2);
+      
+      dvec[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
+	- v;
     }
   }
-      
+  
   for (i=0;i<*nn;i++)
     *dns = *dns + dvec[i];
-
+  
   //Now add the censored contribution to loglikelihood
   if (*nn != *n){
     *lambda1 = - 1 / log(1 - *lambda1);

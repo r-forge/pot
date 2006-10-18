@@ -1,15 +1,16 @@
 \name{pickdep}
 \alias{pickdep}
-\title{The Pickands' dependence function}
+\title{The Pickands' Dependence Function}
 \description{
   Return and optionnaly plot the Pickands' dependence function.
 }
 \usage{
-pickdep(fitted, bound = TRUE, plot = TRUE, \dots)
+pickdep(fitted, main, bound = TRUE, plot = TRUE, \dots)
 }
 \arguments{
   \item{fitted}{A object of class \code{bvpot}. Usually, \code{fitted}
     is the return of function \code{\link{fitbvgpd}}.}
+  \item{main}{May be missing. If present, the plot title.}
   \item{bound}{Logical. Should the perfect dependent and independent
     case bounds be plotted?}
   \item{plot}{Logical. Should the dependence function be plotted?}
