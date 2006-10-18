@@ -1,4 +1,4 @@
-\name{Time series Manipulation}
+\name{ts2tsd}
 \alias{ts2tsd}
 \title{Mobile Window on a Time Serie}
 \description{
@@ -32,7 +32,7 @@ ts2tsd(ts, d, vol = FALSE, method = "linear")
   \deqn{vol(t) = \int_{t-d/2}^{t+d/2} f(u)du}{vol(t) =
     \int_{t-d/2}^{t+d/2} f(u)du}
   while average values are:
-  \deqn{ave(t) = \frac{1}{d}\int_{t-d/2}^{t+d/2} f(u)du}{vol(t) = 1/d
+  \deqn{ave(t) = \frac{1}{d}\int_{t-d/2}^{t+d/2} f(u)du}{ave(t) = 1/d
     \int_{t-d/2}^{t+d/2} f(u)du}
 }
 \section{Warnings}{

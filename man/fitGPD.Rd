@@ -1,12 +1,12 @@
 \name{Fit the GP Distribution}
 \alias{fitgpd}
 
-\title{Fitting a POT model through a GP distribution}
+\title{Fitting a GPD to Peaks Over a Threshold}
 \description{Maximum Likelihood, Unbiased Probability Weigthed Moments,
   Biased Probability Weighted Moments and Moments Estimator to fit Peaks
   Over a Threshold to a GP distribution.}
 
-\usage{fitgpd(data, threshold, method, \dots)}
+\usage{fitgpd(data, threshold, method = "mle", \dots)}
 \arguments{
   \item{data}{A numeric vector.}
   \item{threshold}{A numeric value giving the threshold for the
@@ -15,17 +15,17 @@
   thresholds are used cyclically if length doesn't match with
   \code{data}.}
   \item{method}{A string giving the names of the estimator. It can be
-    \code{'mle'}, \code{'moments'}, \code{'pwmu'}, \code{'pwmb'},
-    \code{'mdpd'}, \code{'med'} and \code{'pickands'} for the maximum
-    likelihood, moments, unbiased probability weighted moments, biased
-    probability weigthed moments, minimum density power divergence,
-    medians and pickands' estimators respectively.}
+    \code{'mle'} (the default), \code{'moments'}, \code{'pwmu'},
+    \code{'pwmb'}, \code{'mdpd'}, \code{'med'} and \code{'pickands'} for
+    the maximum likelihood, moments, unbiased probability weighted
+    moments, biased probability weigthed moments, minimum density power
+    divergence, medians and pickands' estimators respectively.}
   \item{\dots}{Other optional arguments to be passed to the
     \code{\link{optim}} function and allow hand fixed parameters.}
 }
 \value{
   This function returns a list with  composants:
-  \item{estimate}{A vector containing the maximum likelihood estimates.}
+  \item{fitted.values}{A vector containing the maximum likelihood estimates.}
   \item{std.err}{A vector containing the standard errors.}
   \item{fixed}{A vector containing the parameters of the model that
     have been held fixed.}
@@ -35,7 +35,6 @@
   \item{convergence, counts, message}{Components taken from the
     list returned by \code{\link{optim}} - for the \code{mle} method.}
   \item{threshold}{The threshold passed to argument \code{threshold}.}
-  \item{nhigh}{The number of exceedences.}
   \item{nat, pat}{The number and proportion of exceedences.}
   \item{data}{The data passed to the argument \code{data}.}
   \item{exceedances}{The exceedences, or the maxima of the clusters
