@@ -43,7 +43,7 @@ gpd.fishape(fitted)
 readline("Press ENTER to continue")
 par(mfrow=c(1,1), ask = TRUE)
 cat("The same can also be obtained for return levels...")
-mu <-  fitted$nhigh / diff(range(date))
+mu <-  fitted$nat / diff(range(date))
 rp2prob(10, 2)
 gpd.pfrl(fitted, 0.95, range=c(14, 35),
          main="95% Profile C.I. for the 10-year return level, npy = 1.5")
