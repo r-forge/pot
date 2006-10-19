@@ -19,6 +19,11 @@ void clust(int *n, double *obs, double *tim, double *cond,
 	if (obs[idx] >= obs[idxMax])
 	  idxMax = idx;
 	idx++;
+
+	if (idx >= *n){
+	  idx--;
+	  break;
+	}
       }
       
       clust[i+1] = idx;
