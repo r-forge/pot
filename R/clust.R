@@ -13,11 +13,11 @@ clust <- function (data, u, tim.cond = 1, clust.max = FALSE, plot = FALSE,
     obs[is.na(obs)] <- -1e+06
   }
   
-  n <- length(obs)
+  n <- as.integer(length(obs))
   
   if (all(obs <= u)) 
     stop("No data above the threshold !!!")
-  clust <- .C("clust", as.integer(n), as.double(obs),
+  clust <- .C("clust", n, as.double(obs),
               as.double(tim), as.double(tim.cond), 
               as.double(u), clust = double(2 * n),
               PACKAGE = "POT")$clust
