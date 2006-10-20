@@ -48,6 +48,9 @@ gpd.pfshape <- function(fitted, range, xlab, ylab,
   exceed<- fitted$exceedances
   threshold <- fitted$threshold
   nat <- fitted$nat
+
+  if (!fitted$var.thresh)
+    threshold <- rep(threshold, nat)
   
   ## First define a function who compute the profile log-likelihood
   ## for the shape parameter.
@@ -115,6 +118,9 @@ gpd.pfscale <- function(fitted, range, xlab, ylab,
   exceed<- fitted$exceedances
   threshold <- fitted$threshold
   nat <- fitted$nat
+
+  if (!fitted$var.thresh)
+    threshold <- rep(threshold, nat)
   
   ## First define a function who compute the profile log-likelihood
   ## for the scale parameter.
@@ -185,6 +191,9 @@ gpd.pfrl <- function(fitted, prob, range, thresh, xlab, ylab,
   scale.fit <- fitted$scale
   shape.fit <- fitted$param[2]
 
+  if (!fitted$var.thresh)
+    threshold <- rep(threshold, nat)
+  
   if (fitted$var.thresh & missing(thresh))
     stop("You must specify a particular threshold ``thresh'' when ``fitted'' has a varying threshold")
   

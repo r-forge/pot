@@ -515,8 +515,8 @@ gpdmle <- function(x, threshold, start, ...,
        var.cov = var.cov, fixed = unlist(fixed.param), param = param,
        deviance = 2*opt$value, corr = corr.mat, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
-       nat = nat, pat = pat, data = x, exceedances = exceed,
-       scale = scale, var.thresh = var.thresh, type = "MLE")
+       nat = nat, pat = pat, data = x, exceedances = exceed, scale = scale,
+       var.thresh = var.thresh, type = "MLE", logLik = -opt$value)
 }
 
 ##Medians estimation for the GPD ( Peng, L. and Welsh, A. (2002) )
