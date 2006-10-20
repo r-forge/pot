@@ -98,7 +98,7 @@ bvretlev <- function(fitted, p = seq(0.75,0.95,0.05), main,
     stop("``fitted'' should be an object of class ``bvpot''.")
 
   if (missing(main))
-    main <- "Pickands' dependence function"
+    main <- "Bivariate Return Level Plot"
 
   w <- c(0, seq(0,1, length.out = n), 1)
   ##The Pickands' dependence function
