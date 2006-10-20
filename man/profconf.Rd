@@ -48,10 +48,10 @@ gpd.pfrl(fitted, prob, range, thresh, xlab, ylab, conf = 0.95, nrang =
 data(ardieres)
 events <- clust(ardieres, u = 4, tim.cond = 8 / 365,
 clust.max = TRUE)
-fitted <- fitgpd(events[, "obs"], 4, 'mle')
-gpd.pfshape(fitted, c(0, 0.8))
+MLE <- fitgpd(events[, "obs"], 4, 'mle')
+gpd.pfshape(MLE, c(0, 0.8))
 rp2prob(10, 2)
-gpd.pfrl(fitted, 0.95, c(12, 25))
+gpd.pfrl(MLE, 0.95, c(12, 25))
 }
 \author{Mathieu Ribatet}
 \keyword{htest}
