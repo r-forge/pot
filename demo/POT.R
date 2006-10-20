@@ -53,4 +53,4 @@ plot(ardieres, ylab = expression(paste("Flood Discharge  ",m^3/s, sep="")),
      xlab = "Years", main = "River Ardières at Beaujeu")
 abline( h = 6, lty = 2)
 par(mfrow=c(2,2))
-plotgpd(fitted, mu)
+plot(fitted, mu)
