@@ -1,15 +1,15 @@
-\name{bvretlev}
-\alias{bvretlev}
-\title{Return level plot for a bivariate extreme value distribution}
+\name{retlev.bvpot}
+\alias{retlev.bvpot}
+\title{Return Level Plot for a Bivariate Extreme Value Distribution}
 \description{
   Plot return levels for a fitted bivariate extreme value distribution.
 }
 \usage{
-bvretlev(fitted, p = seq(0.75,0.95,0.05), main, n = 5000, only.excess =
-FALSE, \dots)
+\method{retlev}{bvpot}(fitted, p = seq(0.75,0.95,0.05), main, n = 5000,
+only.excess = FALSE, \dots)
 }
 \arguments{
-  \item{fitted}{An object of class \code{"bvppt"}. Most often, the
+  \item{fitted}{An object of class \code{"bvpot"}. Most often, the
     return object of the \code{\link{fitbvgpd}} function.}
   \item{p}{A vector of probabilities for which return levels must be
     drawn.}
@@ -51,7 +51,7 @@ FALSE, \dots)
 x <- rgpd(1000, 0, 1, 0.25)
 y <- 3 + x + rnorm(1000)
 Mlog <- fitbvgpd(cbind(x, y), c(0, 1), "log")
-bvretlev(Mlog)
+retlev(Mlog)
 }
 \author{Mathieu Ribatet}
 \keyword{hplot}
