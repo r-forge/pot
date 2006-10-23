@@ -1,7 +1,8 @@
 ## This file contains several functions to plot Peaks Over a Threshold.
 
-retlev.gpd <- function(fitted, npy, main, xlab,
-                   ylab, xlimsup, ci = TRUE, points = TRUE, ...){
+retlev.uvpot <- function(fitted, npy, main, xlab,
+                         ylab, xlimsup, ci = TRUE, points = TRUE,
+                         ...){
   ## Plot the return level plot of a POT model fitted
   ## Input : ``fitted'' is a POT fitted model, result of function
   ##         ``fitgpd''
@@ -26,6 +27,10 @@ retlev.gpd <- function(fitted, npy, main, xlab,
 
   eps <- 10^(-3)
 
+  if (missing(npy)){
+    warning("Argument ``npy'' is missing. Setting it to 1.")
+    npy <- 1
+  }
   if (missing(main)) main <- 'Return Level Plot'
   if (missing(xlab)) xlab <- 'Return Period (Years)'
   if (missing(ylab)) ylab <- 'Return Level'
@@ -53,8 +58,8 @@ retlev.gpd <- function(fitted, npy, main, xlab,
 }
 
 
-qq.gpd <- function(fitted, main, xlab,
-                   ylab, ci = TRUE,...){
+qq.uvpot <- function(fitted, main, xlab,
+                     ylab, ci = TRUE,...){
 
   if (fitted$var.thresh)
     stop("Return Level plot is available only for constant threshold !")
@@ -89,8 +94,8 @@ qq.gpd <- function(fitted, main, xlab,
 
 }
 
-pp.gpd <- function(fitted, main, xlab,
-                   ylab, ci = TRUE,...){
+pp.uvpot <- function(fitted, main, xlab,
+                     ylab, ci = TRUE,...){
 
   if (fitted$var.thresh)
     stop("Return Level plot is available only for constant threshold !")
@@ -125,9 +130,9 @@ pp.gpd <- function(fitted, main, xlab,
 }
     
 
-dens.gpd <- function(fitted, main, xlab, ylab,
-                     dens.adj = 1, kern.lty = 2,
-                     rug = TRUE, ...){
+dens.uvpot <- function(fitted, main, xlab, ylab,
+                       dens.adj = 1, kern.lty = 2,
+                       rug = TRUE, ...){
 
   if (fitted$var.thresh)
     stop("Return Level plot is available only for constant threshold !")
@@ -181,16 +186,16 @@ plot.uvpot <- function(x, npy, main, which = 1:4,
     on.exit(par(op))
   }
   if (show[1]) {
-    pp.gpd(x, ci = ci, main, xlim = c(0, 1), ylim = c(0, 
-                                                    1), ...)
+    pp.uvpot(x, ci = ci, main, xlim = c(0, 1), ylim = c(0, 1),
+             ...)
   }
   if (show[2]) {
-    qq.gpd(x, ci = ci, main, ...)
+    qq.uvpot(x, ci = ci, main, ...)
   }
   if (show[3]) {
-    dens.gpd(x, main, ...)
+    dens.uvpot(x, main, ...)
   }
   if (show[4]) {
-    retlev.gpd(x, npy, main, ...)
+    retlev.uvpot(x, npy, main, ...)
   }
 }
