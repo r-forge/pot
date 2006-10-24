@@ -80,6 +80,11 @@ specdens <- function(fitted, main, plot = TRUE, ...){
 
   if (plot){
     eps <- .Machine$double.eps^0.5
+
+    ##For the logisitic model h is infinite near 0 and 1 thus,
+    if (model == "log")
+      eps <- 0.01
+    
     if (missing(main))
       main <- "Spectral Density"
 
