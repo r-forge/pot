@@ -4,7 +4,7 @@
   Extreme Value Distributions}
 \description{
   Fitting a bivariate extreme value distribution to bivariate
-  exceedences over thresholds using censored maximum likelihood
+  exceedances over thresholds using censored maximum likelihood
   procedure. 
 }
 \usage{
@@ -34,10 +34,10 @@ method = "BFGS")
   \item{corr}{Logical. Should the correlation matrix be computed?}
   \item{warn.inf}{Logical. Should users be warned if likelihood is not
     finite at starting values?}
-  \item{method}{The optimisation method, see \code{\link{optim}}.}
+  \item{method}{The optimization method, see \code{\link{optim}}.}
 }
 \details{
-  The bivariate exceedences are fitted using censored likelihood
+  The bivariate exceedances are fitted using censored likelihood
   procedure. This methodology is fully described in Ledford (1996).
 
   Most of models are described in Kluppelberg (2006).

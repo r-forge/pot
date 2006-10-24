@@ -30,7 +30,7 @@ ci = TRUE, points = TRUE, \dots)
 }
 \details{
   The return level plot consists of plotting the theoretical quantiles
-  in function of the return period (with a logaritmic scale for the
+  in function of the return period (with a logarithmic scale for the
   x-axis). For the definition of the return period see the
   \code{\link{prob2rp}} function. Thus, the return level plot consists
   of plotting the points defined by:

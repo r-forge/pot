@@ -15,7 +15,7 @@ kern.lty = 2, rug = TRUE, \dots)
     ``Density Plot''.}
   \item{xlab,ylab}{The labels for the x and y axis. If missing, they are
     set to ``Quantile'' and ``Density'' respectively.}
-  \item{dens.adj}{Numeric. The adjustement for the kernel density
+  \item{dens.adj}{Numeric. The adjustment for the kernel density
     estimation in the \code{\link{density}} function. The default is 1.}
   \item{kern.lty}{The line type for the kernel density estimation. This
     corresponds to the \code{``lty''} option of the \code{\link{lines}}

@@ -1,6 +1,6 @@
 \name{retlev.bvpot}
 \alias{retlev.bvpot}
-\title{Return Level Plot for a Bivariate Extreme Value Distribution}
+\title{Return Level Plot: Bivariate Case}
 \description{
   Plot return levels for a fitted bivariate extreme value distribution.
 }
@@ -48,9 +48,8 @@ only.excess = FALSE, \dots)
   \code{\link{fitbvgpd}}, \code{\link{plot}}
 }
 \examples{
-x <- rgpd(1000, 0, 1, 0.25)
-y <- 3 + x + rnorm(1000)
-Mlog <- fitbvgpd(cbind(x, y), c(0, 1), "log")
+x <- rbvgpd(1000, alpha = 0.25, mar1 = c(0, 1, 0.25))
+Mlog <- fitbvgpd(x, c(0, 0), "log")
 retlev(Mlog)
 }
 \author{Mathieu Ribatet}

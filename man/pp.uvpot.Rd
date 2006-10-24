@@ -27,7 +27,7 @@
   probabilities in function of the empirical model ones. The theoretical
   probabilities are computed from the fitted GPD, while the empirical
   ones are computing from a particular plotting position estimator. This
-  plotting positition estimator is suited for the GPD case (Hosking,
+  plotting position estimator is suited for the GPD case (Hosking,
   1995) and are defined by:
 
   \deqn{p_{j:n} = \frac{j - 0.35}{n}}{p_{j:n} = (j - 0.35) / n}

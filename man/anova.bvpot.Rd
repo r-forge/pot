@@ -1,6 +1,6 @@
 \name{anova.bvpot}
 \alias{anova.bvpot}
-\title{Anova Tables}
+\title{Anova Tables: Bivariate Case}
 \description{
   Computes analysis of deviance for ``bvpot'' object 
 }
@@ -12,7 +12,7 @@
     \code{\link{fitbvgpd}} function.}
   \item{\dots}{Other options to be passed to the \code{\link{anova}}
     function.}
-  \item{half}{Logical. For some non-regular tesing problems the deviance
+  \item{half}{Logical. For some non-regular testing problems the deviance
     difference is known to be one half of a chi-squared random
     variable. Set half to \code{TRUE} in these cases.}
 }

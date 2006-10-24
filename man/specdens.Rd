@@ -1,9 +1,9 @@
 \name{specdens}
 \alias{specdens}
-\title{Spectral Density Plot for a Bivariate Extreme Value
-  Distribution}
+\title{Spectral Density Plot}
 \description{
   Plot the spectral density for a bivariate extreme value distribution
+  or an extreme Markov chain model. 
 }
 \usage{
 specdens(fitted, main, plot = TRUE, \dots)
@@ -48,6 +48,7 @@ specdens(fitted, main, plot = TRUE, \dots)
   \code{\link{plot.bvpot}}
 }
 \examples{
+par(mfrow=c(1,2))
 ##Spectral density for a Markov Model
 mc <- simmc(1000, alpha = 0.25, model = "log")
 mc <- qgpd(mc, 0, 1, 0.1)

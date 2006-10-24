@@ -1,6 +1,6 @@
 \name{anova.uvpot}
 \alias{anova.uvpot}
-\title{Anova Tables}
+\title{Anova Tables: Univariate Case}
 \description{
   Computes analysis of deviance for ``uvpot'' object 
 }
