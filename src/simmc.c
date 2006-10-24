@@ -82,7 +82,7 @@ void rbvlog(int *n, double *dep, double *sim)
   }
 }
 
-/* produces uniform margins; needed for evmc */
+/* produces uniform margins; needed for simmc */
 void rbvalog(int *n, double *dep, double *asy, double *sim)
 {
   double delta,eps,llim,midpt,ulim,ilen,lval,midval,uval;
