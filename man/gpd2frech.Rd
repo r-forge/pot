@@ -1,14 +1,16 @@
 \name{gpd2frech}
 \alias{gpd2frech}
-\title{Transform GPD observations to Unit Frechet ones}
+\alias{frech2gpd}
+\title{Transforms GPD Observations to Unit Frechet Ones and Vice Versa}
 \description{
-  Transform GPD observations to Unit Frechet ones
+  Transforms GPD observations to unit Frechet ones and vice versa
 }
 \usage{
 gpd2frech(x, loc = 0, scale = 1, shape = 0, pat = 1)
+frech2gpd(z, loc = 0, scale = 1, shape = 0, pat = 1)
 }
 \arguments{
-  \item{x}{The vector of observations.}
+  \item{x,z}{The vector of observations.}
   \item{loc,scale,shape}{The location, scale and shape parameters
     respectively.}
   \item{pat}{The proportion above the threshold, i.e. Pr[X > log] =
@@ -28,7 +30,9 @@ gpd2frech(x, loc = 0, scale = 1, shape = 0, pat = 1)
 }
 \examples{
 x <- rgpd(10, 0, 1, 0.25)
-gpd2frech(x, 0, 1, 0.25)
+z <- gpd2frech(x, 0, 1, 0.25)
+z
+all(frech2gpd(z, 0, 1, 0.25) == x)
 }
 \author{Mathieu Ribatet}
 \keyword{manip}
