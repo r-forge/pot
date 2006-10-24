@@ -6,6 +6,18 @@
 \alias{gpdpickands}
 \alias{gpdmdpd}
 \alias{gpdmed}
+\alias{rbvlog}
+\alias{rbvalog}
+\alias{rbvnlog}
+\alias{rbvanlog}
+\alias{rbvmix}
+\alias{rbvamix}
+\alias{pbvlog}
+\alias{pbvalog}
+\alias{pbvnlog}
+\alias{pbvanlog}
+\alias{pbvmix}
+\alias{pbvamix}
 
 \title{Internal functions and methods for the POT package.}
 \description{A set of functions that should not be used directly by the
