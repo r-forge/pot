@@ -228,7 +228,7 @@ retlev.bvpot <- function(fitted, p = seq(0.75,0.95,0.05), main,
   
   plot(data1, data2, main = main, ...)
   lines(y1, y2)
-
+  
   ##Add the marginal threshold axis
   abline(v = fitted$threshold[1])
   abline(h = fitted$threshold[2])
