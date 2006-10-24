@@ -13,7 +13,7 @@ retlev.uvpot <- function(fitted, npy, main, xlab,
   if (fitted$var.thresh)
     stop("Return Level plot is available only for constant threshold !")
   
-  data <- fitted$exceedances
+  data <- fitted$exceed
   loc <- fitted$threshold[1]
   scale <- fitted$param["scale"]
   shape <- fitted$param["shape"]
@@ -46,8 +46,8 @@ retlev.uvpot <- function(fitted, npy, main, xlab,
 
   if (ci){
     p_emp <- (1:n - .35 ) / n
-    samp <- rgpd(999*n, loc, scale, shape)
-    samp <- matrix(samp, n, 999)
+    samp <- rgpd(1000*n, loc, scale, shape)
+    samp <- matrix(samp, n, 1000)
     samp <- apply(samp, 2, sort)
     samp <- apply(samp, 1, sort)
     ci_inf <- samp[25,]
@@ -64,7 +64,7 @@ qq.uvpot <- function(fitted, main, xlab,
   if (fitted$var.thresh)
     stop("Return Level plot is available only for constant threshold !")
   
-  data <- fitted$exceedances
+  data <- fitted$exceed
   loc <- fitted$threshold[1]
   scale <- fitted$param["scale"]
   shape <- fitted$param["shape"]
@@ -82,8 +82,8 @@ qq.uvpot <- function(fitted, main, xlab,
 
   if (ci){
     p_emp <- 1:n / (n+1)
-    samp <- rgpd(999*n, loc, scale, shape)
-    samp <- matrix(samp, n, 999)
+    samp <- rgpd(1000*n, loc, scale, shape)
+    samp <- matrix(samp, n, 1000)
     samp <- apply(samp, 2, sort)
     samp <- apply(samp, 1, sort)
     ci_inf <- samp[25,]
@@ -100,7 +100,7 @@ pp.uvpot <- function(fitted, main, xlab,
   if (fitted$var.thresh)
     stop("Return Level plot is available only for constant threshold !")
   
-  data <- fitted$exceedances
+  data <- fitted$exceed
   loc <- fitted$threshold[1]
   scale <- fitted$param["scale"]
   shape <- fitted$param["shape"]
@@ -118,8 +118,8 @@ pp.uvpot <- function(fitted, main, xlab,
 
   if (ci){
     p_emp <- 1:n / (n+1)
-    samp <- rgpd(999*n, loc, scale, shape)
-    samp <- matrix(samp, n, 999)
+    samp <- rgpd(1000*n, loc, scale, shape)
+    samp <- matrix(samp, n, 1000)
     samp <- apply(samp, 2, sort)
     samp <- apply(samp, 1, sort)
     ci_inf <- pgpd(samp[25,], loc, scale, shape)
@@ -137,7 +137,7 @@ dens.uvpot <- function(fitted, main, xlab, ylab,
   if (fitted$var.thresh)
     stop("Return Level plot is available only for constant threshold !")
   
-  data <- fitted$exceedances
+  data <- fitted$exceed
   loc <- fitted$threshold[1]
 
   if (length(unique(loc)) != 1)
