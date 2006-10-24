@@ -31,11 +31,11 @@ anova.uvpot <- function(object, object2, ...){
     }
   }
 
-  models <- c(model1, model0)
-  Dev <- c(M1$deviance, M0$deviance)
-  diffDev <- diff(Dev)
-  MDf <- c(length(fitted(M1)), length(fitted(M0)))
-  Df <- -diff(MDf)
+  models <- c(model0, model1)
+  Dev <- c(M0$deviance, M1$deviance)
+  diffDev <- -diff(Dev)
+  MDf <- c(length(fitted(M0)), length(fitted(M1)))
+  Df <- diff(MDf)
 
   pvalue <- pchisq(diffDev, Df, lower.tail = FALSE)
 
@@ -79,12 +79,12 @@ anova.bvpot <- function(object, object2, ..., half = FALSE){
       (paste("a", depFam0, sep="") == depFam1) ||
       (paste("a", depFam1, sep="") == depFam0)){
 
-    models <- c(model1, model0)
-    Dev <- c(M1$deviance, M0$deviance)
-    diffDev <- diff(Dev)
+    models <- c(model0, model1)
+    Dev <- c(M0$deviance, M1$deviance)
+    diffDev <- -diff(Dev)
     if (half) diffDev <- 2 * diffDev
-    MDf <- c(length(fitted(M1)), length(fitted(M0)))
-    Df <- -diff(MDf)
+    MDf <- c(length(fitted(M0)), length(fitted(M1)))
+    Df <- diff(MDf)
     
     pvalue <- pchisq(diffDev, Df, lower.tail = FALSE)
     
