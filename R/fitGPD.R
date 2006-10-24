@@ -59,7 +59,7 @@ gpdpickands <- function(data, threshold, ...){
   return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = message, threshold = threshold,
               nat = nat, pat = pat, convergence = convergence,
-              corr = corr, counts = counts, exceedances = exceed,
+              corr = corr, counts = counts, exceed = exceed,
               scale = scale, var.thresh = var.thresh, type = "pickands"))
 }
 
@@ -121,7 +121,7 @@ for standard error may not be fullfilled !'
   return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = message, threshold = threshold,
               nat = nat, pat = pat, convergence = convergence,
-              corr= corr, counts = counts, exceedances = exceed,
+              corr= corr, counts = counts, exceed = exceed,
               scale=scale, var.thresh = var.thresh, type = "moments"))
 }
 
@@ -193,7 +193,7 @@ gpdpwmb <- function(data, threshold, a=0.35, b=0, ...){
   return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = type, threshold = threshold,
               corr = corr, convergence = convergence, counts = counts,
-              nat = nat, pat = pat, exceedances = exceed,
+              nat = nat, pat = pat, exceed = exceed,
               scale=scale, var.thresh = var.thresh, type = type))
 }
 
@@ -273,7 +273,7 @@ for standard error may not be fullfilled !"
   return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = message, threshold = threshold,
               corr = corr, convergence = convergence, counts = counts,
-              nat = nat, pat = pat, exceedances = exceed,
+              nat = nat, pat = pat, exceed = exceed,
               scale=scale, var.thresh = var.thresh, type = "PWMU"))
 }
 
@@ -357,7 +357,7 @@ gpdmdpd <- function(x, threshold, a, start, ...,
        var.cov = var.cov, fixed = NULL, param = param,
        deviance = NULL, corr = corr, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
-       nat = nat, pat = pat, data = x, exceedances = exceed,
+       nat = nat, pat = pat, data = x, exceed = exceed,
        scale = scale, var.thresh = var.thresh, type = "MDPD")
 }
 
@@ -515,7 +515,7 @@ gpdmle <- function(x, threshold, start, ...,
        var.cov = var.cov, fixed = unlist(fixed.param), param = param,
        deviance = 2*opt$value, corr = corr.mat, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
-       nat = nat, pat = pat, data = x, exceedances = exceed, scale = scale,
+       nat = nat, pat = pat, data = x, exceed = exceed, scale = scale,
        var.thresh = var.thresh, type = "MLE", logLik = -opt$value)
 }
 
@@ -619,7 +619,7 @@ gpdmed <- function(x, threshold, start, ..., tol = 10^-3, maxit = 500,
        var.cov = var.cov, fixed = NULL, param = param,
        deviance = NULL, corr = corr, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
-       nat = nat, pat = pat, data = x, exceedances = exceed,
+       nat = nat, pat = pat, data = x, exceed = exceed,
        scale = scale, var.thresh = var.thresh, type = "MEDIANS")
   
 }
