@@ -9,7 +9,7 @@
 }
 \usage{
 fitbvgpd(data, threshold, model = "log", start, ..., cscale = FALSE,
-cshape = FALSE, obs.fish = TRUE, corr = FALSE, warn.inf = TRUE,
+cshape = FALSE, std.err.type = "observed", corr = FALSE, warn.inf = TRUE,
 method = "BFGS")
 }
 \arguments{
@@ -29,8 +29,10 @@ method = "BFGS")
     particular, parameter of the model can be hand fixed.}
   \item{cscale}{Logical. Should the two scale parameters be equal?}
   \item{cshape}{Logical. Should the two shape parameters be equal?}
-  \item{obs.fish}{Logical. Should standard errors and asymptotic
-    variance covariance matrix be computed?}
+  \item{std.err.type}{The type of the standard error. Currently, one
+    must specify \code{``observed''} for observed Fisher information
+    matrix or \code{``none''} for no computations of the standard
+    errors.}
   \item{corr}{Logical. Should the correlation matrix be computed?}
   \item{warn.inf}{Logical. Should users be warned if likelihood is not
     finite at starting values?}

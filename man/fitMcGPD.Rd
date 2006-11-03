@@ -7,8 +7,8 @@
   procedure.
 }
 \usage{
-fitmcgpd(data, threshold, model = "log", start, \dots, obs.fish = TRUE,
-corr = FALSE, warn.inf = TRUE, method = "BFGS")
+fitmcgpd(data, threshold, model = "log", start, \dots, std.err.type =
+"observed", corr = FALSE, warn.inf = TRUE, method = "BFGS")
 }
 \arguments{
   \item{data}{A vector of observations.}
@@ -23,8 +23,10 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
   \item{\dots}{Additional parameters to be passed to the
     \code{\link{optim}} function or to the bivariate model. In
     particular, parameter of the model can be hand fixed.}
-  \item{obs.fish}{Logical. Should standard errors and asymptotic
-    variance covariance matrix be computed?}
+  \item{std.err.type}{The type of the standard error. Currently, one
+    must specify \code{``observed''} for observed Fisher information
+    matrix or \code{``none''} for no computations of the standard
+    errors.}
   \item{corr}{Logical. Should the correlation matrix be computed?}
   \item{warn.inf}{Logical. Should users be warned if likelihood is not
     finite at starting values?}

@@ -1,7 +1,10 @@
 fitmcgpd <- function (data, threshold, model = "log", start, ...,
-                      obs.fish = TRUE, corr = FALSE,
+                      std.err.type = "observed", corr = FALSE,
                       warn.inf = TRUE, method = "BFGS"){
 
+  if (all(c("observed", "none") != std.err.type))
+    stop("``std.err.type'' must be one of ``observed'' or ``none''")
+  
   data <- as.double(data)
   
   if (all(data<=threshold))
@@ -52,7 +55,7 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   ##model (if needed) that is MLE estimates on marginal data
   if (missing(start)){
     start <- list(scale = 0, shape = 0)
-    temp <- gpdmle(data, threshold)$param
+    temp <- gpdmle(data, threshold, std.err.type = "none")$param
     names(temp) <- NULL
     start$scale <- temp[1]
     start$shape <- temp[2]
@@ -98,7 +101,8 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
       jllk <- nlbvpot(scale, shape, alpha)
       mjllk <- nlcpot(scale, shape)
       
-      if ( (jllk == 1e6) || (mjllk == 1e6))
+      if ( (jllk == 1e6) || (mjllk == 1e6) || is.na(jllk) ||
+          is.na(mjllk))
         return(1e6)
       
       return(jllk - mjllk)
@@ -115,7 +119,8 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
       jllk <- nlbvpot(scale, shape, alpha)
       mjllk <- nlcpot(scale, shape)
       
-      if ( (jllk == 1e6) || (mjllk == 1e6))
+      if ( (jllk == 1e6) || (mjllk == 1e6) || is.na(jllk) ||
+          is.na(mjllk))
         return(1e6)
       
       return(jllk - mjllk)
@@ -133,7 +138,8 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
       jllk <- nlbvpot(scale, shape, alpha, asCoef1, asCoef2)
       mjllk <- nlcpot(scale, shape)
        
-      if ( (jllk == 1e6) || (mjllk == 1e6))
+      if ( (jllk == 1e6) || (mjllk == 1e6) || is.na(jllk) ||
+          is.na(mjllk))
         return(1e6)
       
       return(jllk - mjllk)
@@ -150,7 +156,8 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
       jllk <- nlbvpot(scale, shape, alpha, asCoef1, asCoef2)
       mjllk <- nlcpot(scale, shape)
       
-      if ( (jllk == 1e6) || (mjllk == 1e6))
+      if ( (jllk == 1e6) || (mjllk == 1e6) || is.na(jllk) ||
+          is.na(mjllk))
         return(1e6)
       
       return(jllk - mjllk)
@@ -166,7 +173,8 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
       jllk <- nlbvpot(scale, shape, alpha)
       mjllk <- nlcpot(scale, shape)
       
-      if ( (jllk == 1e6) || (mjllk == 1e6))
+      if ( (jllk == 1e6) || (mjllk == 1e6) || is.na(jllk) ||
+          is.na(mjllk))
         return(1e6)
       
       return(jllk - mjllk)
@@ -183,7 +191,8 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
       jllk <- nlbvpot(scale, shape, alpha, asCoef)
       mjllk <- nlcpot(scale, shape)
       
-      if ( (jllk == 1e6) || (mjllk == 1e6))
+      if ( (jllk == 1e6) || (mjllk == 1e6) || is.na(jllk) ||
+          is.na(mjllk))
         return(1e6)
       
       return(jllk - mjllk)
@@ -232,22 +241,22 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
 
   tol <- .Machine$double.eps^0.5
 
-  if(obs.fish) {
+  if(std.err.type == "observed") {
     
     var.cov <- qr(opt$hessian, tol = tol)
     if(var.cov$rank != ncol(var.cov$qr)){
       warning("observed information matrix is singular.")
-      obs.fish <- FALSE
+      std.err.type <- "none"
       return
     }
     
-    if (obs.fish){
+    if (std.err.type == "observed"){
       var.cov <- solve(var.cov, tol = tol)
       
       std.err <- diag(var.cov)
       if(any(std.err <= 0)){
         warning("observed information matrix is singular.")
-        obs.fish <- FALSE
+        std.err.type <- "none"
       }
 
       else{
@@ -268,10 +277,10 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
         names(std.err) <- nm
       }
     }
-
-    if(!obs.fish)
-      std.err <- corr.mat <- var.cov <- NULL
   }
+
+  if(std.err.type == "none")
+    std.err <- corr.mat <- var.cov <- NULL
   
   param <- c(opt$par, unlist(fixed.param))
   
