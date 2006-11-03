@@ -26,7 +26,8 @@ ci = TRUE, points = TRUE, \dots)
     function.}
 }
 \value{
-  A graphical window.
+  A graphical window. In addition, it returns invisibly the return level
+  function.
 }
 \details{
   The return level plot consists of plotting the theoretical quantiles
@@ -56,7 +57,8 @@ ci = TRUE, points = TRUE, \dots)
 \examples{
 x <- rgpd(75, 1, 2, 0.1)
 pwmu <- fitgpd(x, 1, "pwmu")
-retlev(pwmu)
+rl.fun <- retlev(pwmu)
+rl.fun(100)
 }
 \references{
   Hosking, J. R. M. and Wallis, J. R. (1995). A comparison of unbiased

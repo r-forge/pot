@@ -55,6 +55,8 @@ retlev.uvpot <- function(fitted, npy, main, xlab,
     lines( 1 / ( npy * (1 - p_emp) ), ci_inf, lty = 2)
     lines( 1 / ( npy * (1 - p_emp) ), ci_sup, lty = 2)
   }
+
+  invisible(pot.fun)
 }
 
 
