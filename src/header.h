@@ -76,3 +76,26 @@ double ccbvanlog(double m1, double m2, double oldm1, double dep,
 double ccbvmix(double m1, double m2, double oldm1, double alpha);
 double ccbvamix(double m1, double m2, double oldm1, double alpha,
 		double beta);
+
+//From mcgpdlik.c
+void gpdmclog(double *data1, double *data2, double *data3, int *nj,
+	      int *nnj, int *nm, int *nnm, double *lambda, double *thresh,
+	      double *scale, double *shape, double *alpha, double *dns);
+void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
+	      int *nnj, int *nm, int *nnm, double *lambda, double *thresh,
+	       double *scale, double *shape, double *alpha, double *asCoef1,
+	       double *asCoef2, double *dns);
+void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
+	      int *nnj, int *nm, int *nnm, double *lambda, double *thresh,
+	       double *scale, double *shape, double *alpha, double *dns);
+void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
+		int *nnj, int *nm, int *nnm, double *lambda, double *thresh,
+		double *scale, double *shape, double *alpha, double *asCoef1,
+		double *asCoef2, double *dns);
+void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
+	      int *nnj, int *nm, int *nnm, double *lambda, double *thresh,
+	      double *scale, double *shape, double *alpha, double *dns);
+void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
+	       int *nnj, int *nm, int *nnm, double *lambda, double *thresh,
+	       double *scale, double *shape, double *alpha, double *asCoef,
+	       double *dns);
