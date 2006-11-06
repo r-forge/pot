@@ -8,7 +8,8 @@ diplot(data, u.range, main, xlab, ylab, conf=0.95, \dots)
 }
 \arguments{
   \item{data}{A matrix with two column. The first one represents the
-    date of events and the second the data associated with those dates.}
+    date of events (in a numeric format) and the second the data
+    associated with those dates.}
   \item{u.range}{A numeric vector of length two giving the limit of
     threshold analyzed. If missing, default values are taken.}
   \item{main}{The title of the plot.}
