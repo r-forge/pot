@@ -5,15 +5,17 @@
   Return level plot for Markov chain POT models. 
 }
 \usage{
-\method{retlev}{mcpot}(fitted, opy, exi, main, xlab, ylab, xlimsup,
+\method{retlev}{mcpot}(fitted, opy, npy, exi, main, xlab, ylab, xlimsup,
 \dots)
 }
 \arguments{
   \item{fitted}{A object of class \code{``uvpot''}. Most often, the
     return of the \code{\link{fitgpd}} function.}
   \item{opy}{The number of \bold{O}bservations \bold{P}er \bold{Y}ear (or
-    more generally per block). If missing, it is setted it to 365 i.e. daily
+    more generally per block). If missing, it is set it to 365 i.e. daily
     values with a warning.}
+  \item{npy}{The mean \bold{N}umber of events \bold{P}er \bold{Y}ear (or
+    more generally per block). If missing, it is set it to 1.}
   \item{exi}{Numeric. The extremal index. If missing, an estimate is
     given using the \code{\link{fitexi}} function.}
   \item{main}{The title of the graphic. If missing, the title is set to
