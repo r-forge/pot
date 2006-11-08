@@ -37,7 +37,7 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   
   data3 <- data[2:(n-1)]
   idx3 <- data3 > threshold
-  data3 <- data3[idx3]
+  exceed3 <- data3[idx3]
   nat3 <- as.integer(sum(idx3))
   pat3 <- nat3 / (n - 2)
   
@@ -83,138 +83,72 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   if (!length(start)) 
     stop("there are no parameters left to maximize over")
 
-  ##The marginal censored likelihood
-  nlcpot <- function(scale, shape)
-    -.C("cgpdlik", data3, as.integer(n - 2), as.integer(nat3),
-        pat3, threshold, scale, shape, dns = double(1),
-        PACKAGE = "POT")$dns
-  
   ##Creating suited negative log-likelihood according to the
   ##specified model
   if (model == "log"){
-    nlbvpot <- function(scale, shape, alpha)
-      -.C("gpdbvlog", data1, data2, as.integer(n-1),
-          as.integer(nn), pat1, pat2, c(threshold, threshold),
-          scale, shape, scale, shape, alpha, dns = double(1),
-          PACKAGE = "POT")$dns
-    nllh.temp <- function(scale, shape, alpha){
-      jllk <- nlbvpot(scale, shape, alpha)
-      mjllk <- nlcpot(scale, shape)
-      
-      if ( (jllk == 1e6) || (mjllk == 1e6) || is.na(jllk) ||
-          is.na(mjllk))
-        return(1e6)
-      
-      return(jllk - mjllk)
-    }
-  }
-  
-  if (model == "nlog"){
-    nlbvpot <- function(scale, shape, alpha)
-      -.C("gpdbvnlog", data1, data2, as.integer(n-1),
-          as.integer(nn), pat1, pat2, c(threshold, threshold),
-          scale, shape, scale, shape, alpha, dns = double(1),
-          PACKAGE = "POT")$dns
-    nllh.temp <- function(scale, shape, alpha){
-      jllk <- nlbvpot(scale, shape, alpha)
-      mjllk <- nlcpot(scale, shape)
-      
-      if ( (jllk == 1e6) || (mjllk == 1e6) || is.na(jllk) ||
-          is.na(mjllk))
-        return(1e6)
-      
-      return(jllk - mjllk)
-    }
+    nlpot <- function(scale, shape, alpha)
+    -.C("gpdmclog", data1, data2, exceed3, as.integer(n-1),
+        as.integer(nn), as.integer(n-2), as.integer(nat3),
+        pat3, threshold, scale, shape, alpha,
+        dns = double(1), PACKAGE = "POT")$dns
   }
   
   if (model == "alog"){
-    nlbvpot <- function(scale, shape, alpha, asCoef1, asCoef2)
-      -.C("gpdbvalog", data1, data2, as.integer(n-1),
-          as.integer(nn), pat1, pat2, c(threshold, threshold),
-          scale, shape, scale, shape, alpha, asCoef1, asCoef2,
-          dns = double(1), PACKAGE = "POT")$dns
+    nlpot <- function(scale, shape, alpha, asCoef1, asCoef2)
+    -.C("gpdmcalog", data1, data2, exceed3, as.integer(n-1),
+        as.integer(nn), as.integer(n-2), as.integer(nat3),
+        pat3, threshold, scale, shape, alpha, asCoef1,
+        asCoef2, dns = double(1), PACKAGE = "POT")$dns
     param <- c(param, "asCoef1", "asCoef2")
-    nllh.temp <- function(scale, shape, alpha, asCoef1, asCoef2){
-      jllk <- nlbvpot(scale, shape, alpha, asCoef1, asCoef2)
-      mjllk <- nlcpot(scale, shape)
-       
-      if ( (jllk == 1e6) || (mjllk == 1e6) || is.na(jllk) ||
-          is.na(mjllk))
-        return(1e6)
-      
-      return(jllk - mjllk)
-    }
+  }
+  
+  if (model == "nlog"){
+   nlpot <- function(scale, shape, alpha)
+    -.C("gpdmcnlog", data1, data2, exceed3, as.integer(n-1),
+        as.integer(nn), as.integer(n-2), as.integer(nat3),
+        pat3, threshold, scale, shape, alpha,
+        dns = double(1), PACKAGE = "POT")$dns
   }
   if (model == "anlog"){
-    nlbvpot <- function(scale, shape, alpha, asCoef1, asCoef2)
-      -.C("gpdbvanlog", data1, data2, as.integer(n),
-          as.integer(nn), pat1, pat2, c(threshold, threshold),
-          scale, shape, scale, shape, alpha, asCoef1, asCoef2,
-          dns = double(1), PACKAGE = "POT")$dns
+    nlpot <- function(scale, shape, alpha, asCoef1, asCoef2)
+    -.C("gpdmcanlog", data1, data2, exceed3, as.integer(n-1),
+        as.integer(nn), as.integer(n-2), as.integer(nat3),
+        pat3, threshold, scale, shape, alpha, asCoef1,
+        asCoef2, dns = double(1), PACKAGE = "POT")$dns
     param <- c(param, "asCoef1", "asCoef2")
-    nllh.temp <- function(scale, shape, alpha, asCoef1, asCoef2){
-      jllk <- nlbvpot(scale, shape, alpha, asCoef1, asCoef2)
-      mjllk <- nlcpot(scale, shape)
-      
-      if ( (jllk == 1e6) || (mjllk == 1e6) || is.na(jllk) ||
-          is.na(mjllk))
-        return(1e6)
-      
-      return(jllk - mjllk)
-    }
   }
   if (model == "mix"){
-    nlbvpot <- function(scale, shape, alpha)
-      -.C("gpdbvmix", data1, data2, as.integer(n-1),
-          as.integer(nn), pat1, pat2, c(threshold, threshold),
-          scale, shape, scale, shape, alpha, dns = double(1),
-          PACKAGE = "POT")$dns
-    nllh.temp <- function(scale, shape, alpha){
-      jllk <- nlbvpot(scale, shape, alpha)
-      mjllk <- nlcpot(scale, shape)
-      
-      if ( (jllk == 1e6) || (mjllk == 1e6) || is.na(jllk) ||
-          is.na(mjllk))
-        return(1e6)
-      
-      return(jllk - mjllk)
-    }
+    nlpot <- function(scale, shape, alpha)
+    -.C("gpdmcmix", data1, data2, exceed3, as.integer(n-1),
+        as.integer(nn), as.integer(n-2), as.integer(nat3),
+        pat3, threshold, scale, shape, alpha,
+        dns = double(1), PACKAGE = "POT")$dns
   }  
   if (model == "amix"){
-    nlbvpot <- function(scale, shape, alpha, asCoef)
-      -.C("gpdbvamix", data1, data2, as.integer(n-1),
-          as.integer(nn), pat1, pat2, c(threshold, threshold),
-          scale, shape, scale, shape, alpha, asCoef,
-          dns = double(1), PACKAGE = "POT")$dns
+    nlpot <- function(scale, shape, alpha, asCoef)
+    -.C("gpdmcamix", data1, data2, exceed3, as.integer(n-1),
+        as.integer(nn), as.integer(n-2), as.integer(nat3),
+        pat3, threshold, scale, shape, alpha, asCoef,
+        dns = double(1), PACKAGE = "POT")$dns
     param <- c(param, "asCoef")
-    nllh.temp <- function(scale, shape, alpha, asCoef){
-      jllk <- nlbvpot(scale, shape, alpha, asCoef)
-      mjllk <- nlcpot(scale, shape)
-      
-      if ( (jllk == 1e6) || (mjllk == 1e6) || is.na(jllk) ||
-          is.na(mjllk))
-        return(1e6)
-      
-      return(jllk - mjllk)
-    }
   }    
 
   nm <- names(start)
   l <- length(nm)
-  f <- formals(nlbvpot)
+  f <- formals(nlpot)
   names(f) <- param
   m <- match(nm, param)
   
   if (any(is.na(m))) 
     stop("`start' specifies unknown arguments")
   
-  formals(nlbvpot) <- c(f[m], f[-m])
+  formals(nlpot) <- c(f[m], f[-m])
 
   nllh <- function(p, ...)
-   nllh.temp(p, ...)
+   nlpot(p, ...)
   
   if (l > 1) 
-    body(nllh) <- parse(text = paste("nllh.temp(", paste("p[", 
+    body(nllh) <- parse(text = paste("nlpot(", paste("p[", 
                           1:l, "]", collapse = ", "),
                           ", ...)"))                                                    
   
