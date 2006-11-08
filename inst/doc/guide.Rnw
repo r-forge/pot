@@ -388,7 +388,7 @@ x <- runif(10000)
 
 <<plot=FALSE,echo=TRUE,label=tcplot>>=
 par(mfrow=c(1,2))
-tcplot(x, u.range = c(0.9, 0.995), nt = 1000)
+tcplot(x, u.range = c(0.9, 0.995), nt = 300)
 @ 
 
 \begin{figure}
@@ -464,7 +464,7 @@ x <- rnorm(10000)
 
 <<plot=FALSE,echo=TRUE,label=mrlplot>>=
 mrlplot(x, u.range = c(1, quantile(x, probs = 0.995)),
- col = c("green", "black", "green"), nt = 1000)
+ col = c("green", "black", "green"), nt = 200)
 @
 
 \begin{figure}
