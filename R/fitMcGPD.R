@@ -55,7 +55,7 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   ##model (if needed) that is MLE estimates on marginal data
   if (missing(start)){
     start <- list(scale = 0, shape = 0)
-    temp <- gpdmle(data, threshold, std.err.type = "none")$param
+    temp <- fitgpd(data, threshold, method = "pwmu")$param
     names(temp) <- NULL
     start$scale <- temp[1]
     start$shape <- temp[2]
@@ -222,8 +222,8 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
                  fixed = unlist(fixed.param), param = param, deviance = 2*opt$value,
                  corr = corr.mat, convergence = opt$convergence, counts = opt$counts,
                  message = opt$message, threshold = threshold, nat = nat3, pat = pat3,
-                 data = data, exceed = data3, call = call,
-                 type = "MLE", model = model, logLik = -opt$value, var.thresh = FALSE)
+                 data = data, exceed = exceed3, call = call, type = "MLE",
+                 model = model, logLik = -opt$value, var.thresh = FALSE)
 
   chi <- 2 * (1 - pickdep(fitted, plot = FALSE)(0.5))
   fitted <- c(fitted, list(chi = chi))
