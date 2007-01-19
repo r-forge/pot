@@ -5,8 +5,8 @@
   Plot several graphics to judge goodness of fit of the fitted model.
 }
 \usage{
-\method{plot}{mcpot}(x, opy, npy, mains, which = 1:4, ask = nb.fig < length(which)
-&& dev.interactive(), acf.type = "partial", \dots)
+\method{plot}{mcpot}(x, opy, npy, exi, mains, which = 1:4, ask = nb.fig < length(which)
+&& dev.interactive(), acf.type = "partial", force.gpd = TRUE, \dots)
 }
 \arguments{
   \item{x}{An object of class \code{"bvpot"}. Most often, the object
@@ -17,6 +17,8 @@
   \item{npy}{Numeric. The mean \bold{N}umber of events \bold{P}er
     \bold{Y}ear (or more generally per block). If missing, the function
     warns and set it to 1.}
+  \item{exi}{Numeric. The extremal index value. If missing, the
+    estimator of Ferro and Segers (2003) is used.}
   \item{mains}{May be missing. If present a 4--vector of character
     strings which gives the titles of the plots.}
   \item{which}{a numeric vector which specifies which plot must be
@@ -27,6 +29,9 @@
   \item{acf.type}{The type of auto correlation to be plotted. Must be
     one of \code{"correlation"}, \code{"covariance"} or \code{"partial"}
     (the default). See the \code{\link{acf}} function.}
+  \item{force.gpd}{Logical. If \code{TRUE} (the default), the return
+    level curve is ``forced'' to be GPD; otherwise, the return level
+    curve is obtain using the extremal approach.}
   \item{\dots}{Other parameters to pass to the \code{\link{plot}}
     function.}
 }
@@ -39,7 +44,7 @@
   using the \code{\link{prob2rp}} are inaccurate.  
 }
 \seealso{
-  \code{\link{fitmcgpd}}, \code{\link{acf}}
+  \code{\link{fitmcgpd}}, \code{\link{acf}}, \code{\link{retlev}}
 }
 \examples{
 mc <- simmc(200, alpha = 0.5)
@@ -48,6 +53,11 @@ Mclog <- fitmcgpd(mc, 1)
 par(mfrow=c(2,2))
 rlMclog <- plot(Mclog)
 rlMclog(T = 3)
+}
+\references{
+  Ferro, C. and Segers, J. (2003). Inference for clusters of extreme
+  values. Journal of the Royal Statistical Society B. \bold{65}:
+  545--556.
 }
 \author{Mathieu Ribatet}
 \keyword{hplot}

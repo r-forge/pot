@@ -5,8 +5,8 @@
   Return level plot for Markov chain POT models. 
 }
 \usage{
-\method{retlev}{mcpot}(fitted, opy, npy, exi, main, xlab, ylab, xlimsup,
-\dots)
+\method{retlev}{mcpot}(fitted, opy, npy, exi, main, force.gpd = TRUE,
+xlab, ylab, xlimsup, \dots)
 }
 \arguments{
   \item{fitted}{A object of class \code{``uvpot''}. Most often, the
@@ -20,6 +20,9 @@
     given using the \code{\link{fitexi}} function.}
   \item{main}{The title of the graphic. If missing, the title is set to
     ``Return Level Plot''.}
+  \item{force.gpd}{Logical. If \code{TRUE} (the default), the return
+    level curve is ``forced'' to be GPD; otherwise, the return level
+    curve is obtain using the extremal approach.}
   \item{xlab,ylab}{The labels for the x and y axis. If missing, they are
     set to ``Return Period (Years)'' and ``Return Level'' respectively.}
   \item{xlimsup}{Numeric. The right limit for the x-axis. If missing, it
@@ -54,6 +57,11 @@ retlev(Mcalog, opy = 990)
 \seealso{
   \code{\link{retlev}}, \code{\link{retlev.uvpot}},
   \code{\link{retlev.mcpot}}, \code{\link{fitexi}}
+}
+\references{
+  Ferro, C. and Segers, J. (2003). Inference for clusters of extreme
+  values. Journal of the Royal Statistical Society B. \bold{65}:
+  545--556.
 }
 \author{Mathieu Ribatet}
 \keyword{hplot}
