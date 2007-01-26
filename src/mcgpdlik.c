@@ -38,10 +38,8 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
     //Margin 1
     t1[i] = (data1[i]  - *thresh) / *scale;
         
-    if (data1[i] <= *thresh){
+    if (data1[i] <= *thresh)
       t1[i] = 1;
-      data1[i] = 0;
-    }
 
     else{
 
@@ -66,11 +64,9 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
     //Margin 2
     t2[i] = (data2[i]  - *thresh) / *scale;
 
-    if (data2[i] <= *thresh){
+    if (data2[i] <= *thresh)
       t2[i] = 1;
-      data2[i] = 0;
-    }
-
+        
     else{
 
       if (fabs(*shape) <= eps){
@@ -116,7 +112,7 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
     //(z[1], z[2]) (but omitting the alpha power!!!)
     v = R_pow(z1[i], - 1 / *alpha) + R_pow(z2[i], - 1 / *alpha);
       
-    if ((data1[i] == 0) && (data2[i] > 0)){
+    if ((data1[i] <= *thresh) && (data2[i] > *thresh)){
 
       //Case 2: x1 <= threshold1 & x2 > threshold2
       
@@ -134,7 +130,7 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
       
     }
     
-    if ((data1[i] > 0) && (data2[i] == 0)){ 
+    if ((data1[i] > *thresh) && (data2[i] <= *thresh)){ 
 
       //Case 3: x1 > threshold1 & x2 <= threshold2
       
@@ -152,7 +148,7 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
       
     }
 
-    if ((data1[i] * data2[i]) > 0){
+    if ((data1[i] > *thresh) && (data2[i] > *thresh)){
 
       //Case 4: x1 > threshold1 & x2 > threshold2
       
@@ -262,10 +258,8 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
     //Margin 1
     t1[i] = (data1[i]  - *thresh) / *scale;
         
-    if (data1[i] <= *thresh){
+    if (data1[i] <= *thresh)
       t1[i] = 1;
-      data1[i] = 0;
-    }
 
     else{
 
@@ -290,10 +284,8 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
     //Margin 2
     t2[i] = (data2[i]  - *thresh) / *scale;
 
-    if (data2[i] <= *thresh){
+    if (data2[i] <= *thresh)
       t2[i] = 1;
-      data2[i] = 0;
-    }
 
     else{
 
@@ -343,7 +335,7 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
       R_pow(R_pow(*asCoef1 / z1[i], 1 / *alpha) + 
 	    R_pow(*asCoef2 / z2[i], 1 / *alpha), *alpha);
       
-    if ((data1[i] == 0) && (data2[i] > 0)){
+    if ((data1[i] <= *thresh) && (data2[i] > *thresh)){
 
       //Case 2: x1 <= threshold1 & x2 > threshold2
       
@@ -363,7 +355,7 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
      	
     }
     
-    if ((data1[i] > 0) && (data2[i] == 0)){
+    if ((data1[i] > *thresh) && (data2[i] <= *thresh)){
 
       //Case 3: x1 > threshold1 & x2 <= threshold2
       
@@ -384,7 +376,7 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
       
     }
 
-    if ((data1[i] * data2[i]) > 0){
+    if ((data1[i] > *thresh) && (data2[i] > *thresh)){
       //Case 4: x1 > threshold1 & x2 > threshold2
       
       //Compute the negative partial derivative with
@@ -494,10 +486,8 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
     //Margin 1
     t1[i] = (data1[i]  - *thresh) / *scale;
         
-    if (data1[i] <= *thresh){
+    if (data1[i] <= *thresh)
       t1[i] = 1;
-      data1[i] = 0;
-    }
 
     else{
 
@@ -522,10 +512,8 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
     //Margin 2
     t2[i] = (data2[i]  - *thresh) / *scale;
 
-    if (data2[i] <= *thresh){
+    if (data2[i] <= *thresh)
       t2[i] = 1;
-      data2[i] = 0;
-    }
 
     else{
 
@@ -575,7 +563,7 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
       R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
 	    - 1 / *alpha);
       
-    if ((data1[i] == 0) && (data2[i] > 0)){
+    if ((data1[i] <= *thresh) && (data2[i] > *thresh)){
 
       //Case 2: x1 <= threshold1 & x2 > threshold2
       
@@ -599,7 +587,7 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
       
     }
     
-    if ((data1[i] > 0) && (data2[i] == 0)){
+    if ((data1[i] > *thresh) && (data2[i] <= *thresh)){
 
       //Case 3: x1 > threshold1 & x2 <= threshold2
 	
@@ -623,7 +611,7 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
       
     }
 
-    if ((data1[i] * data2[i]) > 0){
+    if ((data1[i] > *thresh) && (data2[i] > *thresh)){
 
       //Case 4: x1 > threshold1 & x2 > threshold2
       
@@ -738,10 +726,8 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
     //Margin 1
     t1[i] = (data1[i]  - *thresh) / *scale;
         
-    if (data1[i] <= *thresh){
+    if (data1[i] <= *thresh)
       t1[i] = 1;
-      data1[i] = 0;
-    }
 
     else{
 
@@ -773,10 +759,8 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
 
     else{
 
-      if (fabs(*shape) <= eps){
+      if (fabs(*shape) <= eps)
 	*shape = 0;
-	t2[i] = exp(-t2[i]);
-      }
 
       else {
 	t2[i] = 1 + *shape * t2[i];
@@ -819,7 +803,7 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
       R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
 	    R_pow(z2[i] / *asCoef2, *alpha), - 1 / *alpha);
       
-    if ((data1[i] == 0) && (data2[i] > 0)){
+    if ((data1[i] <= *thresh) && (data2[i] > *thresh)){
 
       //Case 2: x1 <= threshold1 & x2 > threshold2
       
@@ -845,7 +829,7 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
      	
     }
   
-    if ((data1[i]>0) && (data2[i] == 0)){
+    if ((data1[i] > *thresh) && (data2[i] <= *thresh)){
 
       //Case 3: x1 > threshold1 & x2 <= threshold2
       
@@ -871,7 +855,7 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
       
     }
     
-    if ((data1[i] * data2[i]) > 0){
+    if ((data1[i] > *thresh) && (data2[i] > *thresh)){
 
       //Case 4: x1 > threshold1 & x2 > threshold2
       
@@ -989,10 +973,8 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
     //Margin 1
     t1[i] = (data1[i]  - *thresh) / *scale;
         
-    if (data1[i] <= *thresh){
+    if (data1[i] <= *thresh)
       t1[i] = 1;
-      data1[i] = 0;
-    }
 
     else{
 
@@ -1017,10 +999,8 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
     //Margin 2
     t2[i] = (data2[i]  - *thresh) / *scale;
 
-    if (data2[i] <= *thresh){
+    if (data2[i] <= *thresh)
       t2[i] = 1;
-      data2[i] = 0;
-    }
 
     else{
 
@@ -1069,7 +1049,7 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
     v = R_pow_di(z1[i], - 1) + R_pow_di(z2[i], - 1) -
       *alpha / (z1[i] + z2[i]);
       
-    if ((data1[i] == 0) && (data2[i] > 0)){
+    if ((data1[i] <= *thresh) && (data2[i] > *thresh)){
 
       //Case 2: x1 <= threshold1 & x2 > threshold2
       
@@ -1092,7 +1072,7 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
       
     }
   
-    if ((data1[i] > 0) && (data2[i] == 0)){
+    if ((data1[i] > *thresh) && (data2[i] <= *thresh)){
       
       //Case 3: x1 > threshold1 & x2 <= threshold2
       
@@ -1115,7 +1095,7 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
       
     }
     
-    if ((data1[i] * data2[i]) > 0){
+    if ((data1[i] > *thresh) && (data2[i] > *thresh)){
       
       //Case 4: x1 > threshold1 & x2 > threshold2
       
@@ -1224,10 +1204,8 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
     //Margin 1
     t1[i] = (data1[i]  - *thresh) / *scale;
         
-    if (data1[i] <= *thresh){
+    if (data1[i] <= *thresh)
       t1[i] = 1;
-      data1[i] = 0;
-    }
 
     else{
 
@@ -1252,10 +1230,8 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
     //Margin 2
     t2[i] = (data2[i]  - *thresh) / *scale;
 
-    if (data2[i] <= *thresh){
+    if (data2[i] <= *thresh)
       t2[i] = 1;
-      data2[i] = 0;
-    }
 
     else{
 
@@ -1305,7 +1281,7 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
 	  z2[i]) / R_pow_di(z1[i] + z2[i], 2);
     v = 1/z1[i] + 1/z2[i] - c1;
       
-    if ((data1[i] == 0) && (data2[i] > 0)){
+    if ((data1[i] <= *thresh) && (data2[i] > *thresh)){
 
       //Case 2: x1 <= threshold1 & x2 > threshold2
       
@@ -1329,7 +1305,7 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
       
     }
   
-    if ((data1[i] > 0) && (data2[i] == 0)){
+    if ((data1[i] > *thresh) && (data2[i] <= *thresh)){
 
       //Case 3: x1 > threshold1 & x2 <= threshold2
       
@@ -1353,7 +1329,7 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
       
     }
     
-    if ((data1[i] * data2[i]) > 0){
+    if ((data1[i] > *thresh) && (data2[i] > *thresh)){
 
       //Case 4: x1 > threshold1 & x2 > threshold2
       
