@@ -1,9 +1,9 @@
 ##The generic function for graphical diagnostic of a Markov chain
 ##pot object
-plot.mcpot <- function(x, opy, npy, exi, mains, which = 1:4,
+plot.mcpot <- function(x, opy, exi, mains, which = 1:4,
                        ask = nb.fig < length(which) &&
                        dev.interactive(), acf.type = "partial",
-                       force.gpd = TRUE, ...){
+                       ...){
 
   if (!is.numeric(which) || any(which < 1) || any(which > 4)) 
         stop("`which' must be in 1:4")
@@ -36,54 +36,41 @@ plot.mcpot <- function(x, opy, npy, exi, mains, which = 1:4,
   if (show[3])
     specdens(x, main = mains[3], ...)
   if (show[4])
-    retlev(x, opy = opy, npy = npy, exi = exi, main = mains[4],
-           force.gpd = force.gpd, ...)
+    retlev(x, opy = opy, exi = exi, main = mains[4], ...)
   
 }
 
 ##The return level plot for object of class ``mcpot''
-retlev.mcpot <- function(fitted, opy, npy, exi, main, force.gpd = TRUE,
-                         xlab, ylab, xlimsup, ...){
+retlev.mcpot <- function(fitted, opy, exi, main, xlab,
+                         ylab, xlimsup, ...){
   loc <- fitted$threshold
   scale <- fitted$param["scale"]
   shape <- fitted$param["shape"]
   data <- fitted$data
   pat <- fitted$pat
 
-  if (!force.gpd){
-    if (missing(exi))
-      exi <- fitexi(data, loc)$exi
-    
-    pot.fun <- function(T){
-      p <- 1 - 1 / (npy * T)
-      q <- (1 - p^(1/opy/exi)) / pat
-      q <- loc - scale / shape * (1 - q^(-shape))
-      return(q)
-    }
-    
-    if (missing(opy)){
-      warning("Argument ``opy'' is missing. Setting it to 365.")
-      opy <- 365
-    }
-  }
-
-  else
-    pot.fun <- function(T){
-      p <- 1 - 1 / (npy * T)
-      qgpd(p, loc, scale, shape)
-    }
+  if (missing(exi))
+    exi <- fitexi(data, loc)$exi
   
-  if (missing(npy)){
-    warning("Argument ``npy'' is missing. Setting it to 1.")
-    npy <- 1
+  pot.fun <- function(T){
+    p <- 1 - 1 / T
+    q <- (1 - p^(1/opy/exi)) / pat
+    q <- loc - scale / shape * (1 - q^(-shape))
+    return(q)
   }
+  
+  if (missing(opy)){
+    warning("Argument ``opy'' is missing. Setting it to 365.25.")
+    opy <- 365.25
+  }
+  
   if (missing(main)) main <- 'Return Level Plot'
   if (missing(xlab)) xlab <- 'Return Period (Years)'
   if (missing(ylab)) ylab <- 'Return Level'
   if (missing(xlimsup)) xlimsup <- 500
 
   eps <- 10^(-3)
-  plot(pot.fun, from = 1/npy + eps, to = xlimsup, log = "x",
+  plot(pot.fun, from = 1 + eps, to = xlimsup, log = "x",
        xlab = xlab, ylab = ylab, main = main, ...)
 
   invisible(pot.fun)
