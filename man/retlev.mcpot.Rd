@@ -5,8 +5,8 @@
   Return level plot for Markov chain POT models. 
 }
 \usage{
-\method{retlev}{mcpot}(fitted, opy, npy, exi, main, force.gpd = TRUE,
-xlab, ylab, xlimsup, \dots)
+\method{retlev}{mcpot}(fitted, opy, exi, main, xlab, ylab, xlimsup,
+\dots)
 }
 \arguments{
   \item{fitted}{A object of class \code{``uvpot''}. Most often, the
@@ -14,19 +14,14 @@ xlab, ylab, xlimsup, \dots)
   \item{opy}{The number of \bold{O}bservations \bold{P}er \bold{Y}ear (or
     more generally per block). If missing, it is set it to 365 i.e. daily
     values with a warning.}
-  \item{npy}{The mean \bold{N}umber of events \bold{P}er \bold{Y}ear (or
-    more generally per block). If missing, it is set it to 1.}
   \item{exi}{Numeric. The extremal index. If missing, an estimate is
     given using the \code{\link{fitexi}} function.}
   \item{main}{The title of the graphic. If missing, the title is set to
     ``Return Level Plot''.}
-  \item{force.gpd}{Logical. If \code{TRUE} (the default), the return
-    level curve is ``forced'' to be GPD; otherwise, the return level
-    curve is obtain using the extremal approach.}
   \item{xlab,ylab}{The labels for the x and y axis. If missing, they are
     set to ``Return Period (Years)'' and ``Return Level'' respectively.}
   \item{xlimsup}{Numeric. The right limit for the x-axis. If missing, it
-  is setted to 500.}
+    is setted to 500.}
   \item{\dots}{Other arguments to be passed to the \code{\link{plot}}
     function.}
 }
@@ -48,6 +43,13 @@ xlab, ylab, xlimsup, \dots)
 
   Thus, to obtain the T-year return level, we equate this equation to
   \eqn{1 - 1/T}{1 - 1/T} and solve for \eqn{x}{x}.
+}
+\section{Warning}{
+  Though this is computationally expensive, we recommend to give the
+  extremal index estimate using the \code{\link{dexi}} function. Indeed,
+  there is a severe bias when using the Ferro and Segers (2003)
+  estimator - as it is estimated using observation and not the Markov
+  chain model.
 }
 \examples{
 data(ardieres)
