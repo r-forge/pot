@@ -166,8 +166,8 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
       if ( (w < 0) || (w > 1) )
         return(NaN)
       else
-        1 - (alpha + asCoef) * w + (alpha + 4 * asCoef)* w^2 -
-          2 * asCoef * w^3
+        1 - (alpha + 2 * asCoef) * w + (alpha + 3 * asCoef)* w^2 -
+          asCoef * w^3
     }
   }
 
