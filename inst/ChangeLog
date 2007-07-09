@@ -1,5 +1,11 @@
 2007-07-09  author  <author@LYP1077>
 
+	* man/chimeas.Rd: Add documentation for bootstrap confidence intervals
+
+	* src/header.h, src/mcgpdlik.c: Add a test function for the amix model
+
+	* DESCRIPTION: Update the DESCRIPTION file
+
 	* man/tsdep.plot.Rd:
 	A new function to assess for asymptotic dependence within time series
 
