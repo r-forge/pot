@@ -87,7 +87,6 @@ chimeas(cbind(mc[1:1000], mc2))
 par(mfrow = c(1,2))
 chimeas(cbind(mc[seq(1,2000, by = 2)], mc[seq(2,2000,by = 2)]))
 ##The same but with bootstrap ci
-x11()
 par(mfrow = c(1,2))
 chimeas(cbind(mc[seq(1,2000, by = 2)], mc[seq(2,2000,by = 2)]), boot =
 TRUE)
