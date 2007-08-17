@@ -1,4 +1,5 @@
 \name{Internal functions and methods}
+\alias{gpdmgf}
 \alias{gpdmoments}
 \alias{gpdpwmu}
 \alias{gpdpwmb}
