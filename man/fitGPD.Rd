@@ -4,8 +4,9 @@
 \title{Fitting a GPD to Peaks Over a Threshold}
 \description{Maximum Likelihood, Unbiased Probability Weighted Moments,
   Biased Probability Weighted Moments, Moments, Pickands', Minimum
-  Density Power Divergence, Medians and Likelihood Moment Estimators to
-  fit Peaks Over a Threshold to a GP distribution.}
+  Density Power Divergence, Medians, Likelihood Moment and Maximum
+  Goodness-of-Fit Estimators to fit Peaks Over a Threshold to a GP
+  distribution.}
 
 \usage{fitgpd(data, threshold, method = "mle", \dots)}
 \arguments{
@@ -18,14 +19,14 @@
   \item{method}{A string giving the names of the estimator. It can be
     \code{'mle'} (the default), \code{'moments'}, \code{'pwmu'},
     \code{'pwmb'}, \code{'mdpd'}, \code{'med'}, \code{'pickands'},
-    and \code{'lme'} for the maximum likelihood, moments, unbiased
+    \code{'lme'} and \code{'mgf'} for the maximum likelihood, moments, unbiased
     probability weighted moments, biased probability weigthed moments,
-    minimum density power divergence, medians, Pickands' and likelihood
-    moment estimators respectively.} 
+    minimum density power divergence, medians, Pickands', likelihood
+    moment and maximum goodness-of-fit estimators respectively.} 
   \item{\dots}{Other optional arguments to be passed to the
     \code{\link{optim}} function, allow hand fixed parameters (only
-    for the \code{mle} approach) or passed several options to specific
-    estimators - see the Note section.}
+    for the \code{mle} and \code{mgf} approaches) or passed several
+    options to specific estimators - see the Note section.}
 }
 \value{
   This function returns a list with  components:
@@ -78,6 +79,15 @@
   The \code{med} estimator admits two extra arguments \code{tol} and
   \code{maxit} to control the "stopping-rule" of the optimization
   process.
+
+  The \code{mgf} approach uses goodness-of-fit statistics to estimate
+  the GPD parameters. There are currently 8 different statitics : the
+  Kolmogorov-Smirnov \code{"KS"}, Cramer von Mises \code{"CM"}, Anderson
+  Darling \code{"AD"}, right tail Anderson Darling \code{"ADR"}, left
+  tail Anderson Darling \code{"ADL"}, right tail Anderson Darling
+  (second degree) \code{"AD2R"}, left tail Anderson Darling (second
+  degree) \code{"AD2L"} and the Anderson Darling (second degree)
+  statistics.
 }
 \references{
   Coles, S. (2001) \emph{An Introduction to Statistical
@@ -89,6 +99,10 @@
 
   Juarez, S. and Schucany, W. (2004) Robust and Efficient Estimation for
   the Generalized Pareto Distribution. Extremes \bold{7}:237--251.
+
+  Luceno, A. (2006) Fitting the generalized Pareto distribution to data
+  using maximum goodness-of-fit estimators. Computational Statistics and
+  Data Analysis \bold{51}:904--917.
 
   Peng, L. and Welsh, A. (2001) Robust Estimation of the Generalized
   Pareto Distribution. Extremes \bold{4}:53--65.
