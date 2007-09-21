@@ -5,9 +5,10 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
 
   if (all(c("observed", "none") != std.err.type))
     stop("``std.err.type'' must be one of ``observed'' or ``none''")
-  
-  data1 <- data[,1]
-  data2 <- data[,2]
+
+  threshold <- as.double(threshold)
+  data1 <- as.double(data[,1])
+  data2 <- as.double(data[,2])
   call <- match.call()
   
   n1 <- length(data1)

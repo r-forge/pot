@@ -6,6 +6,7 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
     stop("``std.err.type'' must be one of ``observed'' or ``none''")
   
   data <- as.double(data)
+  threshold <- as.double(threshold)
   
   if (all(data<=threshold))
     stop("No data above threshold.")
