@@ -2,8 +2,13 @@ print.uvpot <- function(x, digits = max(3, getOption("digits") - 3), ...){
   cat("Estimator:", x$type, "\n")
   
   if (x$type == 'MLE'){
-    cat("Deviance:", x$deviance, "\n")
-    cat("     AIC:", AIC(x), "\n")
+    cat(" Deviance:", x$deviance, "\n")
+    cat("      AIC:", AIC(x), "\n")
+  }
+
+  if (x$type == 'MPLE'){
+    cat("\nPenalized Deviance:", x$deviance, "\n")
+    cat("     Penalized AIC:", AIC(x), "\n")
   }
   
   cat("\nVarying Threshold:", x$var.thresh, "\n")
@@ -11,8 +16,8 @@ print.uvpot <- function(x, digits = max(3, getOption("digits") - 3), ...){
   if(!x$var.thresh)
     x$threshold <- x$threshold[1]
   
-  cat("\nThreshold Call:", x$threshold.call, "\n")
-  cat("Number Above:", x$nat, "\n")
+  cat("\n  Threshold Call:", x$threshold.call, "\n")
+  cat("    Number Above:", x$nat, "\n")
   cat("Proportion Above:", round(x$pat, digits), "\n")
   
   cat("\nEstimates\n") 
