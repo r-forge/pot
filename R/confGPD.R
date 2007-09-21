@@ -333,3 +333,35 @@ Use `corr = TRUE' in `fitgpd' function.")
   return(int.conf)
 }
 
+##A generic function to compute both profile and conventionnal
+##confidence intervals
+confint <- function(fitted, range, prob, prof = TRUE,
+                    var = "quant", conf = 0.95, ...){
+
+  if (!(var %in% c("quant","scale","shape")))
+    stop("``var'' must specify one of ``quant'', ``scale'' or ``shape''.")
+
+  if ((var == "quant") && missing(prob))
+    stop("``prob'' must be specified when ``var = 'quant'''.")
+  
+  if (prof){
+    if (missing(range)){
+      tmp <- confint(fitted, prof = FALSE, conf = conf,
+                     var = var, prob = prob)
+      range <- c(tmp[1] * 0.9, tmp[2] * 1.1)
+    }
+      
+    ci <- switch(var, "scale" = gpd.pfscale(fitted, range,
+                        conf = conf, ...), "shape" =
+                 gpd.pfshape(fitted, range, conf = conf, ...),
+                 "quant" = gpd.pfrl(fitted, prob, range,
+                   conf = conf, ...))
+  }
+
+  else
+    ci <- switch(var, "scale" = gpd.fiscale(fitted, conf = conf),
+                 "shape" = gpd.fishape(fitted, conf = conf),
+                 "quant" = gpd.firl(fitted, prob, conf = conf))
+
+  return(ci)
+}
