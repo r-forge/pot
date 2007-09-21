@@ -1,6 +1,6 @@
 Package: POT
-Version: 1.0-3
-Date: 2007-17-08
+Version: 1.0-4
+Date: $Date$
 Title: Generalized Pareto Distribution and Peaks Over Threshold
 Author: Mathieu Ribatet <ribatet@lyon.cemagref.fr>
 Maintainer: Mathieu Ribatet <ribatet@lyon.cemagref.fr>
