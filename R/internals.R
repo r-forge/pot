@@ -1,12 +1,12 @@
 print.uvpot <- function(x, digits = max(3, getOption("digits") - 3), ...){
-  cat("Estimator:", x$type, "\n")
+  cat("Estimator:", x$est, "\n")
   
-  if (x$type == 'MLE'){
+  if (x$est == 'MLE'){
     cat(" Deviance:", x$deviance, "\n")
     cat("      AIC:", AIC(x), "\n")
   }
 
-  if (x$type == 'MPLE'){
+  if (x$est == 'MPLE'){
     cat("\nPenalized Deviance:", x$deviance, "\n")
     cat("     Penalized AIC:", AIC(x), "\n")
   }
@@ -51,7 +51,7 @@ print.uvpot <- function(x, digits = max(3, getOption("digits") - 3), ...){
 print.bvpot <- function (x, digits = max(3, getOption("digits") -
                               3), ...) {
   cat("\nCall:", deparse(x$call), "\n")
-  cat("Estimator:", x$type, "\n")
+  cat("Estimator:", x$est, "\n")
 
   if (x$model == "log")
     model <- "Logistic"
@@ -71,7 +71,7 @@ print.bvpot <- function (x, digits = max(3, getOption("digits") -
   cat("\tlim_u Pr[ X_1 > u | X_2 > u] =", round(x$chi, 3),
       "\n")
 
-  if (x$type == "MLE"){
+  if (x$est == "MLE"){
     cat("Deviance:", x$deviance, "\n")
     cat("     AIC:", AIC(x), "\n")
   }
@@ -121,7 +121,7 @@ logLik.pot <- function(object, ...){
 print.mcpot <- function(x, digits = max(3, getOption("digits") - 3), ...){
 
   cat("\nCall:", deparse(x$call), "\n")
-  cat("Estimator:", x$type, "\n")
+  cat("Estimator:", x$est, "\n")
 
   if (x$model == "log")
     model <- "Logistic"
@@ -141,7 +141,7 @@ print.mcpot <- function(x, digits = max(3, getOption("digits") - 3), ...){
   cat("\tlim_u Pr[ X_1 > u | X_2 > u] =", round(x$chi, 3),
       "\n")
 
-  if (x$type == 'MLE'){
+  if (x$est == 'MLE'){
     cat("Deviance:", x$deviance, "\n")
     cat("     AIC:", AIC(x), "\n")
   }

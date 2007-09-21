@@ -8,15 +8,15 @@
   Goodness-of-Fit Estimators to fit Peaks Over a Threshold to a GP
   distribution.}
 
-\usage{fitgpd(data, threshold, method = "mle", \dots)}
+\usage{fitgpd(data, threshold, est = "mle", \dots)}
 \arguments{
   \item{data}{A numeric vector.}
   \item{threshold}{A numeric value giving the threshold for the
-    GPD. \code{'mle'} method allows varying threshold; so that threshold
+    GPD. The \code{'mle'} estimator allows varying threshold; so that threshold
   could be for this case a numeric vector. Be careful, varying
   thresholds are used cyclically if length doesn't match with
   \code{data}.}
-  \item{method}{A string giving the names of the estimator. It can be
+  \item{est}{A string giving the names of the estimator. It can be
     \code{'mle'} (the default), \code{'mple'}, \code{'moments'}, \code{'pwmu'},
     \code{'pwmb'}, \code{'mdpd'}, \code{'med'}, \code{'pickands'},
     \code{'lme'} and \code{'mgf'} for the maximum likelihood, maximum
@@ -26,18 +26,18 @@
     moment and maximum goodness-of-fit estimators respectively.} 
   \item{\dots}{Other optional arguments to be passed to the
     \code{\link{optim}} function, allow hand fixed parameters (only
-    for the \code{mle} and \code{mgf} approaches) or passed several
-    options to specific estimators - see the Note section.}
+    for the \code{mle}, \code{mple} and \code{mgf} estimators) or passed
+    several options to specific estimators - see the Note section.}
 }
 \value{
   This function returns a list with  components:
-  \item{fitted.values}{A vector containing the maximum likelihood estimates.}
+  \item{fitted.values}{A vector containing the estimated parameters.}
   \item{std.err}{A vector containing the standard errors.}
   \item{fixed}{A vector containing the parameters of the model that
     have been held fixed.}
   \item{param}{A vector containing all parameters (optimized and fixed).}
   \item{deviance}{The deviance at the maximum likelihood estimates.}
-  \item{corr}{The correlation matrix - for the \code{mle} method.}
+  \item{corr}{The correlation matrix.}
   \item{convergence, counts, message}{Components taken from the
     list returned by \code{\link{optim}} - for the \code{mle} method.}
   \item{threshold}{The threshold passed to argument \code{threshold}.}
@@ -149,8 +149,16 @@ med <- fitgpd(x, 1, "med", start = mle)$param ##Sometimes the fitting algo is no
                                               ##a good idea.  
 mdpd <- fitgpd(x, 1, "mdpd")$param
 lme <- fitgpd(x, 1, "lme")$param
+mple <- fitgpd(x, 1, "mple")$param
+ad2r <- fitgpd(x, 1, "mgf", stat = "AD2R")$param
 
-print(rbind(mle, pwmu, pwmb, pickands, med, mdpd, lme))
+print(rbind(mle, pwmu, pwmb, pickands, med, mdpd, lme,
+ mple, ad2r))
+
+##Now fix one of the GPD parameters
+##Only the MLE, MPLE and MGF estimators are allowed !
+fitgpd(x, 1, "mle", scale = 2)
+fitgpd(x, 1, "mple", shape = 0.25) 
 }
 \author{Mathieu Ribatet}
 \keyword{htest}
