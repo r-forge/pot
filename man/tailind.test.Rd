@@ -12,8 +12,8 @@ tailind.test(data, c = -0.1, emp.trans = TRUE, chisq.n.class = 4)
   \item{c}{A negative numeric. Must be close to zero to approximate
     accurately asymptotic results.}
   \item{emp.trans}{Logical. If \code{TRUE} (the default),
-    \code{``data''} is transformed to reverse exponential using
-    empirical estimates. Otherwise, \code{``data''} is supposed to be
+    \code{"data"} is transformed to reverse exponential using
+    empirical estimates. Otherwise, \code{"data"} is supposed to be
     reverse exponential distributed.}
   \item{chisq.n.class}{A numeric given the number of classes for the Chi
   squared test.}
