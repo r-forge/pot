@@ -48,7 +48,7 @@ dgpd(x, loc = 0, scale = 1, shape = 0, log = FALSE)
   threshold. In particular, the \eqn{G}{G} function is a suited
   candidate to model
 
-  \deqn{\Pr\left[ X \geq x | X > u \right] = 1 - G(x)}{Pr[ X >= x | X >
+  \deqn{\Pr\left[ X \geq x | X > u \right] = 1 - G(x)}{Pr[ X >= x | X >
     u ] = 1 - G(x)}
   for \eqn{u}{u} large enough.
 

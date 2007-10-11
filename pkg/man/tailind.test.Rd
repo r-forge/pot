@@ -30,12 +30,12 @@ tailind.test(data, c = -0.1, emp.trans = TRUE, chisq.n.class = 4)
   exponential margins. The conditional distribution function of
   \eqn{X+Y}{X+Y}, given that \eqn{X+Y>c}{X+Y>c}, converges to
   \eqn{F(t)=t^2}{F(t)=t^2}, \eqn{t \in[0,1]}{t in [0,1]}, if \eqn{c
-    \rightarrow 0^{-}}{t tends to 0} iff \eqn{X}{X} and \eqn{Y}{Y} are
+    \rightarrow 0^{-}}{t tends to 0} iff \eqn{X}{X} and \eqn{Y}{Y} are
   asymptotically independent. Otherwise, the limit is \eqn{F(t) =
     t}{F(t) = t}
 }
 \references{
-  Falk, M. and Michel, Rene (2006) Testing for tail independence in
+  Falk, M. and Michel, Rene(2006) Testing for tail independence in
   extreme value models. \emph{Annals of the Institute of Statistical
     Mathematics} \bold{58}: 261--290
 }
@@ -46,7 +46,7 @@ tailind.test(data, c = -0.1, emp.trans = TRUE, chisq.n.class = 4)
 ##A total independence example
 x <- rbvgpd(7000, alpha = 1, mar1 = c(0, 1, 0.25))
 tailind.test(x)
-##A asymptotically dependent example
+##An asymptotically dependent example
 y <- rbvgpd(7000, alpha = 0.75, model = "nlog", mar1 = c(0, 1, 0.25),
 mar2 = c(2, 0.5, -0.15))
 tailind.test(y)
