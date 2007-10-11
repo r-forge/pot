@@ -1,4 +1,75 @@
 ------------------------------------------------------------------------
+r361 | ribatet | 2007-09-25 17:56:11 +0200 (mar, 25 sep 2007) | 2 lines
+
+Add a new url for the POT package (R-Forge)
+
+------------------------------------------------------------------------
+r360 | ribatet | 2007-09-25 17:53:56 +0200 (mar, 25 sep 2007) | 2 lines
+
+Remove some unknown encoding characters
+
+------------------------------------------------------------------------
+r359 | ribatet | 2007-09-25 17:53:05 +0200 (mar, 25 sep 2007) | 2 lines
+
+Maybe a more appropriate example
+
+------------------------------------------------------------------------
+r358 | ribatet | 2007-09-25 17:52:30 +0200 (mar, 25 sep 2007) | 2 lines
+
+Maybe a more appropriate example
+
+------------------------------------------------------------------------
+r357 | ribatet | 2007-09-25 17:51:58 +0200 (mar, 25 sep 2007) | 2 lines
+
+Some minor changes as the default plot behaviour in R change
+
+------------------------------------------------------------------------
+r356 | ribatet | 2007-09-25 15:11:50 +0200 (mar, 25 sep 2007) | 2 lines
+
+Delete the pdf guide and latex source
+
+------------------------------------------------------------------------
+r355 | ribatet | 2007-09-25 15:11:19 +0200 (mar, 25 sep 2007) | 3 lines
+
+Don't run the example as they are numerical trouble on windows
+platform for the perfect dependant case
+
+------------------------------------------------------------------------
+r354 | ribatet | 2007-09-25 15:09:51 +0200 (mar, 25 sep 2007) | 2 lines
+
+Delete unknown encoding characters
+
+------------------------------------------------------------------------
+r353 | ribatet | 2007-09-24 18:07:25 +0200 (lun, 24 sep 2007) | 2 lines
+
+Add a method to the confint method for uvpot object
+
+------------------------------------------------------------------------
+r352 | ribatet | 2007-09-24 18:06:44 +0200 (lun, 24 sep 2007) | 2 lines
+
+Add a method to the confint method for uvpot object
+
+------------------------------------------------------------------------
+r351 | ribatet | 2007-09-21 16:40:27 +0200 (ven, 21 sep 2007) | 2 lines
+
+delete the pdf guide
+
+------------------------------------------------------------------------
+r350 | ribatet | 2007-09-21 16:37:07 +0200 (ven, 21 sep 2007) | 2 lines
+
+Add lower.tail as R check warns
+
+------------------------------------------------------------------------
+r349 | ribatet | 2007-09-21 14:54:47 +0200 (ven, 21 sep 2007) | 2 lines
+
+update the logs
+
+------------------------------------------------------------------------
+r348 | ribatet | 2007-09-21 14:53:00 +0200 (ven, 21 sep 2007) | 2 lines
+
+update the logs
+
+------------------------------------------------------------------------
 r347 | ribatet | 2007-09-21 14:32:14 +0200 (ven, 21 sep 2007) | 2 lines
 
 Delete the Rplots.ps and guide.tex files
