@@ -13,13 +13,17 @@
 ## A generic function for estimate the GPD parameters
 fitgpd <- function(data, threshold, est = "mle", ...){
   threshold.call <- deparse(threshold)
+  if (!(est %in% c("moments", "pwmb", "pwmu", "mle", "pickands",
+                   "mdpd", "med", "lme", "mgf", "mple")))
+    stop("Unknown estimator. Please check the ``est'' argument.")
+  
   fitted <- switch(est, 'moments' = gpdmoments(data, threshold),
                    'pwmb' = gpdpwmb(data, threshold, ...),
                    'pwmu' = gpdpwmu(data, threshold),
                    'mle' = gpdmle(data, threshold, ...),
                    'pickands' = gpdpickands(data, threshold),
                    'mdpd' = gpdmdpd(data, threshold, ...),
-                   'med' = gpdmed(data, threshold),
+                   'med' = gpdmed(data, threshold, ...),
                    'lme' = gpdlme(data, threshold, ...),
                    'mgf' = gpdmgf(data, threshold, ...),
                    'mple' = gpdmple(data, threshold, ...)
@@ -265,7 +269,7 @@ gpdmgf <- function(x, threshold, start, stat, ...,
 
       else{
 
-        if (max(excess) >= -scale/shape)
+        if ((max(excess) >= -scale/shape) & (shape < 0))
          1e6
 
         else
@@ -282,7 +286,7 @@ gpdmgf <- function(x, threshold, start, stat, ...,
 
       else{
 
-        if (max(excess) >= -scale/shape)
+        if ((max(excess) >= -scale/shape) & (shape < 0))
          1e6
 
         else
@@ -298,7 +302,7 @@ gpdmgf <- function(x, threshold, start, stat, ...,
 
       else{
 
-        if (max(excess) >= -scale/shape)
+        if ((max(excess) >= -scale/shape) & (shape < 0))
          1e6
 
         else
@@ -314,7 +318,7 @@ gpdmgf <- function(x, threshold, start, stat, ...,
 
       else{
 
-        if (max(excess) >= -scale/shape)
+        if ((max(excess) >= -scale/shape) & (shape < 0))
          1e6
 
         else
@@ -330,7 +334,7 @@ gpdmgf <- function(x, threshold, start, stat, ...,
 
       else{
 
-        if (max(excess) >= -scale/shape)
+        if ((max(excess) >= -scale/shape) & (shape < 0))
          1e6
 
         else
@@ -346,7 +350,7 @@ gpdmgf <- function(x, threshold, start, stat, ...,
 
       else{
 
-        if (max(excess) >= -scale/shape)
+        if ((max(excess) >= -scale/shape) & (shape < 0))
          1e6
 
         else
@@ -410,7 +414,7 @@ gpdmgf <- function(x, threshold, start, stat, ...,
        corr = corr.mat, convergence = opt$convergence, counts = opt$counts,
        message = opt$message, threshold = threshold, nat = nat, pat = pat,
        data = x, exceed = exceed, scale = scale, var.thresh = var.thresh,
-       type = "MGF")
+       est = "MGF")
 }
 
 ##Likelihood moment estimation
@@ -584,7 +588,7 @@ for standard error may not be fullfilled !'
 
 ##PWMB Estimator
 
-gpdpwmb <- function(data, threshold, a=0.35, b=0){
+gpdpwmb <- function(data, threshold, a=0.35, b=0, hybrid = FALSE){
   
   if ( length(unique(threshold)) != 1){
     warning("Threshold must be a single numeric value for est = 'pwmb'. Taking only the first value !!!")
@@ -613,11 +617,12 @@ gpdpwmb <- function(data, threshold, a=0.35, b=0){
   shape <- - m / (m- 2*t ) + 2
   scale <- 2 * m * t / (m - 2*t )
   est <- 'PWMB'
-  
-  if ( max(excess) >= (-scale / shape) ){
-    shape <- -scale / max(excess)
-    est <- 'PWMB Hybrid'
-  }
+
+  if (hybrid)
+    if ( (max(excess) >= (-scale / shape)) & (shape < 0) ){
+      shape <- -scale / max(excess)
+      est <- 'PWMB Hybrid'
+    }
   
   estim <- c(scale  = scale, shape = shape)
   param <-  c(scale = scale, shape = shape)
@@ -648,7 +653,7 @@ gpdpwmb <- function(data, threshold, a=0.35, b=0){
   var.thresh <- FALSE
   
   return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
-              param = param, message = est, threshold = threshold,
+              param = param, message = message, threshold = threshold,
               corr = corr, convergence = convergence, counts = counts,
               nat = nat, pat = pat, exceed = exceed,
               scale=scale, var.thresh = var.thresh, est = est))
@@ -678,7 +683,7 @@ samlmu <- function (x, nmom = 4, sort.data = TRUE)
   return(lmom)
 }
 
-gpdpwmu <- function(data,threshold){
+gpdpwmu <- function(data,threshold, hybrid = FALSE){
   
   if ( length(unique(threshold)) != 1){
     warning("Threshold must be a single numeric value for est = 'pwmu'. Taking only the first value !!!")
@@ -701,6 +706,14 @@ gpdpwmu <- function(data,threshold){
   scale <- (1 - shape)*(lmoments[1] - loc)
   names(shape) <- NULL
   names(scale) <- NULL
+  est <- "PWMU"
+  
+  if (hybrid)
+    if ( (max(exceed - loc) >= (-scale / shape)) & (shape < 0) ){
+      shape <- -scale / max(excedd - loc)
+      est <- 'PWMU Hybrid'
+    }
+  
   
   estim <- param <- c(scale  = scale, shape = shape)
   convergence <- counts <- NA
@@ -731,7 +744,7 @@ for standard error may not be fullfilled !"
               param = param, message = message, threshold = threshold,
               corr = corr, convergence = convergence, counts = counts,
               nat = nat, pat = pat, exceed = exceed,
-              scale=scale, var.thresh = var.thresh, est = "PWMU"))
+              scale=scale, var.thresh = var.thresh, est = est))
 }
 
 ##MDPD estimators for the GPD.
@@ -775,7 +788,10 @@ gpdmdpd <- function(x, threshold, a, start, ...,
     scale <- param[1]
     shape <- param[2]
     
-    if ( (-max(excess) * shape) < scale){
+    if ( (max(excess) >= -scale/shape) & (shape < 0))
+      div <- 1e6
+
+    else{
       n <- length(excess)
       t <- (-1/shape -1) * a
       y <- excess / scale
@@ -785,9 +801,6 @@ gpdmdpd <- function(x, threshold, a, start, ...,
       c2 <- (1 + 1/a ) / scale^a / n
       div <- c1 - c2 * sum(y)
     }
-    
-    else
-      div <- Inf
     
     return(div)
   }
@@ -1031,7 +1044,7 @@ gpdmed <- function(x, threshold, start, tol = 10^-3, maxit = 500,
   
   while (iter < maxit){
     ##If we have a non feasible point, we move back to feasible region
-    if ( start[2] < 0 & max(excess) >= -start[1] / start[2])
+    if ( (start[2] < 0) & (max(excess) >= (-start[1] / start[2])))
       start[2] <- start[1] / max(excess) + .1
     
     r1 <- start[2] * median(excess) / (2^start[2] - 1) - start[1]
@@ -1078,9 +1091,13 @@ gpdmed <- function(x, threshold, start, tol = 10^-3, maxit = 500,
   
   var.thresh <- FALSE
   
-  rownames(trace) <- c("Init. Val.", 1:(iter-1))
-  if (show.trace)
+  
+  if (show.trace){
+    if (iter >= 2)
+      rownames(trace) <- c("Init. Val.", 1:(iter-1))
+
     print(round(trace, 3))
+  }
   
   list(fitted.values = param, std.err = std.err, std.err.type = std.err.type,
        var.cov = var.cov, fixed = NULL, param = param,
