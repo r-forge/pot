@@ -1,12 +1,13 @@
 \name{Fit the GP Distribution}
 \alias{fitgpd}
 
-\title{Fitting a GPD to Peaks Over a Threshold} \description{Maximum
-  (Penalized) Likelihood, Unbiased Probability Weighted Moments,
-  Biased Probability Weighted Moments, Moments, Pickands', Minimum
-  Density Power Divergence, Medians, Likelihood Moment and Maximum
-  Goodness-of-Fit Estimators to fit Peaks Over a Threshold to a GP
-  distribution.}
+\title{Fitting a GPD to Peaks Over a Threshold}
+
+\description{Maximum (Penalized) Likelihood, Unbiased Probability
+  Weighted Moments,Biased Probability Weighted Moments, Moments,
+  Pickands', Minimum Density Power Divergence, Medians, Likelihood
+  Moment and Maximum Goodness-of-Fit Estimators to fit Peaks Over a
+  Threshold to a GP distribution.}
 
 \usage{fitgpd(data, threshold, est = "mle", \dots)}
 \arguments{
@@ -75,7 +76,7 @@
   The \code{'lme'} estimator has a special parameter \code{'r'}. Zhang
   (2007) shows that a value of -0.5 should be accurate in most of the
   cases. However, other values such as \code{r < 0.5} can be
-  explored. In particular, if \code{r} is approximatively equal to the
+  explored. In particular, if \code{r} is approximatively equal to the
   opposite of the true shape parameter value, then the \code{lme}
   estimate is equivalent to the \code{mle} estimate.
 
@@ -85,10 +86,15 @@
   and \code{b = 0} (the default). However, different values can be
   tested.
 
+  For the \code{'pwmu'} and \code{'pwmb'} approaches, one can pass the
+  option \code{'hybrid = TRUE'} to use hybrid estimators as proposed by
+  Dupuis and Tsao (1998). Hybrid estimators avoid to have no feasible
+  points.
+
   The \code{mdpd} estimator has a special parameter \code{'a'}. This is
   a parameter of the "density power divergence". Juarez and Schucany
   (2004) recommend the use of \code{a = 0.1}, but any value of
-  \code{a} such as \code{a > 0} can be used (small values are recommend
+  \code{a} such as \code{a > 0} can be used (small values are recommend
   yet).
 
   The \code{med} estimator admits two extra arguments \code{tol} and
@@ -109,7 +115,11 @@
     Modelling of Extreme Values}. Springer Series in Statistics. London.
 
   Coles, S. and Dixon, M. (1999) Likelihood-Based Inference for Extreme
-  Value Models. \emph{Extremes} \bold{2}(1):5--23.
+  Value Models. Extremes \bold{2}(1):5--23.
+
+  Dupuis, D. and Tsao (1998) M. A hybrid estimator for generalized
+  Pareto and extreme-value distributions. Communications in
+  Statistics-Theory and Methods \bold{27}:925--941.
 
   Hosking, J. and Wallis, J. (1987) Parameters and Quantile Estimation
   for the Generalized Pareto Distribution. Technometrics
@@ -154,6 +164,9 @@ ad2r <- fitgpd(x, 1, "mgf", stat = "AD2R")$param
 
 print(rbind(mle, pwmu, pwmb, pickands, med, mdpd, lme,
  mple, ad2r))
+
+##Use PWM hybrid estimators
+fitgpd(x, 1, "pwmu", hybrid = FALSE)
 
 ##Now fix one of the GPD parameters
 ##Only the MLE, MPLE and MGF estimators are allowed !
