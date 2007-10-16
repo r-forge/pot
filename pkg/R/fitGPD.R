@@ -700,17 +700,18 @@ gpdpwmu <- function(data,threshold, hybrid = FALSE){
   pat <- nat / length( data )
   
   loc <- threshold
+  excess <- exceed - loc
   
-  lmoments <- samlmu(exceed, nmom=2, sort.data = FALSE)
-  shape <- - (lmoments[1] - loc)/lmoments[2] + 2
-  scale <- (1 - shape)*(lmoments[1] - loc)
+  lmoments <- samlmu(excess, nmom=2, sort.data = FALSE)
+  shape <- - lmoments[1]/lmoments[2] + 2
+  scale <- (1 - shape)*lmoments[1]
   names(shape) <- NULL
   names(scale) <- NULL
   est <- "PWMU"
   
   if (hybrid)
-    if ( (max(exceed - loc) >= (-scale / shape)) & (shape < 0) ){
-      shape <- -scale / max(excedd - loc)
+    if ( (excess[nat] >= (-scale / shape)) & (shape < 0) ){
+      shape <- -scale / excess[nat]
       est <- 'PWMU Hybrid'
     }
   
@@ -779,28 +780,26 @@ gpdmdpd <- function(x, threshold, a, start, ...,
     
     start <- c(scale = 0, shape = 0.1)
     start["scale"] <- mean(exceed) - min(threshold)
-    
   }
-  
+
+    
   pddf <- function(param){
     ## Evaluates the (P)ower (D)ensity (D)ivergence (F)unction which is
     ## criterion function of the MDPDE
     scale <- param[1]
     shape <- param[2]
     
-    if ( (max(excess) >= -scale/shape) & (shape < 0))
-      div <- 1e6
-
-    else{
-      n <- length(excess)
-      t <- (-1/shape -1) * a
-      y <- excess / scale
-      y <- 1 + shape*y
-      y <- y^t
+    if ( ((max(excess)  < (-scale / shape)) && (shape < 0)) ||
+        (shape > 0) ){
+      y <- pmax(0, 1 + shape * excess / scale)^
+      ((-1/shape - 1) * a)
       c1 <- 1 / (scale^a * (1 + a + a * shape))
-      c2 <- (1 + 1/a ) / scale^a / n
-      div <- c1 - c2 * sum(y)
+      c2 <- (1 + 1/a ) / scale^a
+      div <- c1 - c2 * mean(y)
     }
+
+    else
+      div <- 1e6
     
     return(div)
   }
@@ -818,6 +817,7 @@ gpdmdpd <- function(x, threshold, a, start, ...,
   scale <- opt$par[1]
   
   param <- c(scale = scale, shape = shape)
+  names(param) <- c("scale", "shape")
   
   std.err <- std.err.type <- var.cov <- corr <- NULL
   
