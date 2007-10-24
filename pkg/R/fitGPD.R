@@ -269,7 +269,8 @@ gpdmgf <- function(x, threshold, start, stat, ...,
 
       else{
 
-        if ((max(excess) >= -scale/shape) & (shape < 0))
+        if ((pgpd(max(excess),  0, scale, shape) >= 1) ||
+            (pgpd(min(excess),  0, scale, shape) <= 0))
          1e6
 
         else
@@ -286,7 +287,7 @@ gpdmgf <- function(x, threshold, start, stat, ...,
 
       else{
 
-        if ((max(excess) >= -scale/shape) & (shape < 0))
+        if (pgpd(max(excess),  0, scale, shape) >= 1)
          1e6
 
         else
@@ -302,7 +303,7 @@ gpdmgf <- function(x, threshold, start, stat, ...,
 
       else{
 
-        if ((max(excess) >= -scale/shape) & (shape < 0))
+        if (pgpd(min(excess),  0, scale, shape) <= 0)
          1e6
 
         else
@@ -318,7 +319,7 @@ gpdmgf <- function(x, threshold, start, stat, ...,
 
       else{
 
-        if ((max(excess) >= -scale/shape) & (shape < 0))
+        if (pgpd(max(excess),  0, scale, shape) >= 1)
          1e6
 
         else
@@ -334,7 +335,7 @@ gpdmgf <- function(x, threshold, start, stat, ...,
 
       else{
 
-        if ((max(excess) >= -scale/shape) & (shape < 0))
+        if (pgpd(min(excess),  0, scale, shape) <= 0)
          1e6
 
         else
@@ -350,7 +351,8 @@ gpdmgf <- function(x, threshold, start, stat, ...,
 
       else{
 
-        if ((max(excess) >= -scale/shape) & (shape < 0))
+        if ((pgpd(max(excess),  0, scale, shape) >= 1) ||
+            (pgpd(min(excess),  0, scale, shape) <= 0))
          1e6
 
         else
