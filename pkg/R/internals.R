@@ -1,5 +1,8 @@
 print.uvpot <- function(x, digits = max(3, getOption("digits") - 3), ...){
   cat("Estimator:", x$est, "\n")
+
+  if (x$est == "MGF")
+    cat("Statistic:", x$stat, "\n")
   
   if (x$est == 'MLE'){
     cat(" Deviance:", x$deviance, "\n")
