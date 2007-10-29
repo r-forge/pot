@@ -110,7 +110,7 @@ gpdmple <- function(x, threshold, start, ..., std.err.type =
   
   opt <- optim(start, nllh, hessian = TRUE, ..., method = method)
   
-  if (opt$convergence != 0) {
+  if ((opt$convergence != 0) || (opt$value == 1e6)) {
     warning("optimization may not have succeeded")
     if(opt$convergence == 1) opt$convergence <- "iteration limit reached"
   }
@@ -200,7 +200,8 @@ gpdmple <- function(x, threshold, start, ..., std.err.type =
        deviance = 2*opt$value, corr = corr.mat, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
        nat = nat, pat = pat, data = x, exceed = exceed, scale = scale,
-       var.thresh = var.thresh, est = "MPLE", logLik = -opt$value)
+       var.thresh = var.thresh, est = "MPLE", logLik = -opt$value,
+       opt.value = opt$value)
 }
 
 
@@ -391,7 +392,7 @@ gpdmgf <- function(x, threshold, start, stat, ...,
   
   opt <- optim(start, mgf, hessian = TRUE, ..., method = method)
   
-  if (opt$convergence != 0) {
+  if ((opt$convergence != 0) || (opt$value == 1e6)) {
     warning("optimization may not have succeeded")
     if(opt$convergence == 1) opt$convergence <- "iteration limit reached"
   }
@@ -416,7 +417,7 @@ gpdmgf <- function(x, threshold, start, stat, ...,
        corr = corr.mat, convergence = opt$convergence, counts = opt$counts,
        message = opt$message, threshold = threshold, nat = nat, pat = pat,
        data = x, exceed = exceed, scale = scale, var.thresh = var.thresh,
-       est = "MGF")
+       est = "MGF", opt.value = opt$value, stat = stat)
 }
 
 ##Likelihood moment estimation
@@ -431,8 +432,7 @@ gpdlme <- function(x, threshold, r = -.5){
     stop("no data above threshold")
 
   pat <- nat/nn
-  param <- c("scale", "shape")
-
+  
   excess <- exceed - threshold
   fun <- function(x){
     p <- r / mean(log(1 - x * excess))
@@ -440,7 +440,7 @@ gpdlme <- function(x, threshold, r = -.5){
   }
 
   opt <- uniroot(fun, lower = -1e6,
-               upper = 1 / max(excess))
+                 upper = 1 / max(excess))
 
   b <- opt$root
   zero <- opt$f.root
@@ -451,7 +451,8 @@ gpdlme <- function(x, threshold, r = -.5){
   shape <- mean(log(1 - b*excess))
   scale <- - shape / b
 
-  param <- c(scale = scale, shape = shape)
+  param <- c(scale, shape)
+  names(param) <- c("scale", "shape")
 
   a11 <- scale^2 * (2 + ((r - shape)^2 + 2 * shape) /
                     (1 - 2 * r))
@@ -476,7 +477,6 @@ gpdlme <- function(x, threshold, r = -.5){
         message <- "Assymptotic theory assumptions\nfor standard error may not be fullfilled !"
     else message <- NULL
   
-  convergence <- NA
   var.thresh <- FALSE
   return(list(fitted.values = param, std.err = std.err, std.err.type = "expected",
               var.cov = var.cov, param = param, message = message,
@@ -776,15 +776,14 @@ gpdmdpd <- function(x, threshold, a, start, ...,
   if(!nat) stop("no data above threshold")
   
   pat <- nat/nn
-  param <- c("scale", "shape")
-  
-  if(missing(start)) {
     
-    start <- c(scale = 0, shape = 0.1)
-    start["scale"] <- mean(exceed) - min(threshold)
+  if(missing(start)) {
+    start <- list(scale = 0, shape = 0.01)
+    start$scale <- mean(exceed) - min(threshold)
   }
 
-    
+  start <- c(scale = start$scale, shape = start$shape)
+  
   pddf <- function(param){
     ## Evaluates the (P)ower (D)ensity (D)ivergence (F)unction which is
     ## criterion function of the MDPDE
@@ -808,7 +807,7 @@ gpdmdpd <- function(x, threshold, a, start, ...,
   
   opt <- optim(start, pddf, hessian = TRUE, ..., method = method)
   
-  if (opt$convergence != 0) {
+  if ((opt$convergence != 0) || (opt$value == 1e6)) {
     warning("optimization may not have succeeded")
     if(opt$convergence == 1) opt$convergence <- "iteration limit reached"
   }
@@ -818,7 +817,7 @@ gpdmdpd <- function(x, threshold, a, start, ...,
   shape <- opt$par[2]
   scale <- opt$par[1]
   
-  param <- c(scale = scale, shape = shape)
+  param <- c(scale, shape)
   names(param) <- c("scale", "shape")
   
   std.err <- std.err.type <- var.cov <- corr <- NULL
@@ -830,7 +829,8 @@ gpdmdpd <- function(x, threshold, a, start, ...,
        deviance = NULL, corr = corr, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
        nat = nat, pat = pat, data = x, exceed = exceed,
-       scale = scale, var.thresh = var.thresh, est = "MDPD")
+       scale = scale, var.thresh = var.thresh, est = "MDPD",
+       opt.value = opt$value)
 }
 
 
@@ -908,7 +908,7 @@ gpdmle <- function(x, threshold, start, ...,
   
   opt <- optim(start, nllh, hessian = TRUE, ..., method = method)
   
-  if (opt$convergence != 0) {
+  if ((opt$convergence != 0) || (opt$value == 1e6)) {
     warning("optimization may not have succeeded")
     if(opt$convergence == 1) opt$convergence <- "iteration limit reached"
   }
@@ -998,7 +998,8 @@ gpdmle <- function(x, threshold, start, ...,
        deviance = 2*opt$value, corr = corr.mat, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
        nat = nat, pat = pat, data = x, exceed = exceed, scale = scale,
-       var.thresh = var.thresh, est = "MLE", logLik = -opt$value)
+       var.thresh = var.thresh, est = "MLE", logLik = -opt$value,
+       opt.value = opt$value)
 }
 
 ##Medians estimation for the GPD ( Peng, L. and Welsh, A. (2002) )
@@ -1024,15 +1025,15 @@ gpdmed <- function(x, threshold, start, tol = 10^-3, maxit = 500,
   if(!nat) stop("no data above threshold")
   
   pat <- nat/nn
-  param <- c("scale", "shape")
-
+  
   if(missing(start)) {
     
-    start <- c(scale = 0, shape = 0.1)
+    start <- list(scale = 0, shape = 0.1)
     start["scale"] <- mean(exceed) - min(threshold)
     
   }
-  
+
+  start <- c(scale = start$scale, shape = start$shape)
   iter <- 1
   
   trace <- round(start, 3)
@@ -1058,8 +1059,10 @@ gpdmed <- function(x, threshold, start, tol = 10^-3, maxit = 500,
     if (start[2] <= -1)
       y1 <- .5
     
-    else
-      y1 <- uniroot(f, c(10^-12, .5), y = start[2])$root
+    else{
+      opt <- uniroot(f, c(10^-12, .5), y = start[2])
+      y1 <- opt$root
+    }
     
     r2 <- median(a - b) + log(y1)/start[2] + (1 + start[2]) /
       start[2]^2 * (1 - y1^start[2])
@@ -1075,7 +1078,6 @@ gpdmed <- function(x, threshold, start, tol = 10^-3, maxit = 500,
     
   }
   
-  opt <- list()
   if(iter == maxit) opt$convergence <- "iteration limit reached"
   
   else opt$convergence <- "successful"
@@ -1106,7 +1108,8 @@ gpdmed <- function(x, threshold, start, tol = 10^-3, maxit = 500,
        deviance = NULL, corr = corr, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
        nat = nat, pat = pat, data = x, exceed = exceed,
-       scale = scale, var.thresh = var.thresh, est = "MEDIANS")
+       scale = scale, var.thresh = var.thresh, est = "MEDIANS",
+       opt.value = opt$f.root)
   
 }
 
