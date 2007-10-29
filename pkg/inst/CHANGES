@@ -1,3 +1,12 @@
+Version 1.0-5:
+  - Add a ``convassess'' function to assess for convergence of the
+    fitted uvpot and bvpot objects.
+  - Some minor changes for uvpot fitting process to increase
+    robustness
+  - Density plot can return histogram in addition.
+  - Add a confint function to provide a generic access for (profile)
+    confidence interval computing
+
 Version 1.0-4:
   - Fix encodings with newer R version
   - Link to the url at R-Forge in the Description file
