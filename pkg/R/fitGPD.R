@@ -421,7 +421,8 @@ gpdmgf <- function(x, threshold, start, stat, ...,
 }
 
 ##Likelihood moment estimation
-gpdlme <- function(x, threshold, r = -.5){
+gpdlme <- function(x, threshold, r = -.5, start, ...,
+                   method = "BFGS"){
 
   nn <- length(x)
   high <- (x > threshold) & !is.na(x)
@@ -436,17 +437,24 @@ gpdlme <- function(x, threshold, r = -.5){
   excess <- exceed - threshold
   fun <- function(x){
     p <- r / mean(log(1 - x * excess))
-    mean((1 - x * excess)^p) - 1 / (1 - r)
+    abs(mean((1 - x * excess)^p) - 1 / (1 - r))
   }
 
-  opt <- uniroot(fun, lower = -1e6,
-                 upper = 1 / max(excess))
+   if (missing(start))
+    start <- list(x = -1)
+   
+  opt <- optim(start, fun, hessian = FALSE, ..., method = method)
 
-  b <- opt$root
-  zero <- opt$f.root
-  counts <- c(opt$iter, NA)
-  names(counts) <- c("function", "gradient")
-  prec <- opt$estim.prec
+  if (opt$convergence != 0){
+    warning("optimization may not have succeeded")
+    if(opt$convergence == 1) opt$convergence <- "iteration limit reached"
+  }
+  
+  else opt$convergence <- "successful"
+
+  counts <- opt$counts
+  b <- opt$par
+  zero <- opt$value
   
   shape <- mean(log(1 - b*excess))
   scale <- - shape / b
@@ -479,10 +487,10 @@ gpdlme <- function(x, threshold, r = -.5){
   
   var.thresh <- FALSE
   return(list(fitted.values = param, std.err = std.err, std.err.type = "expected",
-              var.cov = var.cov, param = param, message = message,
-              threshold = threshold, corr = corr, convergence = c(zero = zero, precision = prec),
+              var.cov = var.cov, param = param, message = message, data = x,
+              threshold = threshold, corr = corr, convergence = opt$convergence,
               counts = counts, nat = nat, pat = pat, exceed = exceed, scale = scale,
-              var.thresh = var.thresh, est = "LME"))
+              var.thresh = var.thresh, est = "LME", opt.value = opt$value))
 }
 
 ##Pickand's Estimator
