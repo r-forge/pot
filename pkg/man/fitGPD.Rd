@@ -153,8 +153,8 @@ pwmu <- fitgpd(x, 1, "pwmu")$param
 pwmb <- fitgpd(x, 1, "pwmb")$param
 pickands <- fitgpd(x, 1, "pickands")$param    ##Check if Pickands estimates
                                               ##are valid or not !!!
-med <- fitgpd(x, 1, "med", start = mle)$param ##Sometimes the fitting algo is not
-                                              ##accurate. So specify
+med <- fitgpd(x, 1, "med",                    ##Sometimes the fitting algo is not
+start = list(scale = 2, shape = 0.25))$param  ##accurate. So specify
                                               ##good starting values is
                                               ##a good idea.  
 mdpd <- fitgpd(x, 1, "mdpd")$param
