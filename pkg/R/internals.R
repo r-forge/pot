@@ -218,7 +218,7 @@ convassess.uvpot <- function(fitted, n = 50){
 
   if (fitted$est == "MDPD")
     fun <- function() 
-      fitgpd(data, thresh, "mdpd")
+      fitgpd(data, thresh, "mdpd", start = start)
 
   if (fitted$est == "MGF")
     fun <- function()
