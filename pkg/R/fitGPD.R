@@ -436,6 +436,8 @@ gpdlme <- function(x, threshold, r = -.5, start, ...,
   
   excess <- exceed - threshold
   fun <- function(x){
+    if (x >= 1/max(excess))
+      return(1e6)
     p <- r / mean(log(1 - x * excess))
     abs(mean((1 - x * excess)^p) - 1 / (1 - r))
   }
@@ -443,7 +445,7 @@ gpdlme <- function(x, threshold, r = -.5, start, ...,
    if (missing(start))
     start <- list(x = -1)
    
-  opt <- optim(start, fun, hessian = FALSE, ..., method = method)
+  opt <- optim(start, fun, hessian = TRUE, ..., method = method)
 
   if (opt$convergence != 0){
     warning("optimization may not have succeeded")
