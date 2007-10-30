@@ -1058,7 +1058,7 @@ gpdmed <- function(x, threshold, start, tol = 10^-3, maxit = 500,
   while (iter < maxit){
     ##If we have a non feasible point, we move back to feasible region
     if ( (start[2] < 0) & (max(excess) >= (-start[1] / start[2])))
-      start[2] <- start[1] / max(excess) + .1
+      start[2] <- -start[1] / max(excess) + .1
     
     r1 <- start[2] * median(excess) / (2^start[2] - 1) - start[1]
     
