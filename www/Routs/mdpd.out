@@ -1,0 +1,16 @@
+Estimator: MDPD<br/> 
+<br/>
+Varying Threshold: FALSE <br/>
+<br/>
+  Threshold Call: 0 <br/>
+    Number Above: 100 <br/>
+Proportion Above: 1 <br/>
+<br/>
+Estimates<br/>
+ scale   shape  <br/>
+0.9693  0.1809  <br/>
+<br/>
+Optimization Information<br/>
+  Convergence: successful <br/>
+  Function Evaluations: 8 <br/>
+  Gradient Evaluations: 5 

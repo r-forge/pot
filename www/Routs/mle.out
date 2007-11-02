@@ -1,0 +1,15 @@
+> mle<br/>
+Estimator: MLE<br/> 
+ Deviance: 115.4406 <br/>
+      AIC: 119.4406 <br/>
+<br/>
+Varying Threshold: FALSE <br/>
+<br/>
+  Threshold Call: 0 <br/>
+    Number Above: 50 <br/>
+Proportion Above: 1 <br/>
+<br/>
+Estimates<br/>
+   scale     shape  <br/>
+ 1.24924  -0.06813  <br/>
+...
