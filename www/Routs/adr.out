@@ -1,0 +1,17 @@
+Estimator: MGF <br/>
+Statistic: ADR <br/>
+<br/>
+Varying Threshold: FALSE <br/>
+<br/>
+  Threshold Call: 0 <br/>
+    Number Above: 100 <br/>
+Proportion Above: 1 <br/>
+<br/>
+Estimates<br/><
+ scale   shape  <br/>
+0.9438  0.1938  <br/>
+<br/>
+Optimization Information<br/>
+  Convergence: successful <br/>
+  Function Evaluations: 21 <br/>
+  Gradient Evaluations: 10
