@@ -71,6 +71,7 @@
     <div id="footnote">
       <p>$LastChangedDate$</p>
     </div>
+    <?php include "phpPages/counter.php"; ?>
   </body>
 </html>
 

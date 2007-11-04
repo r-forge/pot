@@ -44,7 +44,7 @@ acronym{
 
 /* Menu */
 #menu{ 
-       font-size: large;
+       font-size: 18px;
        position: absolute;
        left: 3em;
        top:7em;

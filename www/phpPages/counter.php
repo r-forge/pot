@@ -5,5 +5,4 @@ $visitea++;
 fseek($fichier,0);
 fputs($fichier,$visitea);
 fclose($fichier);
-echo $visitea;
 ?>
