@@ -8,7 +8,7 @@ and environmental applications.
   The POT package was first committed to
   the <a href="http://www.r-project.org/">
     <acronym title="Comprehensive R Archive Network">
-      CRAN </acronym> </a> in April 2005 and is still in active
+      CRAN</acronym></a> in April 2005 and is still in active
   development.The main motivation was to provide practical tools for
   probabilistic modelling of high flood flows.  However, the strength
   of the EVT is that results do not depend on the process to be

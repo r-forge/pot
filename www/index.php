@@ -18,48 +18,55 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"
 	  /> 
     <title><?php echo $group_name; ?></title>
+    <link rel="stylesheet" media="screen" type="text/css"
+	  title="Design" href="css/style.css" />
     <link href="<?php echo $themeroot; ?>styles/estilo1.css"
 	  rel="stylesheet" type="text/css" /> 
-    <link rel="stylesheet" media="screen" type="text/css"
-	  title="Design" href="style.css" />
   </head>
   
   <body>
     
-    <! --- R-Forge Logo --- >
-    <table border="0" width="100%" cellspacing="0" cellpadding="0">
-      <tr><td>
-	  <a href="/"><img src="<?php echo $themeroot;
-				?>/images/logo.png" border="0"
-			   alt="R-Forge Logo" /> </a> </td> 
-      <td>
-	<h1>Welcome to the POT package homepage!</h1><br/>
-      </td>
-      </tr> 
-    </table>
-    <center>
-      <h2> A R Package to Model Peaks Over a Threshold</h2> 
-    </center>
-    
-    <?php include "welcome.php"; ?>
+    <!-- header part --->
+    <div id="Rlogo">
+      provided by
+      <a href="/">
+	<img src="<?php echo $themeroot; ?>/images/logo.png"
+	     width="90" align="left"/>	    
+      </a>
+    </div>
+    <div id="header">
+      <h1>The POT package:</h1>
+      <h2>An R Package to Model Peaks Over a Threshold</h2>
+    </div>
+    <!-- menu part --->  
+    <div id="menu">
+      <?php include "phpPages/menu.php"; ?>
+    </div>
+    <div id="main_matter">  
+    <?php include "phpPages/welcome.php"; ?>
+    <h2 id="features">Features</h2>
+    <?php include "phpPages/features.php"; ?>
 
-    <h2>Features</h2>
-    <?php include "features.php"; ?>
+    <h2 id="screen_shots">Screen Shots</h2>
+    <?php include "phpPages/screen_shots.php"; ?>
 
-    <h2>Screen Shots</h2>
-    <?php include "screen_shots.php"; ?>
+    <h2 id="pot_few_lines">The POT Package in a Few Lines</h2>
+    <?php include "phpPages/pot_few_lines.php"; ?>
 
-    <h2>The POT Package in a Few Lines</h2>
-    <?php include "pot_few_lines.php"; ?>
+    <h2 id="manuals">Manuals</h2> 
+    <?php include "phpPages/manuals.php"; ?>
 
-    <h2>Manuals</h2> 
-    <?php include "manuals.php"; ?>
-
-    <h2>Contact</h2> Any suggestions, feature requests,
+    <h2 id="contact">Contact</h2> Any suggestions, feature requests,
     bugs: <a href="http://r-forge.r-project.org/tracker/?group_id=76">
       select the appropriate tracker</a><br/> Author: Mathieu
     Ribatet <a href="http://www.lyon.cemagref.fr/hh/hydrologie/scientifiques/ribatet/hydrology-english.shtml">
-      (homepage)</a><br/> $LastChangedDate$
+      (homepage)</a>
+    </div>
+    
+    <!-- footnote part --->
+    <div id="footnote">
+      <p>$LastChangedDate$</p>
+    </div>
   </body>
 </html>
 
