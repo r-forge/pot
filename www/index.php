@@ -18,7 +18,8 @@ title="Fix Design" href="css/style.css" />
 <link href="<?php echo $themeroot; ?>styles/estilo1.css"
 rel="stylesheet" type="text/css" /> 
 <link rel="icon" type="image/png" 
-href="http://developer.r-project.org/Logo/Rlogo-5.png" />
+href="http://developer.r-project.org/Logo/Rlogo-5.png"
+alt="R Logo" />
 </head>
 <body>
 <!-- header part --->
