@@ -18,8 +18,7 @@
     <link href="<?php echo $themeroot; ?>styles/estilo1.css"
 	  rel="stylesheet" type="text/css" /> 
     <link rel="icon" type="image/png" 
-	  href="http://developer.r-project.org/Logo/Rlogo-5.png"
-	  alt="R Logo" />
+	  href="http://developer.r-project.org/Logo/Rlogo-5.png" />
   </head>
   <body>
     <!-- header part -->
@@ -28,7 +27,7 @@
 	provided by
 	<a href="/">
 	  <img src="<?php echo $themeroot; ?>/images/logo.png"
-	       width="90" align="left"/>	    
+	       width="90" align="left" alt="RForge Logo" />	    
 	</a>   
       </div>   
       <h1>The POT Package:</h1>
