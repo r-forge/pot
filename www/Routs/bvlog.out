@@ -2,7 +2,7 @@ Call: fitbvgpd(data = y, threshold = c(0, 10), model = "log") <br/>
 Estimator: MLE <br/>
 Dependence Model and Strenght:<br/>
 	Model : Logistic <br/>
-	lim_u Pr[ X_1 > u | X_2 > u] = 0.063<br/>
+	lim_u Pr[ X_1 &gt u | X_2 &gt u] = 0.063<br/>
 Deviance: 489.5613 <br/>
      AIC: 499.5613 <br/>
 <br/>
