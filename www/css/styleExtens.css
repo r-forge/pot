@@ -23,35 +23,49 @@ acronym{
   height: auto !important;
   height: 100%;
   min-height: 100%; 
-  margin-bottom: 20px;
   margin-left: 20%;
-  margin-right: 17%;
+  margin-right: 10%;
   text-align: center;
-  margin-bottom: 1em;
+  margin-bottom: 1%;
   }
+
+#header h2
+{
+  margin-bottom:4%;
+}
 
 #Rlogo
 { 
   display: inline;
-  width: 7%;
+  height: auto !important;
+  height: 100%;
+  min-height: 100%; 
+  margin-left: 0%;
   margin-right: 10%;
+  text-align: center;
+  width: 7%;
   float: right;
   text-align: center;
   border: 2px;
-  margin-top: 3em;
-  margin-bottom: 2em;
+  margin-top: 4%;
+  margin-bottom: 0%;
   }
 
 /* Menu */
 #menu{ 
        font-size: 18px;
        position: absolute;
-       left: 3em;
-       top:7em;
+       left: 1%;
+       top:14%;
        float: left;
        width: 20%;
        font-family: Arial, "Arial Black", "Times New Roman", Times, serif;
        }
+
+#menu ul{
+  list-style: none inside;
+  
+}
 
 /* Le corps de la page */
 
