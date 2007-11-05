@@ -1,12 +1,12 @@
-<!DOCTYPE html
-	  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <?php
    $domain=ereg_replace('[^\.]*\.(.*)$','\1',$_SERVER['HTTP_HOST']);
    $group_name=ereg_replace('([^\.]*)\..*$','\1',$_SERVER['HTTP_HOST']); 
    $themeroot='http://r-forge.r-project.org/themes/rforge/';
    echo '<?xml version="1.0" encoding="UTF-8"?>';
    ?>
+<!DOCTYPE html
+	  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
@@ -22,7 +22,7 @@
 	  alt="R Logo" />
   </head>
   <body>
-    <!-- header part --->
+    <!-- header part -->
     <div id="header">
       <div id="Rlogo">
 	provided by
@@ -34,11 +34,11 @@
       <h1>The POT Package:</h1>
       <h2>An R Package to Model Peaks Over a Threshold</h2>
     </div>
-    <!-- menu part --->  
+    <!-- menu part -->  
     <div id="menu">
       <?php include "phpPages/menu.php"; ?>
     </div>
-    <!-- main matter part --->
+    <!-- main matter part -->
     <div id="main_matter">  
       <?php include "phpPages/welcome.php"; ?>
       <h2 id="features">Features</h2>
@@ -55,7 +55,7 @@
       Ribatet <a href="http://www.lyon.cemagref.fr/hh/hydrologie/scientifiques/ribatet/hydrology-english.shtml">
 	(homepage)</a>
     </div>
-    <!-- footnote part --->
+    <!-- footnote part -->
     <div id="footnote">
       <p>$LastChangedDate$</p>
     </div>
