@@ -9,7 +9,7 @@ package.
   ##Simulate a sample from a GPD(0,1,0.2):<br/>
 </span>
 <a class="Routs">
-  <code> x &lt- rgpd(100, 0, 1, 0.2) </code>
+  <code> x &lt;- rgpd(100, 0, 1, 0.2) </code>
 	      <span>
 		[1] 0.123422302 0.297063966 ...
 	      </span>
@@ -41,7 +41,7 @@ package.
 </span>
 <br/>
 <a class="Routs">
-  <code>y &lt- rbvgpd(100, model = "alog", alpha = 0.2,
+  <code>y &lt;- rbvgpd(100, model = "alog", alpha = 0.2,
 	     asCoef1 = 0.8, asCoef2 = 0.2, mar1 = c(0, 1,
 	     0.2), mar2 = c(10, 1, 0.5))</code>
 	     <span>
@@ -68,7 +68,7 @@ package.
    ##Maximum likelihood estimate (threshold = 0):<br/>
 </span>
 <a class="Routs">
-  <code>mle &lt- fitgpd(x, 0)</code>
+  <code>mle &lt;- fitgpd(x, 0)</code>
 	       <span>
 		 <?php $tab = include "Routs/mle.out"; ?>
 	       </span>
@@ -78,7 +78,7 @@ package.
    ##Probability Weighted Moments:<br/> 
 </span>
 <a class="Routs">
-  <code>pwu &lt- fitgpd(x, 0, "pwmu")</code>
+  <code>pwu &lt;- fitgpd(x, 0, "pwmu")</code>
 	       <span>
 		 <?php $tab = include "Routs/pwu.out"; ?>
 	       </span>
@@ -88,7 +88,7 @@ package.
    ##Maximum Goodness-of-Fit estimators:<br/>
 </span>
 <a class="Routs">
-  <code>adr &lt- fitgpd(x, 0, "mgf", stat = "ADR")</code>
+  <code>adr &lt;- fitgpd(x, 0, "mgf", stat = "ADR")</code>
 	       <span>
 		 <?php $tab = include "Routs/adr.out"; ?>
 	       </span>
@@ -118,7 +118,7 @@ package.
    ##Fit a bivariate GPD with a logistic dependence:<br/>
 </span>
 <a class="Routs">
-  <code>log &lt- fitbvgpd(y, c(0,10), "log")</code>
+  <code>log &lt;- fitbvgpd(y, c(0,10), "log")</code>
 	       <span>
 		 <?php $tab = include "Routs/bvlog.out"; ?>
 	       </span>
