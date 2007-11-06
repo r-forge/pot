@@ -1,0 +1,121 @@
+/* CSS issu des tutoriels css.alsacreations.com */
+body {
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size: 12px;
+margin: 0;
+padding: 0;
+}
+#header {
+height: 100px;
+}
+#wrapper {
+position: absolute;
+width: 100%;
+}
+#main_matter {
+margin-left: 15%;
+margin-right: 10%;
+}
+#left {
+position: absolute;
+left:0;
+width: 15%;
+}
+#footnote {
+text-align: center;
+height: 30px;
+}
+
+.menu {
+font-size: 18px;
+list-style-type: none;
+margin: 0;
+padding:0;
+}
+
+
+.menu li {
+margin-bottom: 5px;
+}
+.menu a {
+margin: 0 2px;
+text-decoration: underline;
+}
+.menu a:hover {
+text-decoration: none;
+}
+p {
+margin: 0 0 10px 0;
+}
+
+
+/* My configuration not alsa one */
+.mainTitle{ 
+            padding-top: 12px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+ }
+
+#Rlogo
+{ 
+  position: absolute;
+  margin-left: 85%;
+  margin-right: 0%;
+  width: 7%;
+  text-align: center;
+  /*border: 2px;*/
+  margin-top: 33px;
+  margin-bottom: 0%;
+  }
+
+/*R Comments style */
+.Rcomments {
+             color: gray;
+             }
+
+/* R code blocks */
+.Rcodes{ 
+        background-color: #effff2;
+        border: 1px dashed gray;
+        margin-left: 2em;
+        padding: 4px;
+        }
+
+/*R outputs style*/
+.Routs {
+         color: black;
+         text-decoration: none;
+         }
+
+a.Routs, code.Routs {
+          position: relative;
+          color: black;
+          }
+a.Routs span, code.Routs span {
+               color: black;
+               display: none;
+               }
+a.Routs:hover, code.Routs:hover {
+                background: none; /* correction d'un bug IE */
+                z-index: 500; /* on définit une valeur pour l'ordre d'affichage */
+                color: teal;
+                }
+a.Routs:hover span, code.Routs:hover span {
+                     display: inline; /* on affiche l'infobulle */
+                     position: absolute;
+
+                     white-space: nowrap; /* on change la valeur de la propriété white-space pour qu'il n'y ait pas de retour à la ligne non-désiré */
+
+                     top: 30px;  /*on positionne notre infobulle */
+                     left: 20px;
+
+                     background: white;
+
+                     color: teal;
+                     padding: 3px;
+
+                     border: 1px solid teal;
+                     border-left: 4px solid teal;
+                     }
+

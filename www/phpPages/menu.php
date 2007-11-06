@@ -1,4 +1,4 @@
-<ul>
+<ul class="menu">
 <li><a href="#features">Features</a></li>
 <li><a href="#screen_shots">Screen Shots</a></li>
 <li><a href="#pot_few_lines">Short Applications</a></li>
