@@ -4,9 +4,10 @@ font-family:Verdana, Arial, Helvetica, sans-serif;
 font-size: 12px;
 margin: 0;
 padding: 0;
+text-align: justify;
 }
 #header {
-height: 100px;
+height: 150px;
 }
 #wrapper {
 position: absolute;
@@ -22,6 +23,7 @@ left:0;
 width: 15%;
 }
 #footnote {
+padding: 2em;
 text-align: center;
 height: 30px;
 }
@@ -39,7 +41,8 @@ margin-bottom: 5px;
 }
 .menu a {
 margin: 0 2px;
-text-decoration: underline;
+text-decoration: none;
+color: teal;
 }
 .menu a:hover {
 text-decoration: none;
@@ -51,7 +54,7 @@ margin: 0 0 10px 0;
 
 /* My configuration not alsa one */
 .mainTitle{ 
-            padding-top: 12px;
+            padding-top: 30px;
             text-align: center;
             font-size: 28px;
             font-weight: bold;
@@ -60,13 +63,13 @@ margin: 0 0 10px 0;
 #Rlogo
 { 
   position: absolute;
-  margin-left: 85%;
+  margin-left: 90%;
   margin-right: 0%;
   width: 7%;
+  padding: 5px;
   text-align: center;
   /*border: 2px;*/
-  margin-top: 33px;
-  margin-bottom: 0%;
+  
   }
 
 /*R Comments style */
@@ -119,3 +122,6 @@ a.Routs:hover span, code.Routs:hover span {
                      border-left: 4px solid teal;
                      }
 
+img { 
+ border: none;
+      }

@@ -20,13 +20,13 @@
     <div id="wrapper">
       <!-- header part -->
       <div id="header">
-	<div id="Rlogo">
+	<span id="Rlogo">
 	  provided by
 	  <a href="/">
 	    <img src="<?php echo $themeroot; ?>/images/logo.png"
-		 width="90" align="left" alt="RForge Logo" />	    
+		 width="100%" align="left" alt="RForge Logo" />	    
 	  </a>   
-	</div>   
+	</span>   
 	<div class="mainTitle">The POT Package:<br/> An R Package to Model Peaks Over a
 	Threshold</div>
       </div>
