@@ -62,7 +62,7 @@ package.
   </span>
 </a>
 </div>
-<h4 i="GPDFit">GPD Fitting</h4>
+<h4 id="GPDFit">GPD Fitting</h4>
 <div class="Rcodes">
 <span class="Rcomments">
    ##Maximum likelihood estimate (threshold = 0):<br/>
