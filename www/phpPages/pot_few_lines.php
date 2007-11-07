@@ -3,12 +3,12 @@ the package. However, for a full description, users may want to
 have a look to the package vignette and the html help of the
 package.
 
-<h4>GPD Computations:</h4>
+<h4 id="GPDComp">GPD Computations:</h4>
 <div class="Rcodes">
 <span class="Rcomments"> 
   ##Simulate a sample from a GPD(0,1,0.2):<br/>
 </span>
-<a class="Routs">
+<a href="#GPDComp" class="Routs">
   <code> x &lt;- rgpd(100, 0, 1, 0.2) </code>
 	      <span>
 		[1] 0.123422302 0.297063966 ...
@@ -18,7 +18,7 @@ package.
 <span class="Rcomments">
    ##Evaluate density at x=3 and probability of non-exceedance:<br/>
 </span>
-<a class="Routs">
+<a href="#GPDComp" class="Routs">
   <code>dgpd(3, 0, 1, 0.2); pgpd(3, 0, 1, 0.2)</code>
   <span>
     [1] 0.05960464<br/> 
@@ -29,7 +29,7 @@ package.
 <span class="Rcomments">
    ##Compute the quantile with non-exceedance probability 0.95:<br/> 
 </span>
-<a class="Routs">
+<a  href="#GPDComp" class="Routs">
   <code>qgpd(0.95, 0, 1, 0.2)</code>
   <span>
     [1] 4.102821
@@ -40,7 +40,7 @@ package.
    ##What about the bivariate case?  Just the same
 </span>
 <br/>
-<a class="Routs">
+<a  href="#GPDComp" class="Routs">
   <code>y &lt;- rbvgpd(100, model = "alog", alpha = 0.2,
 	     asCoef1 = 0.8, asCoef2 = 0.2, mar1 = c(0, 1,
 	     0.2), mar2 = c(10, 1, 0.5))</code>
@@ -53,7 +53,7 @@ package.
   ##Evaluate the probability to not exceed (5,14)
 </span>
 <br/> 
-<a class="Routs">
+<a  href="#GPDComp" class="Routs">
   <code>pbvgpd(c(3,15), model = "alog", alpha = 0.2,
     asCoef1 = 0.8, asCoef2 = 0.2, mar1 = c(0, 1,
     0.2), mar2 = c(10, 1, 0.5))</code>
@@ -62,12 +62,12 @@ package.
   </span>
 </a>
 </div>
-<h4>GPD Fitting</h4>
+<h4 i="GPDFit">GPD Fitting</h4>
 <div class="Rcodes">
 <span class="Rcomments">
    ##Maximum likelihood estimate (threshold = 0):<br/>
 </span>
-<a class="Routs">
+<a  href="#GPDFit" class="Routs">
   <code>mle &lt;- fitgpd(x, 0)</code>
 	       <span>
 		 <?php $tab = include "Routs/mle.out"; ?>
@@ -77,7 +77,7 @@ package.
 <span class="Rcomments">
    ##Probability Weighted Moments:<br/> 
 </span>
-<a class="Routs">
+<a href="#GPDFit" class="Routs">
   <code>pwu &lt;- fitgpd(x, 0, "pwmu")</code>
 	       <span>
 		 <?php $tab = include "Routs/pwu.out"; ?>
@@ -87,7 +87,7 @@ package.
 <span class="Rcomments">
    ##Maximum Goodness-of-Fit estimators:<br/>
 </span>
-<a class="Routs">
+<a href="#GPDFit" class="Routs">
   <code>adr &lt;- fitgpd(x, 0, "mgf", stat = "ADR")</code>
 	       <span>
 		 <?php $tab = include "Routs/adr.out"; ?>
@@ -97,7 +97,7 @@ package.
 <span class="Rcomments">
    ##Specifying a known parameter:<br/>
 </span>
-<a class="Routs">
+<a href="#GPDFit" class="Routs">
   <code>fitgpd(x, 0, "mple", shape = 0.2)</code>
   <span>
     <?php $tab = include "Routs/mple.out"; ?>
@@ -107,7 +107,7 @@ package.
 <span class="Rcomments">
    ##Specifying starting values for numerical optimizations:<br/>
 </span>
-<a class="Routs">
+<a href="#GPDFit" class="Routs">
   <code>fitgpd(x, 0, "mdpd", start = list(scale = 1, shape = 0.2))</code>
   <span>
     <?php $tab = include "Routs/mdpd.out"; ?>
@@ -117,14 +117,14 @@ package.
 <span class="Rcomments">
    ##Fit a bivariate GPD with a logistic dependence:<br/>
 </span>
-<a class="Routs">
+<a href="#GPDFit" class="Routs">
   <code>log &lt;- fitbvgpd(y, c(0,10), "log")</code>
 	       <span>
 		 <?php $tab = include "Routs/bvlog.out"; ?>
 	       </span>
 </a>
 </div>  
-<h4>Plots</h4>
+<h4 id="GPDPlot">Plots</h4>
 <div class="Rcodes">
 <span class="Rcomments">
    ##Generic function for the univariate and bivariate
