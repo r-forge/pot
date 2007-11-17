@@ -22,7 +22,7 @@
       <div id="header">
 	<span id="Rlogo">
 	  provided by
-	  <a href="/">
+	  <a href="http://r-forge.r-project.org/">
 	    <img src="<?php echo $themeroot; ?>/images/logo.png"
 		 width="100%" align="left" alt="RForge Logo" />	    
 	  </a>   
