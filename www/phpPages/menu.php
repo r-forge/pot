@@ -4,6 +4,6 @@
 <li><a href="#pot_few_lines">Short Applications</a></li>
 <li><a href="http://r-forge.r-project.org/projects/pot/">Download</a></li>
 <li><a href="#manuals">Manuals</a></li>
-<li><a href="#join">Join the Project</a></li>
+<li><a href="#join">Contribute</a></li>
 <li><a href="#contact">Contact</a></li>
 </ul>
