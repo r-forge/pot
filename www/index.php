@@ -13,8 +13,8 @@
     <title>The POT Package: An R package to model peaks over threshold</title>
     <link rel="stylesheet" media="screen" type="text/css"
 	  title="My Design" href="css/mystyle.css" />
-    <link rel="icon" type="image/png" 
-	  href="images/Rlogo.png" />
+    <link rel="shortcut icon" type="image/png" 
+	  href="images/favicon.png" />
   </head>
   <body>
     <div id="wrapper">
