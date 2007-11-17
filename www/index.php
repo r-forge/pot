@@ -23,7 +23,7 @@
 	<span id="Rlogo">
 	  provided by
 	  <a href="http://r-forge.r-project.org/">
-	    <img src="<?php echo $themeroot; ?>/images/logo.png"
+	    <img src="images/RForgeLogo.png"
 		 width="100%" align="left" alt="RForge Logo" />	    
 	  </a>   
 	</span>   
@@ -45,6 +45,11 @@
 	<?php include "phpPages/pot_few_lines.php"; ?>
 	<h2 id="manuals">Manuals</h2> 
 	<?php include "phpPages/manuals.php"; ?>
+	<h2 id="join">Join the Project</h2> If your interested in
+	joining the project, you must first create an R-forge
+	account. Then, just
+	go <a href="http://r-forge.r-project.org/project/request.php?group_id=76">
+	here</a>.
 	<h2 id="contact">Contact</h2> Any suggestions, feature requests,
 	bugs: <a href="http://r-forge.r-project.org/tracker/?group_id=76">
 	  select the appropriate tracker</a><br/> Author: Mathieu
