@@ -27,8 +27,15 @@
 		 width="100%" align="left" alt="RForge Logo" />	    
 	  </a>   
 	</span>   
-	<div class="mainTitle">The POT Package:<br/> An R Package to Model Peaks Over a
-	Threshold</div>
+	<div class="mainTitle">
+	  <img src="images/title.png"
+	       width="33%" align="center"
+	       alt="The POT Package" />
+	  <br/>
+	  <img src="images/subtitle.png"
+	       width="50%" align="center"
+	       alt="The POT Package" />
+	</div>
       </div>
       <!-- menu part -->  
       <div id="left">
@@ -45,9 +52,10 @@
 	<?php include "phpPages/pot_few_lines.php"; ?>
 	<h2 id="manuals">Manuals</h2> 
 	<?php include "phpPages/manuals.php"; ?>
-	<h2 id="join">Contribute to the Project</h2> If your interested in
-	joining the project, you must first create an R-forge
-	account. Then, just
+	<h2 id="join">Contribute to the Project</h2> If you are
+	interested in joining the project, you must first create an
+	<a href="https://r-forge.r-project.org/account/register.php">R-forge
+	account</a>. Then, just
 	go <a href="http://r-forge.r-project.org/project/request.php?group_id=76">
 	here</a>.
 	<h2 id="contact">Contact</h2> Any suggestions, feature requests,
