@@ -45,7 +45,7 @@
 	<?php include "phpPages/pot_few_lines.php"; ?>
 	<h2 id="manuals">Manuals</h2> 
 	<?php include "phpPages/manuals.php"; ?>
-	<h2 id="join">Join the Project</h2> If your interested in
+	<h2 id="join">Contribute to the Project</h2> If your interested in
 	joining the project, you must first create an R-forge
 	account. Then, just
 	go <a href="http://r-forge.r-project.org/project/request.php?group_id=76">
