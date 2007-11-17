@@ -5,9 +5,15 @@ font-size: 12px;
 margin: 0;
 padding: 0;
 text-align: justify;
+background-color: #e0eaf2;
+background-image: url("../images/background.png");
+background-repeat: repeat-y;
+background-position: left;
+background-attachment: fixed;
 }
 #header {
 height: 150px;
+color: #8d949a;
 }
 #wrapper {
 position: absolute;
@@ -42,11 +48,13 @@ margin-bottom: 5px;
 .menu a {
 margin: 0 2px;
 text-decoration: none;
-color: teal;
+color: #6c6e6f;
 }
 .menu a:hover {
-text-decoration: none;
-background-color: #add7e6;
+border-top: solid 2px;
+border-bottom: solid 2px;
+/*text-decoration: overline;*/
+/*background-color: #fff;add7e6;*/
 }
 p {
 margin: 0 0 10px 0;
@@ -61,6 +69,9 @@ margin: 0 0 10px 0;
             font-weight: bold;
  }
 
+h2, h4{ 
+     color: #6c6e6f;
+     }
 #Rlogo
 { 
   position: absolute;
@@ -124,5 +135,5 @@ a.Routs:hover span, code.Routs:hover span {
                      }
 
 img { 
- border: none;
+      border: none;
       }
