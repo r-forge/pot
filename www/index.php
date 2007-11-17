@@ -29,11 +29,11 @@
 	</span>   
 	<div class="mainTitle">
 	  <img src="images/title.png"
-	       height="90px" align="center"
+	       height="90px" 
 	       alt="The POT Package" />
 	  <br/>
 	  <img src="images/subtitle.png"
-	       height="50px" align="center"
+	       height="50px" 
 	       alt="The POT Package" />
 	</div>
       </div>
