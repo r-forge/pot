@@ -14,7 +14,7 @@
     <link rel="stylesheet" media="screen" type="text/css"
 	  title="My Design" href="css/mystyle.css" />
     <link rel="icon" type="image/png" 
-	  href="http://developer.r-project.org/Logo/Rlogo-5.png" />
+	  href="images/Rlogo.png" />
   </head>
   <body>
     <div id="wrapper">
