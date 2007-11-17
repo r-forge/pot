@@ -5,6 +5,7 @@ font-size: 12px;
 margin: 0;
 padding: 0;
 text-align: justify;
+background-color: #ddf4ee;
 }
 #header {
 height: 150px;
@@ -46,6 +47,7 @@ color: teal;
 }
 .menu a:hover {
 text-decoration: none;
+background-color: #add7e6;
 }
 p {
 margin: 0 0 10px 0;
