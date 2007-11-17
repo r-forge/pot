@@ -16,7 +16,7 @@
     <link rel="shortcut icon" type="image/png" 
 	  href="images/favicon.png" />
     <!--[if lt IE 7.]>
-	<script type="text/javascript" src="javascript/sleight.js"></script>
+	<script defer type="text/javascript" src="javascript/sleight.js"></script>
 	<![endif]-->
   </head>
   <body>
