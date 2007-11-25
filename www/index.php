@@ -15,24 +15,6 @@
 	  title="My Design" href="css/mystyle.css" />
     <link rel="shortcut icon" type="image/png" 
 	  href="images/favicon.png" />
-    <script type="text/javascript">
-      function setpng(img) { 
-      if(document.all &&
-      (IEver=parseFloat(navigator.appVersion.split("MSIE")[1])) &&
-      (IEver>=5.5) && (IEver<7) && document.body.filters && img) {
-				imgName=img.src.toUpperCase();
-				if(imgName.substring(imgName.length-3,imgName.length)=="PNG")
-				img.outerHTML=
-      "<span "+(img.id?"id='"+img.id+"' ":"") +
-      (img.className?"class='"+img.className+"' ":"") +
-      (img.title?"title=\""+img.title+"\" ":"") +
-      "style=\"width:"+img.width+"px;height:"+img.height+"px;
-				"+(img.align=="left"?"float:left;":(img.align=="right"?"float:right;":""))
-      +(img.parentElement.href?"cursor:hand;":"")+"display:inline-block;"+img.style.cssText+";"
-      +"filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+img.src+"',sizingMethod='scale');\"></span>";
-				}
-				}
-</script>
   </head>
   <body>
     <div id="wrapper">
@@ -43,20 +25,19 @@
 	  <a href="http://r-forge.r-project.org/">
 	    <img src="images/RForgeLogo.png"
 		 width="100%" align="left" alt="RForge Logo"
-		 onload="setpng(this)" />	    
+		/>
 	  </a>   
 	</span>   
 	<div class="mainTitle">
 	  <img src="images/title.png"
 	       height="90px" 
 	       alt="The POT Package"
-	       onload="setpng(this)"
 	       />
 	  <br/>
 	  <img src="images/subtitle.png"
 	       height="50px" 
 	       alt="The POT Package"
-	       onload="setpng(this)" />
+	       />
 	</div>
       </div>
       <!-- menu part -->  
