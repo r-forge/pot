@@ -168,7 +168,7 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
       ans <- rep(NA, length(w))
       idx <- which((w <= 0) | (w > 1))
 
-      if (length(idx) > O){
+      if (length(idx) > 0){
         w <- w[-idx]
         ans[-idx] <- 1 - ( ((1-w)*asCoef1)^(-alpha) +
                           (w*asCoef2)^(-alpha) )^(-1/alpha)
