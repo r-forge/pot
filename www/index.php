@@ -15,7 +15,16 @@
 	  title="My Design" href="css/mystyle.css" />
     <link rel="shortcut icon" type="image/png" 
 	  href="images/favicon.png" />
-  </head>
+    <meta name="description" lang="en" 
+	  content="The POT package aims to provide operational tools 
+		   for peaks over threshold modeling using the extreme
+		   value theory."/>
+    <meta name="keywords" 
+	  content="extreme value theory, peaks over threshold,
+		   generalized pareto distribution, pickands'
+		   dependence function, return level plot, extreme
+		   quantile estimation, multivariate extreme value
+		   distribution"/>
   <body>
     <div id="wrapper">
       <!-- header part -->
