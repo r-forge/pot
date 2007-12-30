@@ -25,6 +25,7 @@
 		   dependence function, return level plot, extreme
 		   quantile estimation, multivariate extreme value
 		   distribution"/>
+  </head>
   <body>
     <div id="wrapper">
       <!-- header part -->
@@ -34,7 +35,7 @@
 	  <a href="http://r-forge.r-project.org/">
 	    <img src="images/RForgeLogo.png"
 		 width="100%" align="left" alt="RForge Logo"
-		/>
+		 />
 	  </a>   
 	</span>   
 	<div class="mainTitle">
@@ -67,9 +68,9 @@
 	<h2 id="join">Contribute to the Project</h2> If you are
 	interested in joining the project, you must first create an
 	<a href="https://r-forge.r-project.org/account/register.php">R-forge
-	account</a>. Then, just
+	  account</a>. Then, just
 	go <a href="http://r-forge.r-project.org/project/request.php?group_id=76">
-	here</a>.
+	  here</a>.
 	<h2 id="contact">Contact</h2> Any suggestions, feature requests,
 	bugs: <a href="http://r-forge.r-project.org/tracker/?group_id=76">
 	  select the appropriate tracker</a><br/> Author: Mathieu
@@ -79,7 +80,7 @@
       <!-- footnote part -->
       <div id="footnote">
 	<p>$LastChangedDate: 2007-11-07 11:56:13 +0100 (mer, 07 nov
-	2007) $</p>
+	  2007) $</p>
 	<p>
 	  <a href="http://validator.w3.org/check?uri=referer">
 	    <img src="http://www.w3.org/Icons/valid-xhtml10-blue"
