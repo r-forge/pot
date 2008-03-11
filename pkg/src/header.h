@@ -10,6 +10,8 @@
 //From POT.c
 void gpdlik(double *data, int *n, double *loc, double *scale,
 	    double *shape, double *dns);
+void pplik(double *data, int *n, double *loc, double *scale,
+	   double *shape, double *thresh, int *noy, double *dns)
 void samlmu(double *x, int *nmom, int *n, double *lmom);
 
 //From clust.c
