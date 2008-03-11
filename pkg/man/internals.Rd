@@ -21,6 +21,7 @@
 \alias{pbvanlog}
 \alias{pbvmix}
 \alias{pbvamix}
+\alias{fitpp}
 
 \title{Internal functions and methods for the POT package.}
 \description{A set of functions that should not be used directly by the
