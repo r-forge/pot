@@ -7,7 +7,7 @@ void gpdlik(double *data, int *n, double *loc, double *scale,
   double *dvec, eps;
   
   dvec = (double *)R_alloc(*n, sizeof(double));
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  //eps = R_pow(DOUBLE_EPS, 0.3);
 
   if(*scale <= 0) {
      *dns = -1e6;
@@ -20,7 +20,7 @@ void gpdlik(double *data, int *n, double *loc, double *scale,
       *dns = -1e6;
       return;
     }
-    if(fabs(*shape) <= eps) 
+    if(*shape == 0) 
       dvec[i] = log(1 / *scale) - data[i];
     else {
       data[i] = 1 + *shape * data[i];
