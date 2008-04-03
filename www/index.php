@@ -74,7 +74,7 @@
 	<h2 id="contact">Contact</h2> Any suggestions, feature requests,
 	bugs: <a href="http://r-forge.r-project.org/tracker/?group_id=76">
 	  select the appropriate tracker</a><br/> Author: Mathieu
-	Ribatet <a href="http://www.lyon.cemagref.fr/hh/hydrologie/scientifiques/ribatet/hydrology-english.shtml">
+	Ribatet <a href="http://people.epfl.ch/mathieu.ribatet">
 	  (homepage)</a>
       </div>
       <!-- footnote part -->
