@@ -3,7 +3,7 @@
 ## Threshold by a GP distribution is quite good.
 
 diplot <- function(data, u.range, main, xlab, ylab,
-                   nt = max(200,length(data)), conf=0.95,
+                   nt = max(200,nrow(data)), conf=0.95,
                    ...){
 
   if ( !any(colnames(data) == "obs") )
