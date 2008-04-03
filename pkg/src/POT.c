@@ -36,14 +36,13 @@ void gpdlik(double *data, int *n, double *loc, double *scale,
 }
 
 void pplik(double *data, int *n, double *loc, double *scale,
-	   double *shape, double *thresh, int *noy, double *dns)
+	   double *shape, double *thresh, double *noy, double *dns)
 {
   int i;
-  double *dvec, preg, eps;
+  double *dvec, preg;
   
   dvec = (double *)R_alloc(*n, sizeof(double));
-  eps = R_pow(DOUBLE_EPS, 0.3);
-
+  
   if(*scale <= 0) {
      *dns = -1e6;
      return;
@@ -51,18 +50,28 @@ void pplik(double *data, int *n, double *loc, double *scale,
 
   preg = (*thresh - *loc) / *scale;
 
-  if (fabs(*shape) <= eps)
+  if (*shape == 0)
     preg = - *noy * exp(-preg);
 
   else {
-    preg = fmax2(1 + *shape * preg, 0);
-    preg = - *noy * R_pow(preg, -1 / *shape);
+
+    preg = 1 + *shape * preg;
+
+    if ((preg <= 0) && (*shape > 0)){
+      *dns = -1e6;
+      return;
+    }
+
+    else {
+      preg = fmax2(preg, 0);
+      preg = - *noy * R_pow(preg, -1 / *shape);
+    }
   }
 
   for(i=0;i<*n;i++)  {
     data[i] = (data[i] - *loc) / *scale;
     
-    if(fabs(*shape) <= eps)
+    if(*shape == 0)
       dvec[i] = log(1 / *scale) - data[i];
       
     else {
