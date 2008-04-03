@@ -1,13 +1,13 @@
-fitpp <- function(x, threshold, noy = length(x) / 365.25, start, ...,
+fitpp <- function(data, threshold, noy = length(data) / 365.25, start, ...,
                   std.err.type = "observed", corr = FALSE,
                   method = "BFGS", warn.inf = TRUE){
 
-  if (all(c("observed", "expected", "none") != std.err.type))
-    stop("``std.err.type'' must be one of 'observed', 'expected' or 'none'")
+  if (all(c("observed", "none") != std.err.type))
+    stop("``std.err.type'' must be one of 'observed' or 'none'")
   
-  nlpot <- function(loc, scale, shape) { 
-    -.C("pplik", exceed, nat, loc, scale,
-        shape, threshold, noy, dns = double(1))$dns
+  nlpp <- function(loc, scale, shape) { 
+    -.C("pplik", exceed, nat, loc, scale, shape,
+        threshold, noy, dns = double(1), PACKAGE = "POT")$dns
   }
 
   noy <- as.double(noy)
@@ -18,7 +18,8 @@ fitpp <- function(x, threshold, noy = length(x) / 365.25, start, ...,
   exceed <- as.double(x[high])
   nat <- as.integer(length(exceed))
 
-  if(!nat) stop("no data above threshold")
+  if(!nat)
+    stop("no data above threshold")
   
   pat <- nat/nn
   param <- c("loc", "scale", "shape")
@@ -41,18 +42,18 @@ fitpp <- function(x, threshold, noy = length(x) / 365.25, start, ...,
   
   nm <- names(start)
   l <- length(nm)
-  f <- formals(nlpot)
+  f <- formals(nlpp)
   names(f) <- param
   m <- match(nm, param)
   
   if(any(is.na(m))) 
     stop("`start' specifies unknown arguments")
   
-  formals(nlpot) <- c(f[m], f[-m])
-  nllh <- function(p, ...) nlpot(p, ...)
+  formals(nlpp) <- c(f[m], f[-m])
+  nllh <- function(p, ...) nlpp(p, ...)
   
   if(l > 1)
-    body(nllh) <- parse(text = paste("nlpot(", paste("p[",1:l,
+    body(nllh) <- parse(text = paste("nlpp(", paste("p[",1:l,
                           "]", collapse = ", "), ", ...)"))
   
   fixed.param <- list(...)[names(list(...)) %in% param]
@@ -92,7 +93,7 @@ fitpp <- function(x, threshold, noy = length(x) / 365.25, start, ...,
         std.err <- diag(var.cov)
         if(any(std.err <= 0)){
           warning("observed information matrix is singular; passing std.err.type to ``expected''")
-          std.err.type <- "expected"
+          std.err.type <- "none"
           return
         }
         
@@ -108,29 +109,31 @@ fitpp <- function(x, threshold, noy = length(x) / 365.25, start, ...,
         }
       }
     }
-    
-    if (std.err.type == "expected"){
-      
-      shape <- opt$par[2]
-      scale <- opt$par[1]
-      a22 <- 2/((1+shape)*(1+2*shape))
-      a12 <- 1/(scale*(1+shape)*(1+2*shape))
-      a11 <- 1/((scale^2)*(1+2*shape))
-      ##Expected Matix of Information of Fisher
-      expFisher <- nat * matrix(c(a11,a12,a12,a22),nrow=2)
 
-      expFisher <- qr(expFisher, tol = tol)
-      var.cov <- solve(expFisher, tol = tol)
-      std.err <- sqrt(diag(var.cov))
-      
-      if(corr) {
-        .mat <- diag(1/std.err, nrow = length(std.err))
-        corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
-        diag(corr.mat) <- rep(1, length(std.err))
-      }
-      else
-        corr.mat <- NULL
-    }
+    ##Must be filled later when I'll compute the expected Fisher
+    ##information matrix
+    ##if (std.err.type == "expected"){
+    ##  
+    ##  shape <- opt$par[2]
+    ##  scale <- opt$par[1]
+    ##  a22 <- 2/((1+shape)*(1+2*shape))
+    ##  a12 <- 1/(scale*(1+shape)*(1+2*shape))
+    ##  a11 <- 1/((scale^2)*(1+2*shape))
+    ##  ##Expected Matix of Information of Fisher
+    ##  expFisher <- nat * matrix(c(a11,a12,a12,a22),nrow=2)
+    ##
+    ##  expFisher <- qr(expFisher, tol = tol)
+    ##  var.cov <- solve(expFisher, tol = tol)
+    ##  std.err <- sqrt(diag(var.cov))
+    ##  
+    ##  if(corr) {
+    ##    .mat <- diag(1/std.err, nrow = length(std.err))
+    ##    corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
+    ##    diag(corr.mat) <- rep(1, length(std.err))
+    ##  }
+    ##  else
+    ##    corr.mat <- NULL
+    ##}
 
     colnames(var.cov) <- nm
     rownames(var.cov) <- nm
@@ -144,7 +147,10 @@ fitpp <- function(x, threshold, noy = length(x) / 365.25, start, ...,
   
   
   param <- c(opt$par, unlist(fixed.param))
-  scale <- param["scale"]
+
+  ##Transform the point process parameter to the GPD ones
+  scale <- param["scale"]  + param["shape"] *
+    (threshold - param["loc"])
   
   var.thresh <- !all(threshold == threshold[1])
 
