@@ -7,7 +7,7 @@
 \description{This function estimates the point process characterisation
   from exceedances above a threshold.}
 
-\usage{fitpp(data, threshold, noy = length(data) / 352.25, start, \dots,
+\usage{fitpp(data, threshold, noy = length(data) / 365.25, start, \dots,
 std.err.type = "observed", corr = FALSE, method = "BFGS", warn.inf = TRUE)}
 \arguments{
   \item{data}{A numeric vector.}
