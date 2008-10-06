@@ -1,18 +1,15 @@
-The POT package aims to provide operational tools to analyze
-<acronym title="Peaks Over Threshold">POT.</acronym>  This package
-relies on the <acronym title="Extreme Value Theory">EVT</acronym> to
-model the tail of any continuous distribution.  Tail modelling, in
-particular POT modelling, is of great importance for many financial
-and environmental applications.
-<p>
-  The POT package was first committed to
-  the <a href="http://www.r-project.org/">
-    <acronym title="Comprehensive R Archive Network">
-      CRAN</acronym></a> in April 2005 and is still in active
-  development.The main motivation was to provide practical tools for
-  probabilistic modelling of high flood flows.  However, the strength
-  of the EVT is that results do not depend on the process to be
-  modelled.  Thus, one can use the POT package to analyze
-  precipitations, floods, financial times series, earthquakes and so
-  on...
-</p>
+The SpatialExtremes package aims to provide tools for modeling spatial
+extremes. Many environmetal processes are spatial by nature and the
+knowledge of the univariate/multivariate distribution of extremes is
+not enough. This package aims to fill this gap by using several
+approaches. Currently, the modeling is performed through the
+max-stable framework. Max-stable processes are the extension of the
+extreme value theory to random fields. Later, different approaches
+will be implemented such as the latent variable and the copula based
+methodologies.
+<br/>
+The development of the package has been financially supported by the
+Competence Center Environment and Sustainability (CCES) and more
+precisely within
+the <a href="http://www.cces.ethz.ch/projects/hazri/EXTREMES">EXTREMES
+    project</a>.
