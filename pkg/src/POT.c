@@ -20,7 +20,7 @@ void gpdlik(double *data, int *n, double *loc, double *scale,
       return;
     }
     if(fabs(*shape) <= 1e-6){
-      *shape == 0;
+      *shape = 0;
       dvec[i] = -log(*scale) - data[i];
     }
     else {
