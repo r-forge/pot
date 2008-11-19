@@ -12,9 +12,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/> 
     <title>The POT Package: An R package to model peaks over threshold</title>
     <link rel="stylesheet" media="screen" type="text/css"
-	  title="My Design" href="css/mystyle.css" />
+	  title="My Design" href="./css/mystyle.css" />
     <link rel="shortcut icon" type="image/png" 
-	  href="images/favicon.png" />
+	  href="./images/favicon.png" />
     <meta name="description" lang="en" 
 	  content="The POT package aims to provide operational tools 
 		   for peaks over threshold modeling using the extreme
