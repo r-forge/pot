@@ -33,18 +33,18 @@
 	<span id="Rlogo">
 	  provided by
 	  <a href="http://r-forge.r-project.org/">
-	    <img src="images/RForgeLogo.png"
+	    <img src="./images/RForgeLogo.png"
 		 width="100%" align="left" alt="RForge Logo"
 		 />
 	  </a>   
 	</span>   
 	<div class="mainTitle">
-	  <img src="images/title.png"
+	  <img src="./images/title.png"
 	       height="90px" 
 	       alt="The POT Package"
 	       />
 	  <br/>
-	  <img src="images/subtitle.png"
+	  <img src="./images/subtitle.png"
 	       height="50px" 
 	       alt="The POT Package"
 	       />
@@ -52,19 +52,19 @@
       </div>
       <!-- menu part -->  
       <div id="left">
-	<?php include "phpPages/menu.php"; ?>
+	<?php include "./phpPages/menu.php"; ?>
       </div>
       <!-- main matter part -->
       <div id="main_matter">  
-	<?php include "phpPages/welcome.php"; ?>
+	<?php include "./phpPages/welcome.php"; ?>
 	<h2 id="features">Features</h2>
-	<?php include "phpPages/features.php"; ?>
+	<?php include "./phpPages/features.php"; ?>
 	<h2 id="screen_shots">Screen Shots</h2>
-	<?php include "phpPages/screen_shots.php"; ?>
+	<?php include "./phpPages/screen_shots.php"; ?>
 	<h2 id="pot_few_lines">The POT Package in a Few Lines</h2>
-	<?php include "phpPages/pot_few_lines.php"; ?>
+	<?php include "./phpPages/pot_few_lines.php"; ?>
 	<h2 id="manuals">Manuals</h2> 
-	<?php include "phpPages/manuals.php"; ?>
+	<?php include "./phpPages/manuals.php"; ?>
 	<h2 id="join">Contribute to the Project</h2> If you are
 	interested in joining the project, you must first create an
 	<a href="https://r-forge.r-project.org/account/register.php">R-forge
