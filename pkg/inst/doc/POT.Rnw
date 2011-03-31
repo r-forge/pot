@@ -46,7 +46,7 @@
   Cemagref UR HH, 3bis quai Chauveau\\ 69336 Lyon Cedex
   09 France\\ 
   \vspace{0.2cm}
-  E-mail: \email{ribatet@hotmail.com} \\
+  E-mail: \email{mathieu.ribatet@math.univ-montp2.fr} \\
   $Date$
 \end{center}
 
