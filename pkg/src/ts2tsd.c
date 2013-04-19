@@ -16,8 +16,6 @@ void ts2tsd(double *time, double *obs, double *start,
   //n          : the number of observations
   //ans        : the response of the code
 
-  int i, j, indexStart, indexEnd;
-  
   //indexStart : index of the first observation
   //             in ``obs'' within the average
   //             window
@@ -26,18 +24,28 @@ void ts2tsd(double *time, double *obs, double *start,
   //             window
 
 
-  for (i=0;i<*n;i++){
+  for (int i=0;i<*n;i++){
     
-    indexStart = i;
-    indexEnd = i;
+    int indexStart = i,
+      indexEnd = i;
 
-    while ( (time[indexStart] > start[i]) && (indexStart >= 0) )
+    while (time[indexStart] > start[i]){
       indexStart--;
+
+      if (indexStart < 0)
+	break;
+    }
+
     indexStart++;
 
         
-    while ( (time[indexEnd] <= end[i]) && (indexEnd < *n) )
+    while (time[indexEnd] <= end[i]){
       indexEnd++;
+
+      if (indexEnd >= *n)
+	break;
+    }
+
     indexEnd--;
 
     if ( (obsIntStart[i] == -1e6) || (obsIntEnd[i] == -1e6) ||
@@ -46,7 +54,7 @@ void ts2tsd(double *time, double *obs, double *start,
 
     else{
     
-      for (j=indexStart;j<indexEnd;j++){
+      for (int j=indexStart;j<indexEnd;j++){
 	//printf("obs[j] = %f\n", obs[j]);
 	//printf("obs[j+1] = %f\n", obs[j+1]);
 	//printf("time[j] = %f\n", time[j]);
