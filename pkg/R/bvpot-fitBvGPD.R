@@ -100,17 +100,27 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
     }
   }
 
-  start <- start[!(param %in% names(list(...)))]
-
   if (!is.list(start)) 
     stop("`start' must be a named list")
+  
+  #removed fixed parameters
+  start <- start[!names(start) %in% names(list(...))]
+  #get fixed parameters
+  fixed.param <- list(...)[names(list(...)) %in% param]
+  
+  if (any(!names(start) %in% param)) 
+    stop("unspecified parameters in starting values")
+  if (any(!names(fixed.param) %in% param)) 
+    stop("unspecified parameters in fixed parameters values")
+  
   if (!length(start)) 
     stop("there are no parameters left to maximize over")
 
   ##Creating suited negative log-likelihood according to the
   ##specified model
   if (model == "log")
-    nlbvpot <- function(scale1, shape1, scale2, shape2, alpha){
+    nlbvpot <- function(scale1, shape1, scale2, shape2, alpha,
+                        asCoef1, asCoef2, asCoef){
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
       
@@ -119,7 +129,8 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
           PACKAGE = "POT")$dns
     }
   if (model == "nlog")      
-    nlbvpot <- function(scale1, shape1, scale2, shape2, alpha){
+    nlbvpot <- function(scale1, shape1, scale2, shape2, alpha,
+                        asCoef1, asCoef2, asCoef){
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
       
@@ -130,7 +141,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
   
   if (model == "alog")
     nlbvpot <- function(scale1, shape1, scale2, shape2, alpha,
-                        asCoef1, asCoef2){
+                        asCoef1, asCoef2, asCoef){
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
       
@@ -141,7 +152,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
   
   if (model == "anlog")
     nlbvpot <- function(scale1, shape1, scale2, shape2, alpha,
-                        asCoef1, asCoef2){
+                        asCoef1, asCoef2, asCoef){
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
     
@@ -151,7 +162,8 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
     }
    
   if (model == "mix")
-    nlbvpot <- function(scale1, shape1, scale2, shape2, alpha){
+    nlbvpot <- function(scale1, shape1, scale2, shape2, alpha,
+                        asCoef1, asCoef2, asCoef){
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
       
@@ -162,7 +174,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
   
   if (model == "amix")   
     nlbvpot <- function(scale1, shape1, scale2, shape2, alpha,
-                        asCoef){
+                        asCoef1, asCoef2, asCoef){
        if (cscale) scale2 <- scale1
        if (cshape) shape2 <- shape1
     
@@ -171,27 +183,29 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
           dns = double(1), PACKAGE = "POT")$dns
      }
   
-  nm <- names(start)
-  l <- length(nm)
+  nstart <- names(start)
+  lstart <- length(nstart)
   f <- formals(nlbvpot)
   f <- f[c(TRUE, TRUE, !cscale, !cshape, TRUE)]
   names(f) <- param
-  m <- match(nm, param)
+  m <- match(nstart, param)
   
   if (any(is.na(m))) 
     stop("`start' specifies unknown arguments")
   
+  #reorder parameters
   formals(nlbvpot) <- c(f[m], f[-m])
-  nllh <- function(p, ...) nlbvpot(p, ...)
+  nllh <- function(p, ...) 
+    nlbvpot(p, ...)
 
-  if (l > 1) 
+  if (lstart > 1) 
     body(nllh) <- parse(text = paste("nlbvpot(", paste("p[", 
-                          1:l, "]", collapse = ", "), ", ...)"))
+                          1:lstart, "]", collapse = ", "), ", ...)"))
   
-  fixed.param <- list(...)[names(list(...)) %in% param]
+  #fixed.param <- list(...)[names(list(...)) %in% param]
 
-  if (any(!(param %in% c(nm, names(fixed.param))))) 
-    stop("unspecified parameters")
+  #if (any(!(param %in% c(nstart, names(fixed.param))))) 
+  #  stop("unspecified parameters")
   
   start.arg <- c(list(p = unlist(start)), fixed.param)
   
@@ -235,16 +249,16 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
         if(corr) {
           .mat <- diag(1/std.err, nrow = length(std.err))
           corr.mat <- structure(.mat %*% var.cov %*% .mat,
-                                dimnames = list(nm,nm))
+                                dimnames = list(nstart,nstart))
           diag(corr.mat) <- rep(1, length(std.err))
         }
         else {
           corr.mat <- NULL
         }
         
-        colnames(var.cov) <- nm
-        rownames(var.cov) <- nm
-        names(std.err) <- nm
+        colnames(var.cov) <- nstart
+        rownames(var.cov) <- nstart
+        names(std.err) <- nstart
       }
     }
   }

@@ -1,8 +1,8 @@
 #include "header.h"
 
 void ts2tsd(double *time, double *obs, double *start,
-	    double *end, double *obsIntStart, double *obsIntEnd,
-	    int *n, double *ans){
+            double *end, double *obsIntStart, double *obsIntEnd,
+            int *n, double *ans){
   //time       : a vector for the time occurence
   //obs        : a vector for the observation
   //start      : a vector for the starting time
@@ -15,59 +15,59 @@ void ts2tsd(double *time, double *obs, double *start,
   //             ending time ``end''
   //n          : the number of observations
   //ans        : the response of the code
-
+  
   //indexStart : index of the first observation
   //             in ``obs'' within the average
   //             window
   //indexEnd   : index of the last observation
   //             in ``obs'' within the average
   //             window
-
-
+  
+  
   for (int i=0;i<*n;i++){
     
     int indexStart = i,
       indexEnd = i;
-
+    
     while (time[indexStart] > start[i]){
       indexStart--;
-
+      
       if (indexStart < 0)
-	break;
+        break;
     }
-
+    
     indexStart++;
-
-        
+    
+    
     while (time[indexEnd] <= end[i]){
       indexEnd++;
-
+      
       if (indexEnd >= *n)
-	break;
+        break;
     }
-
-    indexEnd--;
-
-    if ( (obsIntStart[i] == -1e6) || (obsIntEnd[i] == -1e6) ||
-	 (obs[indexStart] == -1e6) || (obs[indexEnd] == -1e6))
-      ans[i] = NA_REAL;
-
-    else{
     
+    indexEnd--;
+    
+    if ( (obsIntStart[i] == -1e6) || (obsIntEnd[i] == -1e6) ||
+         (obs[indexStart] == -1e6) || (obs[indexEnd] == -1e6))
+      ans[i] = NA_REAL;
+    
+    else{
+      
       for (int j=indexStart;j<indexEnd;j++){
-	//printf("obs[j] = %f\n", obs[j]);
-	//printf("obs[j+1] = %f\n", obs[j+1]);
-	//printf("time[j] = %f\n", time[j]);
-	//printf("time[j+1] = %f\n", time[j+1]);
-	
-
-	if ( (obs[j] == -1e6) || (obs[j+1] == -1e6) )
-	  ans[i] = NA_REAL;
-
-	else{
-	  ans[i] = ans[i] + (obs[j] + obs[j+1]) * 
-	    (time[j+1] - time[j]) / 2.0;
-	}
+        //printf("obs[j] = %f\n", obs[j]);
+        //printf("obs[j+1] = %f\n", obs[j+1]);
+        //printf("time[j] = %f\n", time[j]);
+        //printf("time[j+1] = %f\n", time[j+1]);
+        
+        
+        if ( (obs[j] == -1e6) || (obs[j+1] == -1e6) )
+          ans[i] = NA_REAL;
+        
+        else{
+          ans[i] = ans[i] + (obs[j] + obs[j+1]) * 
+            (time[j+1] - time[j]) / 2.0;
+        }
       }
       //Add the areas for interpolated points - i.e. boundaries
       //printf("obs[indexStart]=%f\n", obs[indexStart]);
@@ -76,9 +76,9 @@ void ts2tsd(double *time, double *obs, double *start,
       //printf("obsIntEnd[i]=%f\n", obsIntEnd[i]);
       
       ans[i] = ans[i] + (obs[indexStart] + obsIntStart[i]) *
-	(time[indexStart] - start[i]) / 2.0;
+        (time[indexStart] - start[i]) / 2.0;
       ans[i] = ans[i] + (obsIntEnd[i] + obs[indexEnd]) *
-	(end[i] - time[indexEnd]) / 2.0;
+        (end[i] - time[indexEnd]) / 2.0;
     }
   }
 }  
