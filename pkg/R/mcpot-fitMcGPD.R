@@ -5,6 +5,7 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   if (all(c("observed", "none") != std.err.type))
     stop("``std.err.type'' must be one of ``observed'' or ``none''")
   
+  model <- match.arg(model, c("log", "alog", "nlog", "anlog", "mix", "amix", "amixtest"))
   data <- as.double(data)
   threshold <- as.double(threshold)
   
@@ -50,12 +51,12 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   nn <- as.integer(sum(idx))
   nat <- c(nat, nn)
   
-  param <- c("scale", "shape", "alpha")
+  param <- c("scale", "shape", "alpha", "asCoef1", "asCoef2", "asCoef")
   
   ##Creating suited negative log-likelihood according to the
   ##specified model
   if (model == "log"){
-    nlpot <- function(scale, shape, alpha)
+    nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
     -.C("gpdmclog", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha,
@@ -63,51 +64,51 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   }
   
   if (model == "alog"){
-    nlpot <- function(scale, shape, alpha, asCoef1, asCoef2)
+    nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
     -.C("gpdmcalog", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha, asCoef1,
         asCoef2, dns = double(1), PACKAGE = "POT")$dns
-    param <- c(param, "asCoef1", "asCoef2")
+    #param <- c(param, "asCoef1", "asCoef2")
   }
   
   if (model == "nlog"){
-   nlpot <- function(scale, shape, alpha)
+   nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
     -.C("gpdmcnlog", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha,
         dns = double(1), PACKAGE = "POT")$dns
   }
   if (model == "anlog"){
-    nlpot <- function(scale, shape, alpha, asCoef1, asCoef2)
+    nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
     -.C("gpdmcanlog", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha, asCoef1,
         asCoef2, dns = double(1), PACKAGE = "POT")$dns
-    param <- c(param, "asCoef1", "asCoef2")
+    #param <- c(param, "asCoef1", "asCoef2")
   }
   if (model == "mix"){
-    nlpot <- function(scale, shape, alpha)
+    nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
     -.C("gpdmcmix", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha,
         dns = double(1), PACKAGE = "POT")$dns
   }
   if (model == "amix"){
-    nlpot <- function(scale, shape, alpha, asCoef)
+    nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
     -.C("gpdmcamix", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha, asCoef,
         dns = double(1), PACKAGE = "POT")$dns
-    param <- c(param, "asCoef")
+    #param <- c(param, "asCoef")
   }    
   if (model == "amixtest"){
-    nlpot <- function(scale, shape, alpha, asCoef)
+    nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
     -.C("gpdmcamixtest", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha, asCoef,
         dns = double(1), PACKAGE = "POT")$dns
-    param <- c(param, "asCoef")
+    #param <- c(param, "asCoef")
     model <- "amix"
   }    
 
@@ -135,37 +136,42 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
     if (model == "amix")
       start <- c(start, list(alpha = 0.75, asCoef = 0))
   }
-
-  start <- start[!(param %in% names(list(...)))]
-
   if (!is.list(start)) 
     stop("`start' must be a named list")
+  
+  #removed fixed parameters
+  start <- start[!names(start) %in% names(list(...))]
+  #get fixed parameters
+  fixed.param <- list(...)[names(list(...)) %in% param]
+  
+  if (any(!names(start) %in% param)) 
+    stop("unspecified parameters in starting values")
+  if (any(!names(fixed.param) %in% param)) 
+    stop("unspecified parameters in fixed parameters values")
   if (!length(start)) 
     stop("there are no parameters left to maximize over")
 
-  nm <- names(start)
-  l <- length(nm)
+  
+  nstart <- names(start)
+  lstart <- length(nstart)
   f <- formals(nlpot)
-  names(f) <- param
-  m <- match(nm, param)
+  #names(f) <- param
+  m <- match(nstart, param)
+  m <- m[!is.na(m)]
   
   if (any(is.na(m))) 
     stop("`start' specifies unknown arguments")
   
+  #reorder parameters
   formals(nlpot) <- c(f[m], f[-m])
-
+  
   nllh <- function(p, ...)
    nlpot(p, ...)
   
-  if (l > 1) 
+  if (lstart > 1) 
     body(nllh) <- parse(text = paste("nlpot(", paste("p[", 
-                          1:l, "]", collapse = ", "),
+                          1:lstart, "]", collapse = ", "),
                           ", ...)"))                                                    
-  
-  fixed.param <- list(...)[names(list(...)) %in% param]
-
-  if (any(!(param %in% c(nm, names(fixed.param))))) 
-    stop("unspecified parameters")
   
   start.arg <- c(list(p = unlist(start)), fixed.param)
   
@@ -209,16 +215,16 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
         if(corr) {
           .mat <- diag(1/std.err, nrow = length(std.err))
           corr.mat <- structure(.mat %*% var.cov %*% .mat,
-                                dimnames = list(nm,nm))
+                                dimnames = list(nstart,nstart))
           diag(corr.mat) <- rep(1, length(std.err))
         }
         else {
           corr.mat <- NULL
         }
         
-        colnames(var.cov) <- nm
-        rownames(var.cov) <- nm
-        names(std.err) <- nm
+        colnames(var.cov) <- nstart
+        rownames(var.cov) <- nstart
+        names(std.err) <- nstart
       }
     }
   }
@@ -246,50 +252,3 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   return(fitted)
 }
 
-dexi <- function(x, n.sim = 1000, n.mc = length(x$data),
-                 plot = TRUE, ...){
-  
-  thresh <- x$threshold
-  scale <- x$param["scale"]
-  shape <- x$param["shape"]
-  alpha <- x$param["alpha"]
-  pat <- x$pat
-  model <- x$model
-  
-  scale.new <- shape * thresh / (pat^(-shape) - 1)
-
-  if (model %in% c("log", "nlog"))
-    param <- list(alpha = alpha)
-
-  if (model %in% c("alog", "anlog"))
-    param <- list(alpha = alpha, asCoef1 = x$param["asCoef1"],
-                  asCoef2 = x$param["asCoef2"])
-
-  if (model == "mix")
-    param <- list(alpha = alpha, asCoef = 0)
-  
-  if (model == "amix")
-    param <- list(alpha = alpha, asCoef = x$param["asCoef"])
-
-  param <- c(param, list(n = n.mc, model = model))
-
-  exi <- rep(0, n.sim)
-  mc <- rep(0, n.mc)
-  
-  for (i in 1:n.sim){
-    mc <- do.call("simmc", param)
-    mc <- qgpd(mc, 0, scale.new, shape)
-
-    while(sum(mc > thresh) < 2){
-      mc <- do.call("simmc", param)
-      mc <- qgpd(mc, 0, scale.new, shape)
-    }
-    
-    exi[i] <- fitexi(mc, thresh)$exi
-  }
-
-  if (plot)
-    plot(density(exi, bw = sd(exi) /2), ...)
-  
-  invisible(exi)
-}

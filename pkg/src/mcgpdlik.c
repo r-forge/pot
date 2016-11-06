@@ -1559,7 +1559,7 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
 	(1 + *shape) * log(t1[i]) + 2 * log(z1[i]) +
 	1 / z1[i];
       
-      if (!R_FINITE(log(abs(nv1)))){
+      if (!R_FINITE(log(fabs(nv1)))){
 	//*dns = -1e6;
 	dvecj[i] = -1000 + nK1 - v;
 	//nv1 = 1e-320;
@@ -1567,7 +1567,7 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
       }
       
       else
-	dvecj[i] = log(abs(nv1)) + nK1 - v;
+	dvecj[i] = log(fabs(nv1)) + nK1 - v;
 
     }
     
