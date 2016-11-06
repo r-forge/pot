@@ -1,8 +1,9 @@
 Version 1.1-5:
   - renames files in R/ directory.
+  - add a GPL banner on R/C files
 
 Version 1.1-4:
-  - Update for CRAN release by Christophe Dutang.
+  - Update for future CRAN release by Christophe Dutang.
   - Fixe issues with S3 class and add defensive programming.
 
 Version 1.1-3:
