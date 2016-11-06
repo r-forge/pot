@@ -74,13 +74,11 @@
 	<h2 id="contact">Contact</h2> Any suggestions, feature requests,
 	bugs: <a href="http://r-forge.r-project.org/tracker/?group_id=76">
 	  select the appropriate tracker</a><br/> Author: Mathieu
-	Ribatet <a href="http://people.epfl.ch/mathieu.ribatet">
-	  (homepage)</a>
+	Ribatet; Maintainer: Christophe Dutang.
       </div>
       <!-- footnote part -->
       <div id="footnote">
-	<p>$LastChangedDate: 2007-11-07 11:56:13 +0100 (mer, 07 nov
-	  2007) $</p>
+	<p>$LastChangedDate: 2016-11-06 14:59 +0100$</p>
 	<p>
 	  <a href="http://validator.w3.org/check?uri=referer">
 	    <img src="http://www.w3.org/Icons/valid-xhtml10-blue"
