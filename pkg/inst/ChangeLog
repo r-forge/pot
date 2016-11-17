@@ -1,10 +1,23 @@
+Version 1.1-6:
+  - Fix wrong use of return in the following R files:
+./POT/R/bvpot-fitBvGPD.R : 254         return
+./POT/R/mcpot-fitMcGPD.R : 220         return
+./POT/R/util-GPD-mle.R : 117           return
+./POT/R/util-GPD-mle.R : 126             return
+./POT/R/util-GPD-mle.R : 134               return
+./POT/R/util-GPD-mple.R : 120           return
+./POT/R/util-GPD-mple.R : 130             return
+./POT/R/uvpot-fitPP.R : 107           return
+./POT/R/uvpot-fitPP.R : 117             return
+(thanks to Duncan Murdoch)
+ 
 Version 1.1-5:
-  - renames files in R/ directory.
-  - add a GPL banner on R/C files
+  - Rename files in R/ directory.
+  - Add a GPL banner on R/C files
 
 Version 1.1-4:
   - Update for future CRAN release by Christophe Dutang.
-  - Fixe issues with S3 class and add defensive programming.
+  - Fix issues with S3 class and add defensive programming.
 
 Version 1.1-3:
   - Fix a problem detected by AddressSanitizer (thanks to Brian Ripley): 

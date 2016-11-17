@@ -22,7 +22,8 @@
 
 retlev.uvpot <- function(fitted, npy, main, xlab,
                          ylab, xlimsup, ci = TRUE, points = TRUE,
-                         ...){
+                         ...)
+{
   ## Plot the return level plot of a POT model fitted
   ## Input : ``fitted'' is a POT fitted model, result of function
   ##         ``fitgpd'' or ``fitpp''
@@ -31,8 +32,6 @@ retlev.uvpot <- function(fitted, npy, main, xlab,
   ##         Poisson processus.
   if (!inherits(fitted, "uvpot"))
     stop("Use only with 'uvpot' objects")
-  #if(!inherits(fitted, "uvpot"))
-  #  stop("retlev.uvpot is only valid for uvpot objects")
   if (fitted$var.thresh)
     stop("Return Level plot is available only for constant threshold !")
   
@@ -47,17 +46,15 @@ retlev.uvpot <- function(fitted, npy, main, xlab,
     p <- rp2prob(T, npy)[,"prob"]
     return(qgpd(p,loc,scale,shape))
   }
-
+  
   eps <- 10^(-3)
-
+  
   if (!is.null(fitted$noy))
     npy <- n / fitted$noy
-
-  else
-    if (missing(npy)){
-      warning("Argument ``npy'' is missing. Setting it to 1.")
-      npy <- 1
-    }
+  else if (missing(npy)){
+    warning("Argument ``npy'' is missing. Setting it to 1.")
+    npy <- 1
+  }
   if (missing(main)) main <- 'Return Level Plot'
   if (missing(xlab)) xlab <- 'Return Period (Years)'
   if (missing(ylab)) ylab <- 'Return Level'
@@ -65,12 +62,12 @@ retlev.uvpot <- function(fitted, npy, main, xlab,
   
   plot(pot.fun, from= 1 / npy + eps, to = xlimsup, log='x',
        xlab = xlab, ylab = ylab, main = main, ...)
-
+  
   if (points){
     p_emp <- (1:n -.35) / n
     points(1 / ( npy * (1 - p_emp) ), sort( data ), pch = 1)
   }
-
+  
   if (ci){
     p_emp <- (1:n - .35 ) / n
     samp <- rgpd(1000*n, loc, scale, shape)
@@ -82,8 +79,6 @@ retlev.uvpot <- function(fitted, npy, main, xlab,
     lines( 1 / ( npy * (1 - p_emp) ), ci_inf, lty = 2)
     lines( 1 / ( npy * (1 - p_emp) ), ci_sup, lty = 2)
   }
-
+  
   invisible(pot.fun)
 }
-
-
