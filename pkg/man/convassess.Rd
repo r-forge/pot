@@ -20,7 +20,8 @@ convassess(fitted, n = 50)
 \method{convassess}{bvpot}(fitted, n = 50)
 }
 \arguments{
-  \item{fitted}{A fitted object of class \code{'uvpot'}, \code{'mcpot'}
+  \item{fitted}{A fitted object. When using the POT package, an object 
+  of class \code{'uvpot'}, \code{'mcpot'}
     or \code{'bvpot'}. Generally, an object return by \code{fitgpd},
     \code{fitmcgpd} or \code{fitbvgpd}.}
   \item{n}{The number of starting values to be tested.}
