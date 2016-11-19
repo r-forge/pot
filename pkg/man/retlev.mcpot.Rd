@@ -9,7 +9,7 @@
 \dots)
 }
 \arguments{
-  \item{fitted}{A object of class \code{``uvpot''}. Most often, the
+  \item{fitted}{A object of class \code{'uvpot'}. Most often, the
     return of the \code{\link{fitgpd}} function.}
   \item{opy}{The number of \bold{O}bservations \bold{P}er \bold{Y}ear (or
     more generally per block). If missing, it is set it to 365 i.e. daily
@@ -17,9 +17,9 @@
   \item{exi}{Numeric. The extremal index. If missing, an estimate is
     given using the \code{\link{fitexi}} function.}
   \item{main}{The title of the graphic. If missing, the title is set to
-    ``Return Level Plot''.}
+\code{"Return Level Plot"}.}
   \item{xlab,ylab}{The labels for the x and y axis. If missing, they are
-    set to ``Return Period (Years)'' and ``Return Level'' respectively.}
+set to \code{"Return Period (Years)"} and \code{"Return Level"} respectively.}
   \item{xlimsup}{Numeric. The right limit for the x-axis. If missing, it
     is setted to 500.}
   \item{\dots}{Other arguments to be passed to the \code{\link{plot}}

@@ -10,16 +10,16 @@ kern.lty = 2, rug = TRUE, plot.kernel = TRUE, plot.hist = TRUE,
 hist.col = NULL, \dots)
 }
 \arguments{
-  \item{fitted}{A object of class \code{``uvpot''}. Most often, the
+  \item{fitted}{A object of class \code{'uvpot'}. Most often, the
     return of the \code{\link{fitgpd}} function.}
   \item{main}{The title of the graphic. If missing, the title is set to
-    ``Density Plot''.}
+\code{"Density Plot"}.}
   \item{xlab,ylab}{The labels for the x and y axis. If missing, they are
-    set to ``Quantile'' and ``Density'' respectively.}
+set to \code{"Quantile"} and \code{"Density"} respectively.}
   \item{dens.adj}{Numeric. The adjustment for the kernel density
     estimation in the \code{\link{density}} function. The default is 1.}
   \item{kern.lty}{The line type for the kernel density estimation. This
-    corresponds to the \code{``lty''} option of the \code{\link{lines}}
+    corresponds to the \code{"lty"} option of the \code{\link{lines}}
     functions. The default is 2.}
   \item{rug}{Logical. Should we call the \code{\link{rug}} function?
     Default is \code{TRUE}.}

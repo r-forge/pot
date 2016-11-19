@@ -5,10 +5,16 @@
 \alias{convassess.mcpot}
 \title{Convergence Assessment for Fitted Objects}
 \description{
-  This function uses several starting values to assess if the fitted
-  object is sensitive to the starting values choice.
+
+\code{convassess} is a generic function used to assess the convergence of 
+the estimation procedure to the global maximum. The function invokes particular \code{methods} 
+which depend on the \code{\link{class}} of the first argument.
+This function uses several starting values to assess the sensitiveness of the
+fitted object with respect to starting values.
 }
 \usage{
+convassess(fitted, n = 50)
+  
 \method{convassess}{uvpot}(fitted, n = 50)
 \method{convassess}{mcpot}(fitted, n = 50)
 \method{convassess}{bvpot}(fitted, n = 50)

@@ -8,12 +8,12 @@
 \method{pp}{uvpot}(fitted, main, xlab, ylab, ci = TRUE, \dots)
 }
 \arguments{
-  \item{fitted}{A object of class \code{``uvpot''}. Most often, the
+  \item{fitted}{A object of class \code{'uvpot'}. Most often, the
     return of the \code{\link{fitgpd}} function.}
   \item{main}{The title of the graphic. If missing, the title is set to
-    ``Probability plot''.}
+\code{"Probability plot"}.}
   \item{xlab,ylab}{The labels for the x and y axis. If missing, they are
-    set to ``Empirical'' and ``Model'' respectively.}
+set to \code{"Empirical"} and \code{"Model"} respectively.}
   \item{ci}{Logical. If \code{TRUE} (the default), 95\% intervals are
     plotted.}
   \item{\dots}{Other arguments to be passed to the \code{\link{plot}}
