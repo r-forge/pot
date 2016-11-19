@@ -8,7 +8,7 @@
 pp(fitted, \dots)
 }
 \arguments{
-  \item{fitted}{An object of class ``uvpot'' or ``bvpot''}
+  \item{fitted}{An object of class \code{'uvpot'} or \code{'bvpot'}}
   \item{\dots}{Other arguments to be passed for particular methods.}
 }
 \value{

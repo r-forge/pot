@@ -9,14 +9,14 @@
 ci = TRUE, points = TRUE, \dots)
 }
 \arguments{
-  \item{fitted}{A object of class \code{``uvpot''}. Most often, the
+  \item{fitted}{A object of class \code{'uvpot'}. Most often, the
     return of the \code{\link{fitgpd}} function.}
   \item{npy}{The mean \bold{N}umber of events \bold{P}er \bold{Y}ear (or
     more generally per block).if missing, setting it to 1.}
   \item{main}{The title of the graphic. If missing, the title is set to
-    ``Return Level Plot''.}
+\code{"Return Level Plot"}.}
   \item{xlab,ylab}{The labels for the x and y axis. If missing, they are
-    set to ``Return Period (Years)'' and ``Return Level'' respectively.}
+set to \code{"Return Period (Years)"} and \code{"Return Level"} respectively.}
   \item{xlimsup}{Numeric. The right limit for the x-axis. If missing, a
     suited value is computed.}
   \item{ci}{Logical. Should the 95\% pointwise confidence interval be
