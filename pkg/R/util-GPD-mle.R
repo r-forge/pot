@@ -38,7 +38,7 @@ gpdmle <- function(x, threshold, start, ...,
   
   std.err.type <- match.arg(std.err.type, c("observed", "none", "expected"))
   nlpot <- function(scale, shape) { 
-    -.C("gpdlik", exceed, nat, threshold, scale,
+    -.C("do_gpdlik", exceed, nat, threshold, scale,
         shape, dns = double(1), PACKAGE = "POT")$dns
   }
   
