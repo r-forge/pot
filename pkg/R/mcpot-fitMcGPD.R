@@ -78,57 +78,57 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   ##specified model
   if (model == "log"){
     nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmclog", data1, data2, exceed3, as.integer(n-1),
+    -.C("do_gpdmclog", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha,
-        dns = double(1), PACKAGE = "POT")$dns
+        dns = double(1))$dns
   }
   
   if (model == "alog"){
     nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmcalog", data1, data2, exceed3, as.integer(n-1),
+    -.C("do_gpdmcalog", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha, asCoef1,
-        asCoef2, dns = double(1), PACKAGE = "POT")$dns
+        asCoef2, dns = double(1))$dns
     #param <- c(param, "asCoef1", "asCoef2")
   }
   
   if (model == "nlog"){
    nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmcnlog", data1, data2, exceed3, as.integer(n-1),
+    -.C("do_gpdmcnlog", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha,
-        dns = double(1), PACKAGE = "POT")$dns
+        dns = double(1))$dns
   }
   if (model == "anlog"){
     nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmcanlog", data1, data2, exceed3, as.integer(n-1),
+    -.C("do_gpdmcanlog", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha, asCoef1,
-        asCoef2, dns = double(1), PACKAGE = "POT")$dns
+        asCoef2, dns = double(1))$dns
     #param <- c(param, "asCoef1", "asCoef2")
   }
   if (model == "mix"){
     nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmcmix", data1, data2, exceed3, as.integer(n-1),
+    -.C("do_gpdmcmix", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha,
-        dns = double(1), PACKAGE = "POT")$dns
+        dns = double(1))$dns
   }
   if (model == "amix"){
     nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmcamix", data1, data2, exceed3, as.integer(n-1),
+    -.C("do_gpdmcamix", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha, asCoef,
-        dns = double(1), PACKAGE = "POT")$dns
+        dns = double(1))$dns
     #param <- c(param, "asCoef")
   }    
   if (model == "amixtest"){
     nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmcamixtest", data1, data2, exceed3, as.integer(n-1),
+    -.C("do_gpdmcamixtest", data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha, asCoef,
-        dns = double(1), PACKAGE = "POT")$dns
+        dns = double(1))$dns
     #param <- c(param, "asCoef")
     model <- "amix"
   }    
