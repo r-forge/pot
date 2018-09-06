@@ -43,7 +43,7 @@ gpd.pfshape <- function(fitted, range, xlab, ylab,
   ## First define a function who compute the profile log-likelihood
   ## for the shape parameter.
   gpd.plikshape <- function(scale){
-    -.C("do_gpdlik", exceed, nat, threshold, scale, shape, dns = double(1))$dns
+    -.C(POT_do_gpdlik, exceed, nat, threshold, scale, shape, dns = double(1))$dns
   }
  
   llik <- NULL
@@ -114,7 +114,7 @@ gpd.pfscale <- function(fitted, range, xlab, ylab,
   ## First define a function who compute the profile log-likelihood
   ## for the scale parameter.
   gpd.plikscale <- function(shape){
-    -.C("do_gpdlik", exceed, nat, threshold, scale, shape, dns = double(1))$dns
+    -.C(POT_do_gpdlik, exceed, nat, threshold, scale, shape, dns = double(1))$dns
   }
  
   llik <- NULL
@@ -208,7 +208,7 @@ gpd.pfrl <- function(fitted, prob, range, thresh, xlab, ylab,
       scale <- (retlev - thresh) / log(1 - prob)
     else
       scale <- (retlev - thresh) * shape / ( (1 - prob)^(-shape) - 1 )
-    -.C("do_gpdlik", exceed, nat, threshold, scale, shape,
+    -.C(POT_do_gpdlik, exceed, nat, threshold, scale, shape,
         dns = double(1))$dns
   }
    

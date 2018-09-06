@@ -1,5 +1,5 @@
 /*****************************************************************************
- *   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+ *   Copyright (c) 2018 Mathieu Ribatet, Christophe Dutang                                                                                                  
  *                                                                                                                                                                        
  *   This program is free software; you can redistribute it and/or modify                                               
  *   it under the terms of the GNU General Public License as published by                                         
@@ -27,6 +27,8 @@
 #define RANDOUT PutRNGstate()
 #define UNIF unif_rand()
 #define EXP exp_rand()
+
+
 
 //From POT.c
 void do_gpdlik(double *data, int *n, double *loc, double *scale,
@@ -75,7 +77,9 @@ void do_gpdbvamix(double *data1, double *data2, int *n, int *nn, double *lambda1
 	       double *lambda2, double *thresh, double *scale1,
 	       double *shape1, double *scale2, double *shape2,
 	       double *alpha, double *asCoef, double *dns);
-/*void gpdbvamixtest(double *data1, double *data2, int *n, int *nn, double *lambda1,
+/*never defined by M. Ribatet in C code
+ * 
+ void gpdbvamixtest(double *data1, double *data2, int *n, int *nn, double *lambda1,
 		   double *lambda2, double *thresh, double *scale1,
 		   double *shape1, double *scale2, double *shape2,
 		   double *alpha, double *asCoef, double *dns);*/

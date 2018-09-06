@@ -32,7 +32,7 @@ gpdmple <- function(x, threshold, start, ..., std.err.type =
     stop("``std.err.type'' must be one of 'observed', 'expected' or 'none'")
   
   nlpot <- function(scale, shape) { 
-    ans <- -.C("do_gpdlik", exceed, nat, threshold, scale,
+    ans <- -.C(POT_do_gpdlik, exceed, nat, threshold, scale,
                 shape, dns = double(1))$dns
 
     if ((shape > 0) & (shape <1))
