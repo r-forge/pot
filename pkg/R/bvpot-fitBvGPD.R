@@ -145,7 +145,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
       
-      -.C("do_gpdbvlog", data1, data2, n, nn, pat1, pat2, threshold,
+      -.C(POT_do_gpdbvlog, data1, data2, n, nn, pat1, pat2, threshold,
           scale1, shape1, scale2, shape2, alpha, dns = double(1))$dns
     }
   if (model == "nlog")      
@@ -154,7 +154,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
       
-      -.C("do_gpdbvnlog", data1, data2, n, nn, pat1, pat2, threshold,
+      -.C(POT_do_gpdbvnlog, data1, data2, n, nn, pat1, pat2, threshold,
           scale1, shape1, scale2, shape2, alpha, dns = double(1))$dns
     }
   
@@ -164,7 +164,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
       
-      -.C("do_gpdbvalog", data1, data2, n, nn, pat1, pat2, threshold,
+      -.C(POT_do_gpdbvalog, data1, data2, n, nn, pat1, pat2, threshold,
           scale1, shape1, scale2, shape2, alpha, asCoef1,
           asCoef2, dns = double(1))$dns
     }
@@ -175,7 +175,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
     
-      -.C("do_gpdbvanlog", data1, data2, n, nn, pat1, pat2, threshold,
+      -.C(POT_do_gpdbvanlog, data1, data2, n, nn, pat1, pat2, threshold,
           scale1, shape1, scale2, shape2, alpha, asCoef1,
           asCoef2, dns = double(1))$dns
     }
@@ -186,7 +186,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
       
-      -.C("do_gpdbvmix", data1, data2, n, nn, pat1, pat2, threshold,
+      -.C(POT_do_gpdbvmix, data1, data2, n, nn, pat1, pat2, threshold,
           scale1, shape1, scale2, shape2, alpha,
           dns = double(1))$dns
     }
@@ -197,7 +197,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
        if (cscale) scale2 <- scale1
        if (cshape) shape2 <- shape1
     
-      -.C("do_gpdbvamix", data1, data2, n, nn, pat1, pat2, threshold,
+      -.C(POT_do_gpdbvamix, data1, data2, n, nn, pat1, pat2, threshold,
           scale1, shape1, scale2, shape2, alpha, asCoef,
           dns = double(1))$dns
      }

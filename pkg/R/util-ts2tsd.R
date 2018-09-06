@@ -55,7 +55,7 @@ Replacing them by -1e6 !!!")
   obs.end[is.na(obs.end)] <- -1e6
   obs[is.na(obs)] <- -1e6 
 
-  obs <- .C("do_ts2tsd", as.double(tim), as.double(obs),
+  obs <- .C(POT_do_ts2tsd, as.double(tim), as.double(obs),
             as.double(tim.start), as.double(tim.end),
             as.double(obs.start), as.double(obs.end),
             as.integer(n), ans = double(n))$ans
