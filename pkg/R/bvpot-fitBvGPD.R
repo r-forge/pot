@@ -286,15 +286,15 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
   
   param <- c(opt$par, unlist(fixed.param))
   
-  fitted <- list(fitted.values = opt$par, std.err = std.err, var.cov = var.cov,
+  fittedres <- list(fitted.values = opt$par, std.err = std.err, var.cov = var.cov,
                  fixed = unlist(fixed.param), param = param, deviance = 2*opt$value,
                  corr = corr.mat, convergence = opt$convergence, counts = opt$counts,
                  message = opt$message, threshold = threshold, nat = nat, pat = pat,
                  data = data, exceed1 = exceed1, exceed2 = exceed2, call = call,
                  est = "MLE", model = model, logLik = -opt$value, opt.value = -opt$value)
 
-  chi <- 2 * (1 - pickdep(fitted, plot = FALSE)(0.5))
-  fitted <- c(fitted, list(chi = chi))
-  class(fitted) <- c("bvpot", "pot")
-  return(fitted)
+  chi <- 2 * (1 - pickdep(fittedres, plot = FALSE)(0.5))
+  fittedres <- c(fittedres, list(chi = chi))
+  class(fittedres) <- c("bvpot", "pot")
+  return(fittedres)
 }

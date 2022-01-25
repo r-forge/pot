@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet            
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object and check sample()
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -20,52 +21,49 @@
 
 
 
-convassess.uvpot <- function(fitted, n = 50){
+convassess.uvpot <- function(object, n = 50)
+{
 
-  if (!inherits(fitted, "uvpot"))
+  if (!inherits(object, "uvpot"))
     stop("Use only with 'uvpot' objects")
-  
-  #if (!("uvpot" %in% class(fitted)))
-  #  stop("``fitted'' must be of class ``uvpot''")
 
-  if (!(fitted$est %in% c("MLE","LME","MPLE","MEDIANS","MDPD",
+  if (!(object$est %in% c("MLE","LME","MPLE","MEDIANS","MDPD",
                           "MGF")))
     stop("\n    There's no objective function to optimize!")
 
-  nat <- fitted$nat
-  thresh <- fitted$threshold
-  scale <- fitted$param["scale"]
-  shape <- fitted$param["shape"]
-  data <- fitted$data
+  thresh <- object$threshold
+  scale <- object$param["scale"]
+  shape <- object$param["shape"]
+  data <- object$data
   nobs <- length(data)
 
-  if (fitted$est == "MLE")
+  if (object$est == "MLE")
     fun <- function()
       fitgpd(data, thresh, "mle", start = start,
              std.err.type = "none")
 
-  if (fitted$est == "LME"){
+  if (object$est == "LME"){
     fun <- function()
       fitgpd(data, thresh, "lme", start = start)
     startsLME <- seq(-2, 0, length = n)
   }
 
-  if (fitted$est == "MEDIANS")
+  if (object$est == "MEDIANS")
     fun <- function()
       fitgpd(data, thresh, "med", start = start)
       
-  if (fitted$est == "MPLE")
+  if (object$est == "MPLE")
     fun <- function()
       fitgpd(data, thresh, "mple", start = start,
              std.err.type = "none")
 
-  if (fitted$est == "MDPD")
+  if (object$est == "MDPD")
     fun <- function() 
       fitgpd(data, thresh, "mdpd", start = start)
 
-  if (fitted$est == "MGF")
+  if (object$est == "MGF")
     fun <- function()
-      fitgpd(data, thresh, "mgf", stat = fitted$stat,
+      fitgpd(data, thresh, "mgf", stat = object$stat,
              start = start)
 
   est <- startValues <- matrix(NA, ncol = 2, nrow = n)
@@ -73,7 +71,7 @@ convassess.uvpot <- function(fitted, n = 50){
   optValues <- rep(NA, n)
   
   for (i in 1:n){
-    if (fitted$est == "LME")
+    if (object$est == "LME")
       start <- list(x = startsLME[i])
 
     else{
@@ -93,7 +91,7 @@ convassess.uvpot <- function(fitted, n = 50){
   optValues[idx] <- NA
   par(mfrow=c(2,2))
 
-  if(fitted$est == "LME")
+  if(object$est == "LME")
     plot(startsLME, xlab = "Index", ylab = expression(b[0]),
          main = "Starting Values")
   else{
@@ -112,11 +110,11 @@ convassess.uvpot <- function(fitted, n = 50){
   
   plot(1:n, optValues, xlab = "Index", ylab = "Objective", type = "n",
        main = "Objective Value Trace Plot")
-  abline(h=fitted$opt.value, col = "blue", lty = 2)
+  abline(h=object$opt.value, col = "blue", lty = 2)
   
   if (length(idx) > 0){
     points((1:n)[-idx], optValues[-idx])
-    points(idx, rep(fitted$opt.value, length(idx)), col = "red",
+    points(idx, rep(object$opt.value, length(idx)), col = "red",
            pch = 15)
   }
 
@@ -126,7 +124,7 @@ convassess.uvpot <- function(fitted, n = 50){
 
   plot(1:n, est[,1], xlab = "Index", ylab = "Scale", type = "n",
        main = "Scale Trace Plot")
-  abline(h=fitted$param["scale"], col = "blue", lty = 2)
+  abline(h=object$param["scale"], col = "blue", lty = 2)
 
   if (length(idx) > 0){
     points((1:n)[-idx], est[-idx,1])
@@ -138,7 +136,7 @@ convassess.uvpot <- function(fitted, n = 50){
 
   plot(1:n, est[,2], xlab = "Index", ylab = "Shape", type = "n",
        main = "Shape Trace Plot")
-  abline(h=fitted$param["shape"], col = "blue", lty = 2)
+  abline(h=object$param["shape"], col = "blue", lty = 2)
   
   if (length(idx) > 0){
     points((1:n)[-idx], est[-idx,2])
