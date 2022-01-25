@@ -48,10 +48,11 @@ convassess.bvpot <- function(fitted, n = 50){
                                               "alpha")
 
   optValues <- rep(NA, n)
+  size.boot <- max(nat["Exceedance nb any marg"], 5)
   
-  for (i in 1:n){
-
-    idx <- sample(1:nobs, size = nat, replace = TRUE)
+  for (i in 1:n)
+  {
+    idx <- sample(1:nobs, size = size.boot, replace = TRUE)
     x <- data[idx,]
     startValues[i,1:2] <- fitgpd(x[,1], thresh[1], "pwmu",
                                  hybrid = TRUE)$param

@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet   
+#   Copyright (c) 2022 Christophe Dutang => add names
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -73,7 +74,11 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
   data2 <- data2[idx]
   nn <- sum(idx)
   nat <- c(nat, nn)
-
+  names(nat) <- c("Exceedance nb marg 1", "Exceedance nb marg 2",
+                  "Exceedance nb both marg", "Exceedance nb any marg")
+  names(pat) <- c("Exceedance prop marg 1", "Exceedance prop marg 2",
+                  "Exceedance prop both marg")
+  
   param <- c("scale1", "shape1")
 
   if(!cscale)
@@ -242,7 +247,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
   
   else opt$convergence <- "successful"
 
-  tol <- .Machine$double.eps^0.5
+  tol <- sqrt(.Machine$double.eps)
 
   if(std.err.type == "observed") {
     
