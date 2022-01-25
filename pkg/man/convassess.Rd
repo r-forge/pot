@@ -39,14 +39,16 @@ convassess(object, n = 50)
   \code{\link{fitgpd}}, \code{\link{fitmcgpd}}, \code{\link{fitbvgpd}}
 }
 \examples{
+set.seed(1)
 ##Univariate Case
 x <- rgpd(30, 0, 1, 0.2)
-med <- fitgpd(x, 0, "med")
-convassess(med)
+fgpd1 <- fitgpd(x, 0, "med")
+convassess(fgpd1)
+
 ##Bivariate Case
 x <- rbvgpd(50, model = "log", alpha = 0.5, mar1 = c(0, 1, 0.2))
-log <- fitbvgpd(x, c(0,0))
-convassess(log)
+fgpd2 <- fitbvgpd(x, c(0.5,0.5))
+convassess(fgpd2)
 }
 \author{Mathieu Ribatet}
 \keyword{htest}
