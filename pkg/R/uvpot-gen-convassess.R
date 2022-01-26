@@ -70,12 +70,16 @@ convassess.uvpot <- function(object, n = 50)
   colnames(est) <- colnames(startValues) <- c("scale", "shape")
   optValues <- rep(NA, n)
   
-  for (i in 1:n){
+  size.boot <- max(nobs, 5)
+  
+  for (i in 1:n)
+  {
     if (object$est == "LME")
+    {
       start <- list(x = startsLME[i])
-
-    else{
-      x <- sample(data, size = nobs, replace = TRUE)
+    }else
+    {
+      x <- sample(data, size = size.boot, replace = TRUE)
       startValues[i,] <- fitgpd(x, thresh, "pwmu", hybrid = TRUE)$param
       start <- list(scale = startValues[i,"scale"],
                     shape = startValues[i,"shape"])
