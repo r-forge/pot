@@ -5,6 +5,7 @@ Version 1.1-8:
 NEW FEATURES  
   - change argument names 'fitted' to 'object' to avoid clashes with stats::fitted()
   - change variable name in examples to avoid clashes with stats::fitted(), base::log(),...
+  - add a man page for the package
 BUG FIX
   - Fix an error in convassess() : previous output of convassess()'s examples was
 > convassess(log)
