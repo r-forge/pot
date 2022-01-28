@@ -40,7 +40,7 @@ with their respective asymmetric counterparts.
 Lastly, first order Markov chains can be fitted using the bivariate GPD for the joint distribution of two consecutive observations. 
 
 We have written a package \href{../doc/POT.pdf}{vignette} to help new users. 
-This users guide is a part of the package - just run \code{vignette(POT)} 
+This users guide is a part of the package - just run \code{vignette("POT")} 
 once the package is loaded.
 
 
