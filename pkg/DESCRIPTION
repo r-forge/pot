@@ -1,5 +1,5 @@
 Package: POT
-Version: 1.1-11
+Version: 1.1-12
 Title: Generalized Pareto Distribution and Peaks Over Threshold
 Authors@R: c(person("Christophe", "Dutang", role = c("aut", "cre"), 
                 email = "dutangc@gmail.com", 
@@ -14,4 +14,6 @@ Description: Some functions useful to perform a Peak Over Threshold
 License: GPL (>= 2)
 URL: https://pot.r-forge.r-project.org/
 Repository: CRAN
+BuildVignettes: true
+VignetteBuilder: knitr
 NeedsCompilation: yes

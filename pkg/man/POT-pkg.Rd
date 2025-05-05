@@ -37,7 +37,58 @@ exceedances over thresholds. The POT packages allows 6 parametrisation for the
 bivariate GPD: the logistic, negative logistic and mixed models - 
 with their respective asymmetric counterparts.
 
-Lastly, first order Markov chains can be fitted using the bivariate GPD for the joint distribution of two consecutive observations. 
+Lastly, first order Markov chains can be fitted using the bivariate GPD for the joint 
+distribution of two consecutive observations. 
+
+The \pkg{POT} package proposes several S3 classes to handle fits. 
+The overal class is \code{"pot"} which provides usual generic functions 
+\code{\link{coef.pot}}, \code{\link{logLik.pot}}, \code{\link{summary.pot}}.
+\itemize{
+\item 
+  Inheriting from \code{"pot"} class, the class \code{"uvpot"} provides univariate POT
+  objects (see \code{\link{fitgpd}} and \code{\link{fitpp}}) with the usual generic functions 
+  \itemize{
+  \item \code{\link{anova.uvpot}} for analysis of deviance,
+  \item \code{\link{confint.uvpot}} for confidence interval, 
+  \item \code{\link{plot.uvpot}} for plots,
+  \item \code{\link{print.uvpot}} for print, 
+  }
+  as well as new generic functions 
+  \itemize{
+  \item \code{\link{convassess.uvpot}} for convergence assessment,
+  \item \code{\link{dens.uvpot}} for density plot,
+  \item \code{\link{pp.uvpot}} for probability plot, 
+  \item \code{\link{qq.uvpot}} for quantile plot,
+  \item \code{\link{retlev.uvpot}} for return level plot.  
+  }
+\item 
+  Inheriting from \code{"pot"} class, the class \code{"bvpot"} provides bivariate POT
+  objects (see \code{\link{fitbvgpd}}) with the usual generic functions 
+  \itemize{
+  \item \code{\link{anova.bvpot}} for analysis of deviance,
+  \item \code{\link{plot.bvpot}} for plots,
+  \item \code{\link{print.bvpot}} for print, 
+  }
+  as well as new generic functions 
+  \itemize{
+  \item \code{\link{convassess.bvpot}} for convergence assessment,
+  \item \code{\link{retlev.bvpot}} for return level plot.  
+  }
+\item 
+  Inheriting from \code{"uvpot"} class, the class \code{"mcpot"} provides Markov Chain POT
+  objects (see \code{\link{fitmcgpd}}) with the usual generic functions   
+  \itemize{
+  \item \code{\link{plot.mcpot}} for plots,
+  \item \code{\link{print.mcpot}} for print, 
+  }
+  as well as new generic functions 
+  \itemize{
+  \item \code{\link{convassess.mcpot}} for convergence assessment,
+  \item \code{\link{retlev.mcpot}} for return level plot.  
+  }
+}
+
+
 
 We have written a package \href{../doc/POT.pdf}{vignette} to help new users. 
 This users guide is a part of the package - just run \code{vignette("POT")} 

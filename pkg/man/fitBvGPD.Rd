@@ -113,14 +113,22 @@ method = "BFGS")
 \author{Mathieu Ribatet}
  
 \seealso{
-The following usual generic functions are available 
-  \code{\link[POT:print.bvpot]{print}}, 
-  \code{\link[POT:plot.bvpot]{plot}} and
-  \code{\link[POT:anova.bvpot]{anova}}
+
+See usual generic functions
+  \itemize{
+  \item \code{\link[POT:anova.bvpot]{anova}} for analysis of deviance,
+  \item \code{\link[POT:coef.pot]{coef}} for coefficients, 
+  \item \code{\link[POT:logLik.pot]{logLik}} for log-likelihood, 
+  \item \code{\link[POT:plot.bvpot]{plot}} for plots,
+  \item \code{\link[POT:print.bvpot]{print}} for print, 
+  \item \code{\link[POT:summary.pot]{summary}} for summary, 
+  }
   as well as new generic functions 
-  \code{\link[POT:retlev.bvpot]{retlev}} and
-  \code{\link[POT:convassess.bvpot]{convassess}}.
-  
+  \itemize{
+  \item \code{\link[POT:convassess.bvpot]{convassess}} for convergence assessment,
+  \item \code{\link[POT:retlev.bvpot]{retlev}} for return level plot.  
+  }
+
   See also \code{\link{pickdep}}, \code{\link{specdens}}.
   
   For optimization in R, see \code{\link{optim}}.

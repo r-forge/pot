@@ -56,6 +56,32 @@ std.err.type = "observed", corr = FALSE, method = "BFGS", warn.inf = TRUE)}
     \code{'mle'} only. For other methods, threshold is always constant
     i.e. \code{var.thresh = FALSE}. Not implemented yet.}
 }
+
+
+\seealso{
+
+  See usual generic functions
+  \itemize{
+  \item \code{\link[POT:anova.uvpot]{anova}} for analysis of deviance,
+  \item \code{\link[POT:coef.pot]{coef}} for coefficients, 
+  \item \code{\link[POT:confint.uvpot]{confint}} for confidence interval, 
+  \item \code{\link[POT:logLik.pot]{logLik}} for log-likelihood, 
+  \item \code{\link[POT:plot.uvpot]{plot}} for plots,
+  \item \code{\link[POT:print.uvpot]{print}} for print, 
+  \item \code{\link[POT:summary.pot]{summary}} for summary, 
+  }
+  as well as new generic functions 
+  \itemize{
+  \item \code{\link[POT:convassess.uvpot]{convassess}} for convergence assessment,
+  \item \code{\link[POT:dens.uvpot]{dens}} for density plot,
+  \item \code{\link[POT:pp.uvpot]{pp}} for probability plot, 
+  \item \code{\link[POT:qq.uvpot]{qq}} for quantile plot,
+  \item \code{\link[POT:retlev.uvpot]{retlev}} for return level plot.  
+  }
+  
+  
+}
+
 \references{
   Coles, S. (2001) \emph{An Introduction to Statistical
     Modelling of Extreme Values}. Springer Series in Statistics. London.

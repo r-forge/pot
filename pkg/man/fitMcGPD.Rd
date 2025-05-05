@@ -126,12 +126,27 @@ fitmcgpd(data, threshold, model = "log", start, \dots, std.err.type =
   threshold exceedances. Biometrika, \bold{84} 249--268
 }
 \seealso{
-The following usual generic functions are available 
-  \code{\link[POT:print.mcpot]{print}}, 
-  \code{\link[POT:plot.mcpot]{plot}}
+
+See usual generic functions
+  \itemize{
+  \item \code{\link[POT:coef.pot]{coef}} for coefficients, 
+  \item \code{\link[POT:logLik.pot]{logLik}} for log-likelihood, 
+  \item \code{\link[POT:plot.mcpot]{plot}} for plots,
+  \item \code{\link[POT:print.mcpot]{print}} for print, 
+  \item \code{\link[POT:summary.pot]{summary}} for summary, 
+  }
   as well as new generic functions 
-  \code{\link[POT:retlev.mcpot]{retlev}} and
-  \code{\link[POT:convassess.mcpot]{convassess}}.
+  \itemize{
+  \item \code{\link[POT:convassess.mcpot]{convassess}} for convergence assessment,
+  \item \code{\link[POT:retlev.mcpot]{retlev}} for return level plot.  
+  }
+
+The following usual generic functions are available 
+  , 
+  
+  as well as new generic functions 
+   and
+  .
   
   See also \code{\link{pickdep}}.
   
